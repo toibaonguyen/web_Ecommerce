@@ -1,4 +1,4 @@
 export default function MyApp({ Component, pageProps }) {
-    console.log(pageProps)
+    //console.log(pageProps)
     return <Component {...pageProps} />
 }
