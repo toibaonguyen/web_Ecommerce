@@ -1,0 +1,177 @@
+.header-wrapper {
+  background-color: transparent;
+  padding: 8px 0px;
+  .container {
+    .header-content {
+      display: flex;
+      height: 100%;
+      width: 100%;
+      gap: 48px;
+      .left-content {
+        height: 100%;
+        width: 9%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .submenu {
+          padding-left: 20px;
+          color: grey;
+          font-size: 3.0rem;
+          cursor: pointer;
+          flex: 1;
+        }
+
+        .header-logo {
+          width: 72px;
+          height: 72px;
+          background: url("https://salt.tikicdn.com/ts/upload/c1/64/f7/4e6e925ea554fc698123ea71ed7bda26.png")
+            center center no-repeat;
+          cursor: pointer;
+          background-size: contain;
+        }
+      }
+
+      .right-content {
+        height: 100%;
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        .up-content {
+          display: flex;
+          width: 100%;
+          .search-are {
+            border: solid black 1px;
+            height: 100%;
+            width: 61%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border: 1px solid rgb(221, 221, 227);
+            border-radius: 8px;
+
+            .search-icon {
+              width: 20px;
+              height: 20px;
+              margin: 0px 0px 0px 18px;
+            }
+
+            .search-input {
+              border: 0px;
+              padding: 0px 8px;
+              font-weight: 400;
+              font-size: 1.4rem;
+              line-height: 150%;
+              border-top-left-radius: 8px;
+              border-bottom-left-radius: 8px;
+              flex: 1 1 0%;
+              outline: none;
+            }
+
+            .search-btn {
+              cursor: pointer;
+              border: 0px;
+              width: 92px;
+              height: 38px;
+              padding: 4px;
+              border-radius: 0px 8px 8px 0px;
+              background: transparent;
+              color: rgb(10, 104, 255);
+              font-weight: 400;
+              font-size: 1.4rem;
+              line-height: 150%;
+              outline: none;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+          }
+          .user-shortcut {
+            display: flex;
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-pack: end;
+            justify-content: flex-end;
+            margin-left: 48px;
+            .child-content {
+              display: flex;
+              -webkit-box-align: center;
+              align-items: center;
+              -webkit-box-pack: center;
+              justify-content: center;
+              padding: 8px 16px;
+              cursor: pointer;
+              position: relative;
+              border-radius: 8px;
+
+              img {
+                width: 24px;
+                height: 24px;
+                margin-right: 4px;
+                border-radius: 50%;
+              }
+            }
+          }
+        }
+        .down-content {
+          display: flex;
+          justify-content: space-between;
+          width: 100%;
+          .category-listing {
+            display: flex;
+            height: 24px;
+            width: 712px;
+            margin-top: 8px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            overflow: hidden;
+            a {
+              display: block;
+              font-weight: 400;
+              font-size: 1.4rem;
+              line-height: 150%;
+              color: rgb(128, 128, 137);
+              margin-right: 12px;
+              white-space: nowrap;
+            }
+          }
+          .location {
+            display: flex;
+            flex-direction: row;
+            margin-top: 8px;
+            max-width: 348px;
+            flex: 0 0 348px;
+            img {
+              width: 20px;
+              height: 20px;
+              margin-right: 4px;
+            }
+            .title {
+              margin: 0px;
+              display: block;
+              color: rgb(128, 128, 137);
+              font-weight: 400;
+              font-size: 1.4rem;
+              line-height: 150%;
+              padding-right: 4px;
+              white-space: nowrap;
+            }
+            .address {
+              text-decoration: underline;
+              font-weight: 500;
+              font-size: 1.4rem;
+              line-height: 150%;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              color: rgb(39, 39, 42);
+            }
+          }
+        }
+      }
+    }
+  }
+}

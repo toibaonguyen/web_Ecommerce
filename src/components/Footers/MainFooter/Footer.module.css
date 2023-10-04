@@ -22,6 +22,7 @@
     width: 25%;
     color: var(--black-color);
     margin-right: 16px;
+    margin: auto;
 }
 .list-item {
     padding: 0;

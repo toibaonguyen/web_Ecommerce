@@ -55,6 +55,14 @@
     --date-picker-day-selected-fg: --common-white;
 }
 
+.container {
+    width: 1440px;
+    // width: 1280px;
+    padding-left: 24px;
+    padding-right: 24px;
+    margin-right: auto;
+    margin-left: auto;
+} 
 * {
     box-sizing: border-box;
     margin: 0;
