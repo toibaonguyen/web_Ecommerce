@@ -10,8 +10,13 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.6",
+    "bootstrap": "^5.3.2",
+    "classnames": "^2.3.2",
+    "eslint": "^8.50.0",
     "next": "latest",
+    "normalize.css": "^8.0.1",
     "react": "latest",
+    "react-bootstrap": "^2.9.0",
     "react-dom": "latest"
   },
   "devDependencies": {
