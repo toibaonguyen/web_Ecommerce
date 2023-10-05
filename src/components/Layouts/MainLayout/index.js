@@ -2,21 +2,24 @@
 import React from "react";
 import Header from "@/components/Headers/MainHeader";
 import Footer from "@/components/Footers/MainFooter";
+import SideBar from "@/components/Sidebar";
 import classNames from "classnames/bind";
-import styles from "./MainLayout.module.css";
-import Container from "react-bootstrap/Container";
+import styles from "./MainLayout.module.scss";
 const cx = classNames.bind(styles);
 
 export default function MainLayout({ children }) {
   return (
-    <div className={cx("wrapper")}>
+    <div className={cx("layout-wrapper")}>
       <Header />
-      <Container>
-        <div className={cx("container")}>
-          <div className={cx("layout-content")}>{children}</div>
-          <Footer />
+      <div className={cx("container")}>
+        <div className={cx("main-content")}>
+          <SideBar />
+          <div className={cx("layout-content")}>
+            {children}
+            <Footer />
+          </div>
         </div>
-      </Container>
+      </div>
     </div>
   );
 }

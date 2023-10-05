@@ -37,26 +37,36 @@ export default function Header() {
                 <button className={cx("search-btn")}>Tìm kiếm</button>
               </div>
               <div className={cx("user-shortcut")}>
-                <div className={cx("child-content")}>
+                <div className={cx("homepageBtn")}>
                   <img
                     src="https://salt.tikicdn.com/ts/upload/32/56/db/d919a4fea46f498b5f4708986d82009d.png"
                     alt="header_menu_item_home"
                   />
                   <a href="#">Trang chủ</a>
                 </div>
-                <div className={cx("child-content")}>
+                <div className={cx("astraBtn")}>
                   <img
                     src="https://salt.tikicdn.com/ts/upload/41/28/7d/4713aa0d2855c5c770799f248692f0c5.png"
                     alt="header_menu_item_astra"
                   />
                   <a href="#">Astra</a>
                 </div>
-                <div className={cx("child-content")}>
+                <div className={cx("accountBtn")}>
                   <img
                     src="https://salt.tikicdn.com/ts/upload/07/d5/94/d7b6a3bd7d57d37ef6e437aa0de4821b.png"
                     alt="header_header_account_img"
                   />
                   <a href="#">Tài khoản</a>
+                </div>
+                <div className={cx("cartBtn")}>
+                  <div className={cx("cart-wrapper")}>
+                    <img
+                      className={cx("cart-icon")}
+                      src="https://salt.tikicdn.com/ts/upload/51/e2/92/8ca7e2cc5ede8c09e34d1beb50267f4f.png"
+                      alt="header_header_img_Cart"
+                    />
+                    <span className={cx("ItemCart")}>3</span>
+                  </div>
                 </div>
               </div>
             </div>
