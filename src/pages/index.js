@@ -6,6 +6,7 @@ import Banner from "@/container/Section/Banner";
 import SellingProducts from "@/container/Section/SellingProducts";
 import MayLikeProducts from "@/container/Section/MayLikeProducts";
 import StandoutProducts from "@/container/Section/StandoutBrands";
+import HomePageLayout from "@/components/Layouts/HomePageLayout.js";
 const cx = classNames.bind(styles);
 export default function HomePage() {
   return (
@@ -32,11 +33,10 @@ export default function HomePage() {
             <h3 className={cx("section-heading")}>Thương hiệu nổi bật</h3>
             <StandoutProducts />
           </section>
-
           <div className={cx("moreBtn")}>Xem Thêm</div>
         </div>
       </div>
     </div>
   );
 }
-
+HomePage.getLayout = (page) => <HomePageLayout>{page}</HomePageLayout>;
