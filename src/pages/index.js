@@ -1,4 +1,3 @@
-import MyApp from "./_app";
 import classNames from "classnames/bind";
 import styles from "./Homepage.module.scss";
 import React from "react";
@@ -41,4 +40,3 @@ export default function HomePage() {
   );
 }
 
-HomePage.getLayout = MyApp;
