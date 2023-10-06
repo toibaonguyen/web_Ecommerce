@@ -1,11 +1,42 @@
 .homepage-wrapper {
-  width: 85%;
-  border: 1px solid red;
+  width: 100%;
   .homepage-container {
-    width: 1280px;
-    padding-left: 24px;
-    padding-right: 24px;
+    width: 100%;
     margin-right: auto;
     margin-left: auto;
+    .homepage-content {
+      gap: 16px;
+      display: flex;
+      flex-direction: column;
+      .homepage-banner,
+      .selling-products,
+      .standout-brands,
+      .may-like-products,
+      .interested-product {
+        padding: 16px;
+        background-color: var(--white-color);
+        border-radius: 8px;
+        .section-heading {
+          color: #27272a;
+          display: -webkit-box;
+          font-weight: 600;
+          line-height: 24px;
+          padding-bottom: 14px;
+          font-size: 1.7rem;
+        }
+      }
+    }
+    .moreBtn {
+      align-self: center;
+      padding: 8px 12px;
+      border-radius: 8px;
+      margin: 12px 0;
+      color: var(--primary);
+      width: 240px;
+      justify-content: center;
+      border: 1px solid var(--primary);
+      display: flex;
+      align-items: center;
+    }
   }
 }

@@ -4,8 +4,6 @@
 :root {
   --primary: #0a68ff;
   --hover-color: rgba(39, 39, 42, 0.12);
-  --default-layout-header-height: 68px;
-  --search-part-height: 68px;
   --background-color: #f5f5fa;
   --white-color: white;
   --default-layout-width: 1488px;
@@ -29,13 +27,10 @@
   --common-orange: #ffac42;
   --border: #ccc;
   --text-in-light: #181818;
-
   --input-focus: #ffac42;
-
   --footer-container: #f5f5f5;
   --footer-text: #262626;
   --footer-next-disable: #ccc;
-
   --bg-menu-color: #f5f5f5;
   --bg-scrollbar: #000;
   --bg-table-color: #f5f5f5;
@@ -84,6 +79,7 @@ html {
 }
 
 body {
+  // overflow-x: hidden;
   font-family: "Roboto", sans-serif;
   font-size: 1.6rem; /*16px*/
   line-height: 1.5;
@@ -178,4 +174,19 @@ h3 {
   color: white;
   font-weight: bold;
   background-color: transparent;
+}
+
+.active {
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  font-weight: 600;
+  border-radius: 16px;
+  font-size: 1.4rem;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+}
+
+.disable {
+  display: none;
 }
