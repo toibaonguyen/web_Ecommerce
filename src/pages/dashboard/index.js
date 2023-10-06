@@ -4,4 +4,4 @@ export default function Dashboard() {
   return <div>This is the dashboard page.</div>;
 }
 
-Dashboard.getLayout = () => <DashboadLayout />;
+Dashboard.getLayout = (page) => <DashboadLayout>{page}</DashboadLayout>;
