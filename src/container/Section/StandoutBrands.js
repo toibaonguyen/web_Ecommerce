@@ -42,7 +42,6 @@ function StandoutProducts() {
         "https://salt.tikicdn.com/cache/280x280/ts/product/d6/1d/4c/09e1e30f175441ae5637a9fb0d7ba91d.jpg",
       productName:
         "Tai Nghe Bluetooth ANKER Soundcore Life P2i A3991 - Hàng Chính Hãng",
-
       productPrice: "₫379,000",
       productDelivery: "Giao thứ 2, 09/10",
     },
