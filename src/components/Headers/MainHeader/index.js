@@ -1,9 +1,8 @@
 import React from "react";
 import styles from "./Header.module.scss";
 import classNames from "classnames/bind";
-import { Container } from "react-bootstrap";
+import Link from "next/link";
 const cx = classNames.bind(styles);
-
 export default function Header() {
   return (
     <header className={cx("header-wrapper")}>
@@ -13,12 +12,7 @@ export default function Header() {
             <div className={cx("submenu")}>
               <i className={cx("fa-solid fa-bars")}></i>
             </div>
-            <div
-              className={cx("header-logo")}
-              onClick={() => {
-                navigate("/homepage");
-              }}
-            ></div>
+            <Link href={"/"} className={cx("header-logo")}></Link>
           </div>
           <div className={cx("right-content")}>
             <div className={cx("up-content")}>
@@ -30,7 +24,6 @@ export default function Header() {
                 />
                 <input
                   type="text"
-                  value=""
                   placeholder="Giao nhanh 2H &amp; đúng khung giờ"
                   className={cx("search-input")}
                 />
@@ -58,7 +51,7 @@ export default function Header() {
                   />
                   <a href="#">Tài khoản</a>
                 </div>
-                <div className={cx("cartBtn")}>
+                <Link href={"/checkout/cart"} className={cx("cartBtn")}>
                   <div className={cx("cart-wrapper")}>
                     <img
                       className={cx("cart-icon")}
@@ -67,7 +60,7 @@ export default function Header() {
                     />
                     <span className={cx("ItemCart")}>3</span>
                   </div>
-                </div>
+                </Link>
               </div>
             </div>
             <div className={cx("down-content")}>
@@ -149,7 +142,7 @@ export default function Header() {
                   alt="header-icon-location"
                 />
                 <h4 className={cx("title")}>Giao đến:</h4>
-                <div className={cx("address")} bis_skin_checked="1">
+                <div className={cx("address")}>
                   Q. 1, P. Bến Nghé, Hồ Chí Minh
                 </div>
               </div>

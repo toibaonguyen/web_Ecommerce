@@ -86,6 +86,9 @@
               display: flex;
               align-items: center;
               justify-content: center;
+              &:hover {
+                background-color: rgba(0, 96, 255, 0.12);
+              }
             }
           }
           .user-shortcut {
@@ -121,6 +124,7 @@
 
               .cart-wrapper {
                 position: relative;
+                display: flex;
                 .ItemCart {
                   color: rgb(255, 255, 255);
                   background: rgb(255, 66, 79);
