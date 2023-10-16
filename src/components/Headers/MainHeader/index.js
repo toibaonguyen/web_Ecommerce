@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./Header.module.scss";
 import classNames from "classnames/bind";
 import { Container } from "react-bootstrap";
+import Link from "next/link";
 const cx = classNames.bind(styles);
 export default function Header() {
   return (
@@ -12,12 +13,12 @@ export default function Header() {
             <div className={cx("submenu")}>
               <i className={cx("fa-solid fa-bars")}></i>
             </div>
+            <Link href={"/"}>
             <div
               className={cx("header-logo")}
-              onClick={() => {
-                navigate("/homepage");
-              }}
             ></div>
+            </Link>
+            
           </div>
           <div className={cx("right-content")}>
             <div className={cx("up-content")}>
@@ -56,8 +57,8 @@ export default function Header() {
                   />
                   <a href="#">Tài khoản</a>
                 </div>
-                <Link href={"/checkout/cart"} className={cx("cartBtn")}>
-                  <div className={cx("cart-wrapper")}>
+                <Link href={"/checkout/cart"}>
+                  <div className={cx("cart-wrapper")} >
                     <img
                       className={cx("cart-icon")}
                       src="https://salt.tikicdn.com/ts/upload/51/e2/92/8ca7e2cc5ede8c09e34d1beb50267f4f.png"
