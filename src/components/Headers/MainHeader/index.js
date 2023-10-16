@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./Header.module.scss";
 import classNames from "classnames/bind";
 import { Container } from "react-bootstrap";
+import Link from "next/link";
 const cx = classNames.bind(styles);
 
 export default function Header() {
@@ -13,12 +14,9 @@ export default function Header() {
             <div className={cx("submenu")}>
               <i className={cx("fa-solid fa-bars")}></i>
             </div>
-            <div
-              className={cx("header-logo")}
-              onClick={() => {
-                navigate("/homepage");
-              }}
-            ></div>
+            <Link href={"/"}>
+              <div className={cx("header-logo")} />
+            </Link>
           </div>
           <div className={cx("right-content")}>
             <div className={cx("up-content")}>

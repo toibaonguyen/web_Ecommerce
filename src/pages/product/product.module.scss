@@ -14,11 +14,6 @@
   .breadcrum {
     align-items: center;
     display: flex;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    font-family: "Times New Roman", Times, serif;
-    font-weight: 300;
-    line-height: 20px;
   }
   .info-container {
     display: grid;
@@ -35,7 +30,7 @@
         gap: 24px;
         display: grid;
         grid-template-columns: 50fr 73fr;
-        .left-side{
+        .left-side {
           display: flex;
           flex-direction: column;
           .review-images {
@@ -45,10 +40,58 @@
             gap: 16px;
           }
         }
-        
+
         .main-info {
           display: flex;
-          height: 500px;
+          flex-direction: column;
+          gap: 16px;
+          .brand-author {
+            align-items: center;
+            color: #27272a;
+            display: flex;
+            font-size: 14px;
+            gap: 8px;
+            line-height: 21px;
+          }
+          .titledstyled {
+            color: #27272a;
+            font-family: "Franklin Gothic Medium", "Arial Narrow", Arial,
+              sans-serif;
+            font-size: 20px;
+            font-weight: 500;
+            line-height: 30px;
+          }
+          .ratingstyled {
+            align-items: center;
+            color: #27272a;
+            display: flex;
+            font-size: 14px;
+            gap: 8px;
+            line-height: 21px;
+          }
+          .product-price {
+            align-items: center;
+            color: #27272a;
+            display: flex;
+            flex-direction: row;
+            font-size: 14px;
+            gap: 8px;
+            line-height: 21px;
+            .current-price {
+              color: #27272a;
+              font-size: 24px;
+              font-weight: 600;
+              line-height: 36px;
+            }
+            .discount-rate {
+              background-color: #f5f5fa;
+              border-radius: 8px;
+              color: #27272a;
+              font-size: 12px;
+              line-height: 18px;
+              padding: 0px 4px;
+            }
+          }
         }
       }
       .product-reviews {
@@ -66,6 +109,21 @@
         flex-direction: column;
         align-items: stretch;
         gap: 12px;
+        .buy-box-header {
+        }
+        .add-to-cart {
+          display: flex;
+          flex-direction: column;
+          font-size: 14px;
+          gap: 16px;
+          line-height: 16.1px;
+          .group-input {
+            align-items: center;
+            display: flex;
+            font-size: 14px;
+            line-height: 16.1px;
+          }
+        }
       }
     }
   }
