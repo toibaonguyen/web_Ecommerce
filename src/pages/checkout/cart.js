@@ -90,7 +90,8 @@ function Cart() {
     );
   };
 
-  //Handle Increase quantity
+ 
+
   const handleIncrease = (productId) => {
     setCart(
       cart.map((item) => {
@@ -432,3 +433,4 @@ function Cart() {
 }
 
 export default Cart;
+

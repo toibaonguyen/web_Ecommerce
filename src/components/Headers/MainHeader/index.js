@@ -52,7 +52,7 @@ export default function Header() {
                   <a href="#">Tài khoản</a>
                 </div>
                 <Link href={"/checkout/cart"}>
-                  <div className={cx("cart-wrapper")} >
+                  <div className={cx("cart-wrapper")}>
                     <img
                       className={cx("cart-icon")}
                       src="https://salt.tikicdn.com/ts/upload/51/e2/92/8ca7e2cc5ede8c09e34d1beb50267f4f.png"
