@@ -125,17 +125,23 @@
               .cart-wrapper {
                 position: relative;
                 display: flex;
+                .cart-icon {
+                  width: 24px;
+                  height: 24px;
+                  margin-right: 0px;
+                  border-radius: unset;
+                }
                 .ItemCart {
                   color: rgb(255, 255, 255);
                   background: rgb(255, 66, 79);
                   height: 16px;
-                  right: -4px;
-                  top: -11px;
+                  right: 0px;
+                  top: -4px;
                   border-radius: 8px;
                   display: inline-block;
                   text-align: center;
                   font-weight: 700;
-                  font-size: 1rem;
+                  font-size: 10px;
                   line-height: 150%;
                   position: absolute;
                   padding: 0.5px 4px;

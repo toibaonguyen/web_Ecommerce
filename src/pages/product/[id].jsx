@@ -155,7 +155,7 @@ export default function ProductPage({ repo }) {
                 <Widget>
                   <Carousel>
                     {repo.images.map((item) => (
-                      <div>
+                      <div id={item.productId}>
                         <img src={item} />
                       </div>
                     ))}
