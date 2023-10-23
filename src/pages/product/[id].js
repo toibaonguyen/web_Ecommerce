@@ -4,10 +4,8 @@ import styles from "./product.module.scss";
 import ProductLayout from "@/components/Layouts/ProductLayout";
 import Link from "next/link";
 import Widget from "@/components/product/Widget";
-import ReviewImages from "@/components/product/ReviewImages";
 import RatingStarsCourses from "@/components/SVGImg/RatingStarsCoures";
-
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+// import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 const cx = classNames.bind(styles);
 

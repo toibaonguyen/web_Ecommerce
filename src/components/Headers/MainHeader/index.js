@@ -30,13 +30,15 @@ export default function Header() {
                 <button className={cx("search-btn")}>Tìm kiếm</button>
               </div>
               <div className={cx("user-shortcut")}>
-                <div className={cx("homepageBtn")}>
-                  <img
-                    src="https://salt.tikicdn.com/ts/upload/32/56/db/d919a4fea46f498b5f4708986d82009d.png"
-                    alt="header_menu_item_home"
-                  />
-                  <a href="#">Trang chủ</a>
-                </div>
+                <Link href={"/"}>
+                  <div className={cx("homepageBtn")}>
+                    <img
+                      src="https://salt.tikicdn.com/ts/upload/32/56/db/d919a4fea46f498b5f4708986d82009d.png"
+                      alt="header_menu_item_home"
+                    />
+                    Trang chủ
+                  </div>
+                </Link>
                 <div className={cx("astraBtn")}>
                   <img
                     src="https://salt.tikicdn.com/ts/upload/41/28/7d/4713aa0d2855c5c770799f248692f0c5.png"
@@ -52,7 +54,7 @@ export default function Header() {
                   <a href="#">Tài khoản</a>
                 </div>
                 <Link href={"/checkout/cart"}>
-                  <div className={cx("cart-wrapper")} >
+                  <div className={cx("cart-wrapper")}>
                     <img
                       className={cx("cart-icon")}
                       src="https://salt.tikicdn.com/ts/upload/51/e2/92/8ca7e2cc5ede8c09e34d1beb50267f4f.png"
