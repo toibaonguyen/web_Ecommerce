@@ -347,6 +347,100 @@
         .total-amount-area {
           background-color: white;
           padding-bottom: 8px;
+          .block-header {
+            font-size: 14px;
+            line-height: 20px;
+            padding: 16px;
+            border-bottom: 1px solid rgb(235, 235, 240);
+            .title-row {
+              display: flex;
+              justify-content: space-between;
+              margin-bottom: 4px;
+              .block-header__title {
+                font-weight: 500;
+                color: rgb(56, 56, 61);
+                margin: 0px;
+              }
+              a {
+                color: var(--primary);
+                text-decoration: none;
+                background-color: transparent;
+              }
+            }
+            .sub-title-row {
+              display: flex;
+              align-items: center;
+              .sub-title-text {
+                color: rgb(128, 128, 137);
+                font-weight: 400;
+                margin: 0px 4px 0px 0px;
+              }
+              .sub-title-link {
+                display: flex;
+                -webkit-box-align: center;
+                align-items: center;
+                color: rgb(11, 116, 229);
+                font-weight: 400;
+                margin: 0px;
+                cursor: pointer;
+                svg {
+                  transform: rotate(90deg);
+                  transition-duration: 0.5s;
+                }
+              }
+            }
+          }
+          .list-wrapper {
+            display: block;
+            max-height: 1000px;
+            transition: max-height 0.5s ease-in-out 0s;
+            overflow: hidden;
+            .list-container {
+              display: none;
+              border-bottom: 1px solid rgb(235, 235, 240);
+              padding: 12px 16px;
+              font-size: 12px;
+              line-height: 16px;
+              margin-bottom: 12px;
+              display: grid;
+              gap: 4px;
+              .list-content {
+                display: flex;
+                -webkit-box-pack: justify;
+                justify-content: space-between;
+                .item-info {
+                  margin-right: 8px;
+                  display: flex;
+                  align-items: flex-start;
+                  .item-info__qty {
+                    width: 30px;
+                    margin-right: 8px;
+                    font-weight: 500;
+                    flex-shrink: 0;
+                  }
+                  .item-info__name {
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 3;
+                    overflow: hidden;
+                    max-width: 156px;
+                    font-weight: 400;
+                  }
+                }
+                .item-price {
+                  font-weight: 500;
+                  flex-shrink: 0;
+                }
+              }
+            }
+          }
+
+          .list-wrapper.show {
+            // display: block;
+            // max-height: 1000px;
+            // transition: max-height 0.5s ease-in-out 0s;
+            // overflow: hidden;
+          }
           .total,
           .provisional {
             display: flex;

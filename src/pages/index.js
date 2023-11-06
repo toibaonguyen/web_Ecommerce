@@ -7,8 +7,35 @@ import SellingProducts from "@/container/Section/SellingProducts";
 import MayLikeProducts from "@/container/Section/MayLikeProducts";
 import StandoutProducts from "@/container/Section/StandoutBrands";
 import HomePageLayout from "@/components/Layouts/HomePageLayout.js";
+import { useSelector, useDispatch } from "react-redux";
+import { renderProducts } from "@/redux/slice/productReducer";
+import { useEffect, useState } from "react";
+
 const cx = classNames.bind(styles);
 export default function HomePage() {
+  const dispatch = useDispatch();
+
+  const mapStateToProps = useSelector((state) => {
+    return {
+      productsArr: state.product.productsArr,
+    };
+  });
+
+  const componentDidMount = async () => {
+    try {
+      dispatch(renderProducts());
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    componentDidMount();
+    return () => componentDidMount();
+  }, []);
+
+  console.log(mapStateToProps.productsArr);
+
   return (
     <div className={cx("homepage-wrapper")}>
       <div className={cx("homepage-container")}>

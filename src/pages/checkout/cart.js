@@ -1,53 +1,56 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, use } from "react";
 import classNames from "classnames/bind";
 import styles from "./cart.module.scss";
 import CartDelivery from "@/container/Cart/CartDelivery";
 import Promotion from "@/container/Cart/Promotion";
 import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+import { renderCartProducts } from "@/redux/slice/cartReducer";
 
 const cx = classNames.bind(styles);
 function Cart() {
   const router = useRouter();
-  let productCheckout = [
-    {
-      id: 1,
-      productImg:
-        "https://salt.tikicdn.com/cache/w78/ts/product/40/5e/eb/4dcee6ceebbea004a14f212db4182b18.png",
-      productName: "Apple iPhone 14 128GB Tím",
-      productQuantity: 1, // số lượng
-      productInventory: 10, // tồn kho
-      productDelivery: "Giao thứ 5, 21/9",
-      extraInfor: "Tím, 128GB",
-      productPrice: 18650000, // giá sale
-      productSalePrice: 24990000, // giá gốc
-      productAmout: 18650000, // thành tiền
-    },
-    {
-      id: 2,
-      productImg:
-        "https://salt.tikicdn.com/cache/w78/ts/product/11/13/de/d500a772339882fd6660b3004da9733c.jpg",
-      productName: "Apple iPhone 14 Pro Max 128GB Tím",
-      productDelivery: "Giao thứ 2, 16/10",
-      extraInfor: "Tím, 128GB",
-      productQuantity: 2,
-      productInventory: 20,
-      productPrice: 26450000,
-      productSalePrice: 33990000,
-      productAmout: 52900000,
-    },
-    {
-      id: 3,
-      productImg:
-        "https://salt.tikicdn.com/cache/280x280/ts/product/fa/1d/33/47edaa8f754e1c81d0b4ed4f7a5fb20a.png",
-      productName: "Apple iPhone 15 Pro Max",
-      productDelivery: "Giao thứ 2, 16/10",
-      extraInfor: "Titan Đen, 512GB",
-      productQuantity: 3,
-      productInventory: 10,
-      productPrice: 40990000,
-      productAmout: 40990000,
-    },
-  ];
+
+  // let productCheckout = [
+  //   {
+  //     id: 1,
+  //     productImg:
+  //       "https://salt.tikicdn.com/cache/w78/ts/product/40/5e/eb/4dcee6ceebbea004a14f212db4182b18.png",
+  //     productName: "Apple iPhone 14 128GB Tím",
+  //     productQuantity: 1, // số lượng
+  //     productInventory: 10, // tồn kho
+  //     productDelivery: "Giao thứ 5, 21/9",
+  //     extraInfor: "Tím, 128GB",
+  //     productPrice: 18650000, // giá sale
+  //     productSalePrice: 24990000, // giá gốc
+  //     productAmout: 18650000, // thành tiền
+  //   },
+  //   {
+  //     id: 2,
+  //     productImg:
+  //       "https://salt.tikicdn.com/cache/w78/ts/product/11/13/de/d500a772339882fd6660b3004da9733c.jpg",
+  //     productName: "Apple iPhone 14 Pro Max 128GB Tím",
+  //     productDelivery: "Giao thứ 2, 16/10",
+  //     extraInfor: "Tím, 128GB",
+  //     productQuantity: 2,
+  //     productInventory: 20,
+  //     productPrice: 26450000,
+  //     productSalePrice: 33990000,
+  //     productAmout: 52900000,
+  //   },
+  //   {
+  //     id: 3,
+  //     productImg:
+  //       "https://salt.tikicdn.com/cache/280x280/ts/product/fa/1d/33/47edaa8f754e1c81d0b4ed4f7a5fb20a.png",
+  //     productName: "Apple iPhone 15 Pro Max",
+  //     productDelivery: "Giao thứ 2, 16/10",
+  //     extraInfor: "Titan Đen, 512GB",
+  //     productQuantity: 3,
+  //     productInventory: 10,
+  //     productPrice: 40990000,
+  //     productAmout: 40990000,
+  //   },
+  // ];
 
   // Calculate the total number of products in the shopping cart
   const [allProducts, setAllProducts] = useState(0);
@@ -59,21 +62,51 @@ function Cart() {
     setAllProducts(sumProducts);
   }, []);
 
-  const [cart, setCart] = useState(productCheckout);
+  const [cart, setCart] = useState([]);
   const [arrChecked, setArrChecked] = useState([]);
   let [totalPrice, setTotalPrice] = useState(0);
 
-  //Handle Decrease quantity
-  const handleDecrease = (productId) => {
-    // truyền cart, và sửa cart
+  const dispatch = useDispatch();
+
+  const mapStateToProps = useSelector((state) => {
+    return {
+      cartProductsArr: state.cart.cartProductsArr,
+    };
+  });
+  console.log("mapStateToProps.cartProductsArr");
+  console.log(mapStateToProps.cartProductsArr);
+
+  const componentDidMount = async () => {
+    try {
+      dispatch(renderCartProducts("651e584037b9bb9b12f0b4a6"));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    componentDidMount();
+  }, []);
+
+  useEffect(() => {
+    try {
+      if (mapStateToProps.cartProductsArr !== null) {
+        setCart(mapStateToProps.cartProductsArr);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [mapStateToProps.cartProductsArr]);
+
+  const handleIncrease = (productId) => {
     setCart(
       cart.map((item) => {
-        if (productId === item.id) {
+        if (productId === item._id) {
           return {
             ...item,
             productQuantity:
-              item.productQuantity - (item.productQuantity > 1 ? 1 : 0),
-            productAmout: item.productPrice * (item.productQuantity - 1),
+              item.productQuantity + (item.productQuantity < 100 ? 1 : 0),
+            // productAmout: item.price * (item.productQuantity + 1),
           };
         } else {
           return item;
@@ -83,12 +116,12 @@ function Cart() {
 
     setArrChecked(
       arrChecked.map((item) => {
-        if (productId === item.id) {
+        if (productId === item.productId) {
           return {
             ...item,
             productQuantity:
-              item.productQuantity - (item.productQuantity > 1 ? 1 : 0),
-            productAmout: item.productPrice * (item.productQuantity - 1),
+              item.productQuantity + (item.productQuantity < 100 ? 1 : 0),
+            // productAmout: item.price * (item.productQuantity + 1),
           };
         } else {
           return item;
@@ -97,16 +130,17 @@ function Cart() {
     );
   };
 
-  const handleIncrease = (productId) => {
+  //Handle Decrease quantity
+  const handleDecrease = (productId) => {
+    // truyền cart, và sửa cart
     setCart(
       cart.map((item) => {
-        if (productId === item.id) {
+        if (productId === item._id) {
           return {
             ...item,
             productQuantity:
-              item.productQuantity +
-              (item.productQuantity < item.productInventory ? 1 : 0),
-            productAmout: item.productPrice * (item.productQuantity + 1),
+              item.productQuantity - (item.productQuantity > 1 ? 1 : 0),
+            // productAmout: item.price * (item.productQuantity - 1),
           };
         } else {
           return item;
@@ -116,13 +150,12 @@ function Cart() {
 
     setArrChecked(
       arrChecked.map((item) => {
-        if (productId === item.id) {
+        if (productId === item._id) {
           return {
             ...item,
             productQuantity:
-              item.productQuantity +
-              (item.productQuantity < item.productInventory ? 1 : 0),
-            productAmout: item.productPrice * (item.productQuantity + 1),
+              item.productQuantity - (item.productQuantity > 1 ? 1 : 0),
+            // productAmout: item.price * (item.productQuantity - 1),
           };
         } else {
           return item;
@@ -149,14 +182,13 @@ function Cart() {
     //Call calFinalPrice() again every time the array containing the checkboxes is changed to recalculate the
     //total amount
     calFinalPrice();
-
     //Check all if all are checked
     if (arrChecked.length === cart.length) {
       allCheckRef.current[0].checked = true;
     } else {
       allCheckRef.current[0].checked = false;
     }
-  }, [arrChecked]);
+  }, []);
 
   //Handle Final Price
   const handleCheckItem = (event, productItem) => {
@@ -191,14 +223,26 @@ function Cart() {
     return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + " ₫";
   };
 
+  const getArrChecked = () => {
+    return [...arrChecked];
+  };
+
+  const serializedArray = JSON.stringify(getArrChecked());
+
   const handleOrder = () => {
     if (totalChecked === 0) {
       alert("Vui lòng chọn sản phẩm");
     } else {
-      router.push("/checkout/payment", { scroll: false });
+      router.push({
+        pathname: "/checkout/payment",
+        query: {
+          array: serializedArray,
+          finalPrice: totalPrice,
+        },
+      });
     }
   };
-
+  console.log(cart);
   return (
     <div className={cx("checkout-wrapper")}>
       <div className={cx("checkout-container")}>
@@ -233,20 +277,6 @@ function Cart() {
               />
             </div>
             <div className={cx("left-down-content")}>
-              <div className={cx("tiki-trading")}>
-                <div className={cx("item")}>
-                  <input type="checkbox" className={cx("check-box")} />
-                  <div className={cx("shop-img")}></div>
-                  <span className={cx("tiki-trading-heading")}>
-                    Tiki trading
-                  </span>
-                  <img
-                    src="https://frontend.tikicdn.com/_desktop-next/static/img/icons/Path.svg"
-                    alt="seller-link"
-                    className={cx("sellers__icon-arrow")}
-                  />
-                </div>
-              </div>
               {cart &&
                 cart.length > 0 &&
                 cart.map((item, index) => {
@@ -275,7 +305,7 @@ function Cart() {
                               {item.productName}
                             </div>
                             <div className={cx("product-extra-infor")}>
-                              {item.extraInfor}
+                              {/* {item.option} */}
                             </div>
                             <div className={cx("product-dilivery")}>
                               <div className={cx("delivery-img")}></div>
@@ -285,19 +315,19 @@ function Cart() {
                         </div>
                       </div>
                       <div className={cx("product-price")}>
-                        {currencyFormat(item.productPrice)}{" "}
-                        <span>
+                        {currencyFormat(item.productSalePrice)}{" "}
+                        {/* <span>
                           {" "}
                           {item.productSalePrice
                             ? currencyFormat(item.productSalePrice)
                             : ""}
-                        </span>
+                        </span> */}
                       </div>
                       <div className={cx("product-amount")}>
                         <span
                           id={cx("quantity-decrease")}
                           className={cx("qty-decrease")}
-                          onClick={() => handleDecrease(item.id)}
+                          onClick={() => handleDecrease(item._id)}
                         >
                           <img
                             src="https://frontend.tikicdn.com/_desktop-next/static/img/icons/decrease.svg"
@@ -307,12 +337,13 @@ function Cart() {
                         <input
                           type="tel"
                           className={cx("qty-input")}
-                          defaultValue={item.productQuantity}
+                          value={item.productQuantity}
+                          onChange={() => {}}
                         />
                         <span
                           id={cx("quantity-increase")}
                           className={cx("qty-increase")}
-                          onClick={() => handleIncrease(item.id)}
+                          onClick={() => handleIncrease(item._id)}
                         >
                           <img
                             src="https://frontend.tikicdn.com/_desktop-next/static/img/icons/increase.svg"
@@ -321,7 +352,7 @@ function Cart() {
                         </span>
                       </div>
                       <div className={cx("product-total")}>
-                        {currencyFormat(item.productAmout)}
+                        {currencyFormat(item.productAmount)}
                       </div>
 
                       <img

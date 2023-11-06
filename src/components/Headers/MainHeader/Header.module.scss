@@ -43,6 +43,7 @@
         .up-content {
           display: flex;
           width: 100%;
+          justify-content: space-around;
           .search-are {
             border: solid black 1px;
             height: 100%;
@@ -100,7 +101,6 @@
             margin-left: 48px;
 
             .homepageBtn,
-            .astraBtn,
             .accountBtn,
             .cartBtn {
               display: flex;

@@ -39,13 +39,6 @@ export default function Header() {
                     Trang chủ
                   </div>
                 </Link>
-                <div className={cx("astraBtn")}>
-                  <img
-                    src="https://salt.tikicdn.com/ts/upload/41/28/7d/4713aa0d2855c5c770799f248692f0c5.png"
-                    alt="header_menu_item_astra"
-                  />
-                  <a href="#">Astra</a>
-                </div>
                 <div className={cx("accountBtn")}>
                   <img
                     src="https://salt.tikicdn.com/ts/upload/07/d5/94/d7b6a3bd7d57d37ef6e437aa0de4821b.png"
