@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, use } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import classNames from "classnames/bind";
 import styles from "./cart.module.scss";
 import CartDelivery from "@/container/Cart/CartDelivery";
@@ -73,8 +73,8 @@ function Cart() {
       cartProductsArr: state.cart.cartProductsArr,
     };
   });
-  console.log("mapStateToProps.cartProductsArr");
-  console.log(mapStateToProps.cartProductsArr);
+  // console.log("mapStateToProps.cartProductsArr");
+  // console.log(mapStateToProps.cartProductsArr);
 
   const componentDidMount = async () => {
     try {
@@ -98,6 +98,7 @@ function Cart() {
     }
   }, [mapStateToProps.cartProductsArr]);
 
+  // Increase quantity
   const handleIncrease = (productId) => {
     setCart(
       cart.map((item) => {
@@ -105,8 +106,9 @@ function Cart() {
           return {
             ...item,
             productQuantity:
-              item.productQuantity + (item.productQuantity < 100 ? 1 : 0),
-            // productAmout: item.price * (item.productQuantity + 1),
+              item.productQuantity +
+              (item.productQuantity < item.productInventory ? 1 : 0),
+            productAmount: item.productSalePrice * (item.productQuantity + 1),
           };
         } else {
           return item;
@@ -116,32 +118,38 @@ function Cart() {
 
     setArrChecked(
       arrChecked.map((item) => {
-        if (productId === item.productId) {
+        if (productId === item._id) {
           return {
             ...item,
             productQuantity:
-              item.productQuantity + (item.productQuantity < 100 ? 1 : 0),
-            // productAmout: item.price * (item.productQuantity + 1),
+              item.productQuantity +
+              (item.productQuantity < item.productInventory ? 1 : 0),
+            productAmount: item.productSalePrice * (item.productQuantity + 1),
           };
         } else {
           return item;
         }
       })
     );
+    calFinalPrice();
   };
 
-  //Handle Decrease quantity
+  // Decrease quantity
   const handleDecrease = (productId) => {
     // truyền cart, và sửa cart
     setCart(
       cart.map((item) => {
         if (productId === item._id) {
-          return {
-            ...item,
-            productQuantity:
-              item.productQuantity - (item.productQuantity > 1 ? 1 : 0),
-            // productAmout: item.price * (item.productQuantity - 1),
-          };
+          if (item.productQuantity > 1) {
+            return {
+              ...item,
+              productQuantity:
+                item.productQuantity - (item.productQuantity > 1 ? 1 : 0),
+              productAmount: item.productSalePrice * (item.productQuantity - 1),
+            };
+          } else {
+            return item;
+          }
         } else {
           return item;
         }
@@ -155,13 +163,14 @@ function Cart() {
             ...item,
             productQuantity:
               item.productQuantity - (item.productQuantity > 1 ? 1 : 0),
-            // productAmout: item.price * (item.productQuantity - 1),
+            productAmount: item.productSalePrice * (item.productQuantity - 1),
           };
         } else {
           return item;
         }
       })
     );
+    calFinalPrice();
   };
 
   // Call price and count numbers of product checked
@@ -170,9 +179,11 @@ function Cart() {
     let sumAmount = 0;
     let sumProductsChecked = 0;
     arrChecked.map((item) => {
-      sumAmount += item.productAmout;
+      sumAmount += item.productAmount;
       sumProductsChecked++;
     });
+    console.log("arrChecked");
+    console.log(arrChecked);
     setTotalPrice(sumAmount);
     setTotalChecked(sumProductsChecked);
   };
@@ -182,13 +193,14 @@ function Cart() {
     //Call calFinalPrice() again every time the array containing the checkboxes is changed to recalculate the
     //total amount
     calFinalPrice();
+
     //Check all if all are checked
     if (arrChecked.length === cart.length) {
       allCheckRef.current[0].checked = true;
     } else {
       allCheckRef.current[0].checked = false;
     }
-  }, []);
+  }, [arrChecked]);
 
   //Handle Final Price
   const handleCheckItem = (event, productItem) => {
@@ -198,6 +210,8 @@ function Cart() {
     } else {
       arrCheckedItem.splice(arrChecked.indexOf(productItem), 1);
     }
+    console.log("arrCheckedItem");
+    console.log(arrCheckedItem);
     setArrChecked(arrCheckedItem);
   };
 
@@ -242,7 +256,7 @@ function Cart() {
       });
     }
   };
-  console.log(cart);
+  // console.log(cart);
   return (
     <div className={cx("checkout-wrapper")}>
       <div className={cx("checkout-container")}>
@@ -315,13 +329,11 @@ function Cart() {
                         </div>
                       </div>
                       <div className={cx("product-price")}>
-                        {currencyFormat(item.productSalePrice)}{" "}
-                        {/* <span>
-                          {" "}
+                        <span>
                           {item.productSalePrice
                             ? currencyFormat(item.productSalePrice)
                             : ""}
-                        </span> */}
+                        </span>
                       </div>
                       <div className={cx("product-amount")}>
                         <span

@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getCartProducts } from "@/services/cartService";
-import { resolve } from "styled-jsx/css";
 
 export const renderCartProducts = createAsyncThunk(
   "carts/renderCartProducts",
@@ -16,16 +15,18 @@ export const renderCartProducts = createAsyncThunk(
       // });
 
       let response = await getCartProducts(userId);
-      await new Promise((resolve) => {
-        console.log("response: ");
-        resolve(response.data);
-        // console.log(response.data);
-      });
+      // await new Promise((resolve) => {
+      //   console.log("response: ");
+      //   resolve(response.data);
+      //   // console.log(response.data);
+      // });
       return response.data.data;
 
       // console.log(response);
+      // console.log(response);
+      console.log(response.data);
       // if (response.errCode === 0) {
-      //   // return response.data;
+      //   return response.data;
       // } else {
       //   alert(response.message);
       //   console.log(response);

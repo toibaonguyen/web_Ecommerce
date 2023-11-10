@@ -9,7 +9,7 @@ import StandoutProducts from "@/container/Section/StandoutBrands";
 import HomePageLayout from "@/components/Layouts/HomePageLayout.js";
 import { useSelector, useDispatch } from "react-redux";
 import { renderProducts } from "@/redux/slice/productReducer";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 const cx = classNames.bind(styles);
 export default function HomePage() {

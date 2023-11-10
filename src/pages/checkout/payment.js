@@ -147,7 +147,7 @@ function Payment() {
                                     SL: x{item.productQuantity}
                                   </div>
                                   <div className={cx("item-info__price")}>
-                                    {currencyFormat(item.productPrice)}
+                                    {currencyFormat(item.productSalePrice)}
                                   </div>
                                 </div>
                               </div>
@@ -278,7 +278,7 @@ function Payment() {
                             </div>
                           </div>
                           <div className={cx("item-price")}>
-                            {currencyFormat(item.productPrice)}
+                            {currencyFormat(item.productSalePrice)}
                           </div>
                         </div>
                       );

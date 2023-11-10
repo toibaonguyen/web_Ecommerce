@@ -157,7 +157,6 @@
           }
 
           .product-item {
-            margin-bottom: 32px;
             padding: 0px 16px 3px;
             .item {
               .check-box {
@@ -235,10 +234,12 @@
               display: inline-block;
               margin-right: 5px;
               span {
-                text-decoration: line-through;
-                color: rgb(153, 153, 153);
-                display: inline-block;
-                font-size: 11px;
+                align-items: center;
+                color: #27272a;
+                display: inline-flex;
+                font-size: 14px;
+                font-weight: 600;
+                line-height: 21px;
               }
             }
             .product-amount {
@@ -280,7 +281,7 @@
             }
             .product-total {
               color: rgb(255, 66, 78);
-              font-size: 13px;
+              font-size: 14px;
               font-weight: 500;
               line-height: 20px;
               display: block;

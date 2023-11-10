@@ -45,6 +45,36 @@ export default function Header() {
                     alt="header_header_account_img"
                   />
                   <a href="#">Tài khoản</a>
+
+                  <div className={cx("dropdown-menu")}>
+                    <a
+                      className={cx("menu-item")}
+                      rel="nofollow"
+                      href="/customer/account/edit?src=header_my_account"
+                    >
+                      <p title="Thông tin tài khoản">Thông tin tài khoản</p>
+                    </a>
+                    <a
+                      className={cx("menu-item")}
+                      rel="nofollow"
+                      href="/sales/order/history?src=header_my_account"
+                    >
+                      <p title="Đơn hàng của tôi">Đơn hàng của tôi</p>
+                    </a>
+                    <a
+                      className={cx("menu-item")}
+                      rel="nofollow"
+                      href="/customer/help-center?src=header_my_account"
+                    >
+                      <p title="Trung tâm hỗ trợ">Trung tâm hỗ trợ</p>
+                    </a>
+                    <a
+                      className={cx("menu-item")}
+                      data-view-id="header_header_account_item"
+                    >
+                      <p title="Đăng xuất">Đăng xuất</p>
+                    </a>
+                  </div>
                 </div>
                 <Link href={"/checkout/cart"}>
                   <div className={cx("cart-wrapper")}>

@@ -185,6 +185,14 @@ h3 {
   align-items: center;
 }
 
+.selected {
+  width: 16.6667%;
+  padding: 12px 0px;
+  text-align: center;
+  color: var(--primary);
+  border-bottom: 2px solid var(--primary);
+}
+
 .disable {
   display: none;
 }
