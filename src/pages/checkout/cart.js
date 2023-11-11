@@ -53,6 +53,7 @@ function Cart() {
   // ];
 
   // Calculate the total number of products in the shopping cart
+
   const [allProducts, setAllProducts] = useState(0);
   useEffect(() => {
     let sumProducts = 0;

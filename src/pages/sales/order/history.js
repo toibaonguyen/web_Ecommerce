@@ -1,6 +1,7 @@
 import CustomerLayout from "@/components/Layouts/CustomerLayout";
 import styles from "./history.module.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
@@ -13,7 +14,10 @@ function SalesHistory() {
 
   let allOrders = [
     {
+      diliveryDate: " 20:42 06/11/2023",
+      orderId: 499612875,
       ordersType: "Đã hủy",
+      orderDeliveryFee: 64000,
       orderProducts: [
         {
           productName: "Apple iPhone 14 Pro Max 128GB Tím",
@@ -22,6 +26,8 @@ function SalesHistory() {
           productPrice: 26590000,
           productStore: "Tiki Trading",
           productQuantity: 2,
+          skuNumber: 5576078619910,
+          productAmount: 53180000,
         },
         {
           productName: "iPhone 15 Pro Max 512GB Titan Đen",
@@ -30,6 +36,8 @@ function SalesHistory() {
           productPrice: 40990000,
           productStore: "Tiki Trading",
           productQuantity: 1,
+          skuNumber: 1524065755729,
+          productAmount: 40990000,
         },
         {
           productName: "Apple iPhone 14 128GB Tím",
@@ -38,12 +46,17 @@ function SalesHistory() {
           productPrice: 18650000,
           productStore: "Tiki Trading",
           productQuantity: 1,
+          skuNumber: 1524065755729,
+          productAmount: 18650000,
         },
       ],
-      ordersAmount: 112854000,
+      ordersAmount: 112884000,
     },
     {
+      diliveryDate: "12:12 09/02/2022",
+      orderId: 530865910,
       ordersType: "Giao hàng thành công",
+      orderDeliveryFee: 44000,
       orderProducts: [
         {
           productName:
@@ -53,14 +66,28 @@ function SalesHistory() {
           productPrice: 439000,
           productStore: "Gu Bag Official Store",
           productQuantity: 1,
+          skuNumber: 9346158872379,
+          productAmount: 469000,
         },
       ],
-      ordersAmount: 439000,
+      ordersAmount: 513000,
     },
   ];
 
   const currencyFormat = (num) => {
     return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + " ₫";
+  };
+
+  const router = useRouter();
+  const handleOrderDetail = (orderInfor) => {
+    const orderObject = JSON.stringify(orderInfor);
+    console.log(orderObject);
+    router.push({
+      pathname: "/sales/order/view",
+      query: {
+        orderObject: orderObject,
+      },
+    });
   };
 
   return (
@@ -108,7 +135,7 @@ function SalesHistory() {
         <svg
           stroke="currentColor"
           fill="currentColor"
-          stroke-width="0"
+          strokeWidth="0"
           viewBox="0 0 24 24"
           color="#808089"
           className={cx("icon-left")}
@@ -139,7 +166,15 @@ function SalesHistory() {
               return (
                 <div className={cx("swipper-section")} key={index}>
                   <div color="#808089" className={cx("swipper-heading")}>
-                    <span className="main-status">{item.ordersType}</span>
+                    <div className={cx("main-status")}>
+                      <div
+                        style={{
+                          backgroundImage: `url(https://frontend.tikicdn.com/_desktop-next/static/img/account/block.png)`,
+                        }}
+                        className={cx("status-icon")}
+                      ></div>
+                      {item.ordersType}
+                    </div>
                   </div>
                   <div className={cx("swipper-product")}>
                     {item.orderProducts &&
@@ -192,7 +227,9 @@ function SalesHistory() {
                     </div>
                     <div className={cx("button-group")}>
                       <div>Mua lại</div>
-                      <div>Xem chi tiết</div>
+                      <div onClick={() => handleOrderDetail(item)}>
+                        Xem chi tiết
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -255,7 +292,15 @@ function SalesHistory() {
                 return (
                   <div className={cx("swipper-section")} key={index}>
                     <div color="#808089" className={cx("swipper-heading")}>
-                      <span className="main-status">{item.ordersType}</span>
+                      <div className={cx("main-status")}>
+                        <div
+                          style={{
+                            backgroundImage: `url(	https://frontend.tikicdn.com/_desktop-next/static/img/account/delivery_done.png)`,
+                          }}
+                          className={cx("status-icon")}
+                        ></div>
+                        {item.ordersType}
+                      </div>
                     </div>
                     <div className={cx("swipper-product")}>
                       {item.orderProducts &&
@@ -344,7 +389,15 @@ function SalesHistory() {
                 return (
                   <div className={cx("swipper-section")} key={index}>
                     <div color="#808089" className={cx("swipper-heading")}>
-                      <span className="main-status">{item.ordersType}</span>
+                      <div className={cx("main-status")}>
+                        <div
+                          style={{
+                            backgroundImage: `url(https://frontend.tikicdn.com/_desktop-next/static/img/account/block.png)`,
+                          }}
+                          className={cx("status-icon")}
+                        ></div>
+                        {item.ordersType}
+                      </div>
                     </div>
                     <div className={cx("swipper-product")}>
                       {item.orderProducts &&

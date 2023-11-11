@@ -1,10 +1,7 @@
 import CheckoutLayout from "@/components/Layouts/CheckoutLayout";
 import styles from "./success.module.scss";
 import classNames from "classnames/bind";
-import CartDelivery from "@/container/Cart/CartDelivery";
-import Promotion from "@/container/Cart/Promotion";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 
 const cx = classNames.bind(styles);
 function Success() {
