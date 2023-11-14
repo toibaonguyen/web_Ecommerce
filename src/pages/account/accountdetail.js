@@ -176,7 +176,7 @@ export default function accountDetail() {
                                   name="fullName"
                                   maxlength="128"
                                   placeholder="Thêm họ tên"
-                                  value=""
+                                  // value=""
                                 />
                               </div>
                             </div>
@@ -193,7 +193,7 @@ export default function accountDetail() {
                                   maxlength="128"
                                   placeholder="Thêm nickname"
                                   type="search"
-                                  value=""
+                                  // value=""
                                 />
                               </div>
                             </div>
@@ -408,7 +408,7 @@ export default function accountDetail() {
                               maxlength="128"
                               placeholder="Chọn quốc tịch"
                               readonly=""
-                              value=""
+                              // value=""
                             />
                             <svg
                               className={cx('icon-right')}
