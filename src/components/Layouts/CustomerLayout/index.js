@@ -7,7 +7,7 @@ import classNames from "classnames/bind";
 import styles from "./CustomerLayout.module.scss";
 const cx = classNames.bind(styles);
 
-export default function CustomerLayout({ children }) {
+export default function CustomerLayout({ children, selectedNav }) {
   return (
     <div className={cx("customer-layout-wrapper")}>
       <Header />
@@ -38,7 +38,7 @@ export default function CustomerLayout({ children }) {
       </div>
       <div className={cx("customer-layout-container")}>
         <div className={cx("main-content")}>
-          <CustomerSidebar />
+          <CustomerSidebar selectedNav={selectedNav} />
           <div className={cx("layout-content")}>{children}</div>
         </div>
       </div>

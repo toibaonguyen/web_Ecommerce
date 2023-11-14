@@ -1,4 +1,5 @@
 import CustomerLayout from "@/components/Layouts/CustomerLayout";
+// import MainLayout from "@/components/Layouts/MainLayout";
 import styles from "./history.module.scss";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -14,7 +15,7 @@ function SalesHistory() {
 
   let allOrders = [
     {
-      diliveryDate: " 20:42 06/11/2023",
+      diliveryDate: "20:42 06/11/2023",
       orderId: 499612875,
       ordersType: "Đã hủy",
       orderDeliveryFee: 64000,
@@ -474,5 +475,7 @@ function SalesHistory() {
   );
 }
 
-SalesHistory.getLayout = (page) => <CustomerLayout>{page}</CustomerLayout>;
+SalesHistory.getLayout = (page) => (
+  <CustomerLayout selectedNav={"history"}>{page}</CustomerLayout>
+);
 export default SalesHistory;
