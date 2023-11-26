@@ -20,11 +20,11 @@ export const renderCartProducts = createAsyncThunk(
       //   resolve(response.data);
       //   // console.log(response.data);
       // });
-      return response.data.data;
+      // return response.data.data;
+      // console.log(response);
 
       // console.log(response);
-      // console.log(response);
-      console.log(response.data);
+      console.log(response);
       // if (response.errCode === 0) {
       //   return response.data;
       // } else {

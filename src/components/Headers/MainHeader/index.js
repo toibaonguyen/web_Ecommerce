@@ -2,11 +2,19 @@ import React from "react";
 import styles from "./Header.module.scss";
 import classNames from "classnames/bind";
 import Link from "next/link";
+import SingupModal from "@/components/Modal/SingupModal";
+import { useState } from "react";
 const cx = classNames.bind(styles);
 export default function Header() {
+  const [singupModal, showSignupModal] = useState(false);
+  const handleSignupModal = () => {
+    showSignupModal(!singupModal);
+  };
   return (
     <header className={cx("header-wrapper")}>
       <div className={cx("container")}>
+        {/* {singupModal && <SingupModal isModalOpen={singupModal} />} */}
+        <SingupModal></SingupModal>
         <div className={cx("header-content")}>
           <div className={cx("left-content")}>
             <div className={cx("submenu")}>
@@ -44,7 +52,7 @@ export default function Header() {
                     src="https://salt.tikicdn.com/ts/upload/07/d5/94/d7b6a3bd7d57d37ef6e437aa0de4821b.png"
                     alt="header_header_account_img"
                   />
-                  <a href="#">Tài khoản</a>
+                  <span onClick={handleSignupModal}>Tài khoản</span>
 
                   <div className={cx("dropdown-menu")}>
                     <a

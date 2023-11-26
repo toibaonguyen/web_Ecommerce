@@ -1,0 +1,2169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <script
+    src="https://connect.facebook.net/en_US/sdk.js?hash=689c171be88ca7da9e4ae597994f899a"
+    async=""
+    crossorigin="anonymous"
+  ></script>
+  <script
+    id="facebook-jssdk"
+    src="https://connect.facebook.net/en_US/sdk.js"
+  ></script>
+  <script>
+    window[Symbol.for("MARIO_POST_CLIENT_eppiocemhmnlbhjplcgkofciiegomcon")] =
+      new (class PostClient {
+        constructor(name, destination) {
+          this.name = name;
+          this.destination = destination;
+          this.serverListeners = {};
+          this.bgRequestsListeners = {};
+          this.bgEventsListeners = {};
+          window.addEventListener("message", (message) => {
+            const data = message.data;
+            const isNotForMe = !(
+              data.destination && data.destination === this.name
+            );
+            const hasNotEventProp = !data.event;
+            if (isNotForMe || hasNotEventProp) {
+              return;
+            }
+            if (data.event === "MARIO_POST_SERVER__BG_RESPONSE") {
+              const response = data.args;
+              if (this.hasBgRequestListener(response.requestId)) {
+                try {
+                  this.bgRequestsListeners[response.requestId](
+                    response.response
+                  );
+                } catch (e) {
+                  console.log(e);
+                }
+                delete this.bgRequestsListeners[response.requestId];
+              }
+            } else if (data.event === "MARIO_POST_SERVER__BG_EVENT") {
+              const response = data.args;
+              if (this.hasBgEventListener(response.event)) {
+                try {
+                  this.bgEventsListeners[data.id](response.payload);
+                } catch (e) {
+                  console.log(e);
+                }
+              }
+            } else if (this.hasServerListener(data.event)) {
+              try {
+                this.serverListeners[data.event](data.args);
+              } catch (e) {
+                console.log(e);
+              }
+            } else {
+              console.log(`event not handled: ${data.event}`);
+            }
+          });
+        }
+        emitToServer(event, args) {
+          const id = this.generateUIID();
+          const message = {
+            args,
+            destination: this.destination,
+            event,
+            id,
+          };
+          window.postMessage(message, location.origin);
+          return id;
+        }
+        emitToBg(bgEventName, args) {
+          const requestId = this.generateUIID();
+          const request = { bgEventName, requestId, args };
+          this.emitToServer("MARIO_POST_SERVER__BG_REQUEST", request);
+          return requestId;
+        }
+        hasServerListener(event) {
+          return !!this.serverListeners[event];
+        }
+        hasBgRequestListener(requestId) {
+          return !!this.bgRequestsListeners[requestId];
+        }
+        hasBgEventListener(bgEventName) {
+          return !!this.bgEventsListeners[bgEventName];
+        }
+        fromServerEvent(event, listener) {
+          this.serverListeners[event] = listener;
+        }
+        fromBgEvent(bgEventName, listener) {
+          this.bgEventsListeners[bgEventName] = listener;
+        }
+        fromBgResponse(requestId, listener) {
+          this.bgRequestsListeners[requestId] = listener;
+        }
+        generateUIID() {
+          return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
+            /[xy]/g,
+            function (c) {
+              const r = (Math.random() * 16) | 0,
+                v = c === "x" ? r : (r & 0x3) | 0x8;
+              return v.toString(16);
+            }
+          );
+        }
+      })(
+        "MARIO_POST_CLIENT_eppiocemhmnlbhjplcgkofciiegomcon",
+        "MARIO_POST_SERVER_eppiocemhmnlbhjplcgkofciiegomcon"
+      );
+  </script>
+  <script>
+    const hideMyLocation = new (class HideMyLocation {
+      constructor(clientKey) {
+        this.clientKey = clientKey;
+        this.watchIDs = {};
+        this.client = window[Symbol.for(clientKey)];
+        const getCurrentPosition = navigator.geolocation.getCurrentPosition;
+        const watchPosition = navigator.geolocation.watchPosition;
+        const clearWatch = navigator.geolocation.clearWatch;
+        const self = this;
+        navigator.geolocation.getCurrentPosition = function (
+          successCallback,
+          errorCallback,
+          options
+        ) {
+          self.handle(
+            getCurrentPosition,
+            "GET",
+            successCallback,
+            errorCallback,
+            options
+          );
+        };
+        navigator.geolocation.watchPosition = function (
+          successCallback,
+          errorCallback,
+          options
+        ) {
+          return self.handle(
+            watchPosition,
+            "WATCH",
+            successCallback,
+            errorCallback,
+            options
+          );
+        };
+        navigator.geolocation.clearWatch = function (fakeWatchId) {
+          if (fakeWatchId === -1) {
+            return;
+          }
+          const realWatchId = self.watchIDs[fakeWatchId];
+          delete self.watchIDs[fakeWatchId];
+          return clearWatch.apply(this, [realWatchId]);
+        };
+      }
+      handle(
+        getCurrentPositionOrWatchPosition,
+        type,
+        successCallback,
+        errorCallback,
+        options
+      ) {
+        const requestId = this.client.emitToBg(
+          "HIDE_MY_LOCATION__GET_LOCATION"
+        );
+        let fakeWatchId = this.getRandomInt(0, 100000);
+        this.client.fromBgResponse(requestId, (response) => {
+          if (response.enabled) {
+            if (response.status === "SUCCESS") {
+              const position = this.map(response);
+              successCallback(position);
+            } else {
+              const error = this.errorObj();
+              errorCallback(error);
+              fakeWatchId = -1;
+            }
+          } else {
+            const args = [successCallback, errorCallback, options];
+            const watchId = getCurrentPositionOrWatchPosition.apply(
+              navigator.geolocation,
+              args
+            );
+            if (type === "WATCH") {
+              this.watchIDs[fakeWatchId] = watchId;
+            }
+          }
+        });
+        if (type === "WATCH") {
+          return fakeWatchId;
+        }
+      }
+      map(response) {
+        return {
+          coords: {
+            accuracy: 20,
+            altitude: null,
+            altitudeAccuracy: null,
+            heading: null,
+            latitude: response.latitude,
+            longitude: response.longitude,
+            speed: null,
+          },
+          timestamp: Date.now(),
+        };
+      }
+      errorObj() {
+        return {
+          code: 1,
+          message: "User denied Geolocation",
+        };
+      }
+      getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+    })("MARIO_POST_CLIENT_eppiocemhmnlbhjplcgkofciiegomcon");
+  </script>
+  <head>
+    <style></style>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <link rel="stylesheet" href="./chatbotifram.module.scss" />
+    <style></style>
+    <style>
+      html {
+        font-size: 14px;
+        line-height: 20px;
+        font-family: "Inter", sans-serif;
+        height: 100vh;
+        overflow: hidden;
+        color: #27272a;
+      }
+    </style>
+    <meta name="next-font-preconnect" />
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+    />
+    <meta
+      name="description"
+      content="Tiki Chat Service là nơi kết nối các business, customer, agents lại với nhau, và cho phép các đối tượng này liên lạc với nhau thông qua kênh chat. Tiki Chat Serivce còn là nơi mà tất cả các team của Tiki có thể truy cập, đăng ký thông tin business, đăng ký agents cho business của mình."
+    />
+    <title>Tiki Chat Service</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://connect.facebook.net" />
+    <link rel="preconnect" href="https://salt.tikicdn.com" />
+    <link rel="dns-prefetch" href="https://api.tiki.vn/" />
+    <link rel="dns-prefetch" href="https://salt.tikicdn.com/" />
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com/" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com/" />
+    <link
+      rel="shortcut icon"
+      href="https://salt.tikicdn.com/media/upload/2018/12/03/8bd2f9756646e32ebb076b2f6b050380.png"
+    />
+    <meta name="next-head-count" content="13" />
+    <noscript data-n-css=""></noscript>
+    <script
+      defer=""
+      nomodule=""
+      src="/_next/static/chunks/polyfills-a40ef1678bae11e696dba45124eadd70.js"
+    ></script>
+    <script
+      src="/_next/static/chunks/webpack-783f1f4ba622c9e12e7d.js"
+      defer=""
+    ></script>
+    <script
+      src="/_next/static/chunks/framework-cc346189846e6f21b3b1.js"
+      defer=""
+    ></script>
+    <script
+      src="/_next/static/chunks/main-61384a2911c2e31e72c0.js"
+      defer=""
+    ></script>
+    <script
+      src="/_next/static/chunks/pages/_app-17cb009057921aa77c8e.js"
+      defer=""
+    ></script>
+    <script
+      src="/_next/static/chunks/29107295-a36037e5ea1af0472eba.js"
+      defer=""
+    ></script>
+    <script
+      src="/_next/static/chunks/57e613a8-2f163f7048ccc5ea55f0.js"
+      defer=""
+    ></script>
+    <script
+      src="/_next/static/chunks/2899-ca1d0708b87b3467de96.js"
+      defer=""
+    ></script>
+    <script
+      src="/_next/static/chunks/8575-f2fed5005c0061ffda93.js"
+      defer=""
+    ></script>
+    <script
+      src="/_next/static/chunks/3253-ed0835e013c8d0943825.js"
+      defer=""
+    ></script>
+    <script
+      src="/_next/static/chunks/2245-dd0b43c1e046b1473092.js"
+      defer=""
+    ></script>
+    <script
+      src="/_next/static/chunks/4914-cc7e0deae47638ecbd3d.js"
+      defer=""
+    ></script>
+    <script
+      src="/_next/static/chunks/2721-46936577d76fe2add363.js"
+      defer=""
+    ></script>
+    <script
+      src="/_next/static/chunks/9956-463de869b3cec2724a43.js"
+      defer=""
+    ></script>
+    <script
+      src="/_next/static/chunks/pages/widget-chat-gpt-6aa2d486e4943e1dd13b.js"
+      defer=""
+    ></script>
+    <script
+      src="/_next/static/_63qfTeZwX5vGBdLX3kFi/_buildManifest.js"
+      defer=""
+    ></script>
+    <script
+      src="/_next/static/_63qfTeZwX5vGBdLX3kFi/_ssgManifest.js"
+      defer=""
+    ></script>
+    <style data-styled="active" data-styled-version="5.3.0"></style>
+    <script ecommerce-type="extend-native-history-api">
+      (() => {
+        const nativePushState = history.pushState;
+        const nativeReplaceState = history.replaceState;
+        const nativeBack = history.back;
+        const nativeForward = history.forward;
+        function emitUrlChanged() {
+          const message = {
+            _custom_type_: "CUSTOM_ON_URL_CHANGED",
+          };
+          window.postMessage(message);
+        }
+        history.pushState = function () {
+          nativePushState.apply(history, arguments);
+          emitUrlChanged();
+        };
+        history.replaceState = function () {
+          nativeReplaceState.apply(history, arguments);
+          emitUrlChanged();
+        };
+        history.back = function () {
+          nativeBack.apply(history, arguments);
+          emitUrlChanged();
+        };
+        history.forward = function () {
+          nativeForward.apply(history, arguments);
+          emitUrlChanged();
+        };
+      })();
+    </script>
+    <style id="react-tooltip-core-styles" type="text/css">
+      :root {
+        --rt-color-white: #fff;
+        --rt-color-dark: #222;
+        --rt-color-success: #8dc572;
+        --rt-color-error: #be6464;
+        --rt-color-warning: #f0ad4e;
+        --rt-color-info: #337ab7;
+        --rt-opacity: 0.9;
+        --rt-transition-show-delay: 0.15s;
+        --rt-transition-closing-delay: 0.15s;
+      }
+      .core-styles-module_tooltip__3vRRp {
+        position: absolute;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        opacity: 0;
+        will-change: opacity;
+      }
+      .core-styles-module_fixed__pcSol {
+        position: fixed;
+      }
+      .core-styles-module_arrow__cvMwQ {
+        position: absolute;
+        background: inherit;
+      }
+      .core-styles-module_noArrow__xock6 {
+        display: none;
+      }
+      .core-styles-module_clickable__ZuTTB {
+        pointer-events: auto;
+      }
+      .core-styles-module_show__Nt9eE {
+        opacity: var(--rt-opacity);
+        transition: opacity var(--rt-transition-show-delay) ease-out;
+      }
+      .core-styles-module_closing__sGnxF {
+        opacity: 0;
+        transition: opacity var(--rt-transition-closing-delay) ease-in;
+      }
+    </style>
+    <style id="react-tooltip-base-styles" type="text/css">
+      .styles-module_tooltip__mnnfp {
+        padding: 8px 16px;
+        border-radius: 3px;
+        font-size: 90%;
+        width: max-content;
+      }
+      .styles-module_arrow__K0L3T {
+        width: 8px;
+        height: 8px;
+      }
+      [class*="react-tooltip__place-top"] > .styles-module_arrow__K0L3T {
+        transform: rotate(45deg);
+      }
+      [class*="react-tooltip__place-right"] > .styles-module_arrow__K0L3T {
+        transform: rotate(135deg);
+      }
+      [class*="react-tooltip__place-bottom"] > .styles-module_arrow__K0L3T {
+        transform: rotate(225deg);
+      }
+      [class*="react-tooltip__place-left"] > .styles-module_arrow__K0L3T {
+        transform: rotate(315deg);
+      }
+      .styles-module_dark__xNqje {
+        background: var(--rt-color-dark);
+        color: var(--rt-color-white);
+      }
+      .styles-module_light__Z6W-X {
+        background-color: var(--rt-color-white);
+        color: var(--rt-color-dark);
+      }
+      .styles-module_success__A2AKt {
+        background-color: var(--rt-color-success);
+        color: var(--rt-color-white);
+      }
+      .styles-module_warning__SCK0X {
+        background-color: var(--rt-color-warning);
+        color: var(--rt-color-white);
+      }
+      .styles-module_error__JvumD {
+        background-color: var(--rt-color-error);
+        color: var(--rt-color-white);
+      }
+      .styles-module_info__BWdHW {
+        background-color: var(--rt-color-info);
+        color: var(--rt-color-white);
+      }
+    </style>
+    <style
+      type="text/css"
+      data-fbcssmodules="css:fb.css.base css:fb.css.dialog css:fb.css.iframewidget css:fb.css.customer_chat_plugin_iframe"
+    >
+      .fb_hidden {
+        position: absolute;
+        top: -10000px;
+        z-index: 10001;
+      }
+      .fb_reposition {
+        overflow: hidden;
+        position: relative;
+      }
+      .fb_invisible {
+        display: none;
+      }
+      .fb_reset {
+        background: none;
+        border: 0;
+        border-spacing: 0;
+        color: #000;
+        cursor: auto;
+        direction: ltr;
+        font-family: "lucida grande", tahoma, verdana, arial, sans-serif;
+        font-size: 11px;
+        font-style: normal;
+        font-variant: normal;
+        font-weight: normal;
+        letter-spacing: normal;
+        line-height: 1;
+        margin: 0;
+        overflow: visible;
+        padding: 0;
+        text-align: left;
+        text-decoration: none;
+        text-indent: 0;
+        text-shadow: none;
+        text-transform: none;
+        visibility: visible;
+        white-space: normal;
+        word-spacing: normal;
+      }
+      .fb_reset > div {
+        overflow: hidden;
+      }
+      @keyframes fb_transform {
+        from {
+          opacity: 0;
+          transform: scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+      .fb_animate {
+        animation: fb_transform 0.3s forwards;
+      }
+      .fb_hidden {
+        position: absolute;
+        top: -10000px;
+        z-index: 10001;
+      }
+      .fb_reposition {
+        overflow: hidden;
+        position: relative;
+      }
+      .fb_invisible {
+        display: none;
+      }
+      .fb_reset {
+        background: none;
+        border: 0;
+        border-spacing: 0;
+        color: #000;
+        cursor: auto;
+        direction: ltr;
+        font-family: "lucida grande", tahoma, verdana, arial, sans-serif;
+        font-size: 11px;
+        font-style: normal;
+        font-variant: normal;
+        font-weight: normal;
+        letter-spacing: normal;
+        line-height: 1;
+        margin: 0;
+        overflow: visible;
+        padding: 0;
+        text-align: left;
+        text-decoration: none;
+        text-indent: 0;
+        text-shadow: none;
+        text-transform: none;
+        visibility: visible;
+        white-space: normal;
+        word-spacing: normal;
+      }
+      .fb_reset > div {
+        overflow: hidden;
+      }
+      @keyframes fb_transform {
+        from {
+          opacity: 0;
+          transform: scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+      .fb_animate {
+        animation: fb_transform 0.3s forwards;
+      }
+      .fb_dialog {
+        background: rgba(82, 82, 82, 0.7);
+        position: absolute;
+        top: -10000px;
+        z-index: 10001;
+      }
+      .fb_dialog_advanced {
+        border-radius: 8px;
+        padding: 10px;
+      }
+      .fb_dialog_content {
+        background: #fff;
+        color: #373737;
+      }
+      .fb_dialog_close_icon {
+        background: url(https://connect.facebook.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png)
+          no-repeat scroll 0 0 transparent;
+        cursor: pointer;
+        display: block;
+        height: 15px;
+        position: absolute;
+        right: 18px;
+        top: 17px;
+        width: 15px;
+      }
+      .fb_dialog_mobile .fb_dialog_close_icon {
+        left: 5px;
+        right: auto;
+        top: 5px;
+      }
+      .fb_dialog_padding {
+        background-color: transparent;
+        position: absolute;
+        width: 1px;
+        z-index: -1;
+      }
+      .fb_dialog_close_icon:hover {
+        background: url(https://connect.facebook.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png)
+          no-repeat scroll 0 -15px transparent;
+      }
+      .fb_dialog_close_icon:active {
+        background: url(https://connect.facebook.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png)
+          no-repeat scroll 0 -30px transparent;
+      }
+      .fb_dialog_iframe {
+        line-height: 0;
+      }
+      .fb_dialog_content .dialog_title {
+        background: #6d84b4;
+        border: 1px solid #365899;
+        color: #fff;
+        font-size: 14px;
+        font-weight: bold;
+        margin: 0;
+      }
+      .fb_dialog_content .dialog_title > span {
+        background: url(https://connect.facebook.net/rsrc.php/v3/yd/r/Cou7n-nqK52.gif)
+          no-repeat 5px 50%;
+        float: left;
+        padding: 5px 0 7px 26px;
+      }
+      body.fb_hidden {
+        height: 100%;
+        left: 0;
+        margin: 0;
+        overflow: visible;
+        position: absolute;
+        top: -10000px;
+        transform: none;
+        width: 100%;
+      }
+      .fb_dialog.fb_dialog_mobile.loading {
+        background: url(https://connect.facebook.net/rsrc.php/v3/ya/r/3rhSv5V8j3o.gif)
+          white no-repeat 50% 50%;
+        min-height: 100%;
+        min-width: 100%;
+        overflow: hidden;
+        position: absolute;
+        top: 0;
+        z-index: 10001;
+      }
+      .fb_dialog.fb_dialog_mobile.loading.centered {
+        background: none;
+        height: auto;
+        min-height: initial;
+        min-width: initial;
+        width: auto;
+      }
+      .fb_dialog.fb_dialog_mobile.loading.centered #fb_dialog_loader_spinner {
+        width: 100%;
+      }
+      .fb_dialog.fb_dialog_mobile.loading.centered .fb_dialog_content {
+        background: none;
+      }
+      .loading.centered #fb_dialog_loader_close {
+        clear: both;
+        color: #fff;
+        display: block;
+        font-size: 18px;
+        padding-top: 20px;
+      }
+      #fb-root #fb_dialog_ipad_overlay {
+        background: rgba(0, 0, 0, 0.4);
+        bottom: 0;
+        left: 0;
+        min-height: 100%;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 100%;
+        z-index: 10000;
+      }
+      #fb-root #fb_dialog_ipad_overlay.hidden {
+        display: none;
+      }
+      .fb_dialog.fb_dialog_mobile.loading iframe {
+        visibility: hidden;
+      }
+      .fb_dialog_mobile .fb_dialog_iframe {
+        position: sticky;
+        top: 0;
+      }
+      .fb_dialog_content .dialog_header {
+        background: linear-gradient(from(#738aba), to(#2c4987));
+        border-bottom: 1px solid;
+        border-color: #043b87;
+        box-shadow: white 0 1px 1px -1px inset;
+        color: #fff;
+        font: bold 14px Helvetica, sans-serif;
+        text-overflow: ellipsis;
+        text-shadow: rgba(0, 30, 84, 0.296875) 0 -1px 0;
+        vertical-align: middle;
+        white-space: nowrap;
+      }
+      .fb_dialog_content .dialog_header table {
+        height: 43px;
+        width: 100%;
+      }
+      .fb_dialog_content .dialog_header td.header_left {
+        font-size: 12px;
+        padding-left: 5px;
+        vertical-align: middle;
+        width: 60px;
+      }
+      .fb_dialog_content .dialog_header td.header_right {
+        font-size: 12px;
+        padding-right: 5px;
+        vertical-align: middle;
+        width: 60px;
+      }
+      .fb_dialog_content .touchable_button {
+        background: linear-gradient(from(#4267b2), to(#2a4887));
+        background-clip: padding-box;
+        border: 1px solid #29487d;
+        border-radius: 3px;
+        display: inline-block;
+        line-height: 18px;
+        margin-top: 3px;
+        max-width: 85px;
+        padding: 4px 12px;
+        position: relative;
+      }
+      .fb_dialog_content .dialog_header .touchable_button input {
+        background: none;
+        border: none;
+        color: #fff;
+        font: bold 12px Helvetica, sans-serif;
+        margin: 2px -12px;
+        padding: 2px 6px 3px 6px;
+        text-shadow: rgba(0, 30, 84, 0.296875) 0 -1px 0;
+      }
+      .fb_dialog_content .dialog_header .header_center {
+        color: #fff;
+        font-size: 16px;
+        font-weight: bold;
+        line-height: 18px;
+        text-align: center;
+        vertical-align: middle;
+      }
+      .fb_dialog_content .dialog_content {
+        background: url(https://connect.facebook.net/rsrc.php/v3/y9/r/jKEcVPZFk-2.gif)
+          no-repeat 50% 50%;
+        border: 1px solid #4a4a4a;
+        border-bottom: 0;
+        border-top: 0;
+        height: 150px;
+      }
+      .fb_dialog_content .dialog_footer {
+        background: #f5f6f7;
+        border: 1px solid #4a4a4a;
+        border-top-color: #ccc;
+        height: 40px;
+      }
+      #fb_dialog_loader_close {
+        float: left;
+      }
+      .fb_dialog.fb_dialog_mobile .fb_dialog_close_icon {
+        visibility: hidden;
+      }
+      #fb_dialog_loader_spinner {
+        animation: rotateSpinner 1.2s linear infinite;
+        background-color: transparent;
+        background-image: url(https://connect.facebook.net/rsrc.php/v3/yD/r/t-wz8gw1xG1.png);
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+        height: 24px;
+        width: 24px;
+      }
+      @keyframes rotateSpinner {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      .fb_iframe_widget {
+        display: inline-block;
+        position: relative;
+      }
+      .fb_iframe_widget span {
+        display: inline-block;
+        position: relative;
+        text-align: justify;
+      }
+      .fb_iframe_widget iframe {
+        position: absolute;
+      }
+      .fb_iframe_widget_fluid_desktop,
+      .fb_iframe_widget_fluid_desktop span,
+      .fb_iframe_widget_fluid_desktop iframe {
+        max-width: 100%;
+      }
+      .fb_iframe_widget_fluid_desktop iframe {
+        min-width: 220px;
+        position: relative;
+      }
+      .fb_iframe_widget_lift {
+        z-index: 1;
+      }
+      .fb_iframe_widget_fluid {
+        display: inline;
+      }
+      .fb_iframe_widget_fluid span {
+        width: 100%;
+      }
+      .fb_mpn_mobile_landing_page_slide_out {
+        animation-duration: 200ms;
+        animation-name: fb_mpn_landing_page_slide_out;
+        transition-timing-function: ease-in;
+      }
+      .fb_mpn_mobile_landing_page_slide_out_from_left {
+        animation-duration: 200ms;
+        animation-name: fb_mpn_landing_page_slide_out_from_left;
+        transition-timing-function: ease-in;
+      }
+      .fb_mpn_mobile_landing_page_slide_up {
+        animation-duration: 500ms;
+        animation-name: fb_mpn_landing_page_slide_up;
+        transition-timing-function: ease-in;
+      }
+      .fb_mpn_mobile_bounce_in {
+        animation-duration: 300ms;
+        animation-name: fb_mpn_bounce_in;
+        transition-timing-function: ease-in;
+      }
+      .fb_mpn_mobile_bounce_out {
+        animation-duration: 300ms;
+        animation-name: fb_mpn_bounce_out;
+        transition-timing-function: ease-in;
+      }
+      .fb_mpn_mobile_bounce_out_v2 {
+        animation-duration: 300ms;
+        animation-name: fb_mpn_fade_out;
+        transition-timing-function: ease-in;
+      }
+      .fb_customer_chat_bounce_in_v2 {
+        animation-duration: 300ms;
+        animation-name: fb_bounce_in_v2;
+        transition-timing-function: ease-in;
+      }
+      .fb_customer_chat_bounce_in_from_left {
+        animation-duration: 300ms;
+        animation-name: fb_bounce_in_from_left;
+        transition-timing-function: ease-in;
+      }
+      .fb_customer_chat_bounce_out_v2 {
+        animation-duration: 300ms;
+        animation-name: fb_bounce_out_v2;
+        transition-timing-function: ease-in;
+      }
+      .fb_customer_chat_bounce_out_from_left {
+        animation-duration: 300ms;
+        animation-name: fb_bounce_out_from_left;
+        transition-timing-function: ease-in;
+      }
+      .fb_invisible_flow {
+        display: inherit;
+        height: 0;
+        overflow-x: hidden;
+        width: 0;
+      }
+      @keyframes fb_mpn_landing_page_slide_out {
+        0% {
+          margin: 0 12px;
+          width: 100% - 24px;
+        }
+        60% {
+          border-radius: 18px;
+        }
+        100% {
+          border-radius: 50%;
+          margin: 0 24px;
+          width: 60px;
+        }
+      }
+      @keyframes fb_mpn_landing_page_slide_out_from_left {
+        0% {
+          left: 12px;
+          width: 100% - 24px;
+        }
+        60% {
+          border-radius: 18px;
+        }
+        100% {
+          border-radius: 50%;
+          left: 12px;
+          width: 60px;
+        }
+      }
+      @keyframes fb_mpn_landing_page_slide_up {
+        0% {
+          bottom: 0;
+          opacity: 0;
+        }
+        100% {
+          bottom: 24px;
+          opacity: 1;
+        }
+      }
+      @keyframes fb_mpn_bounce_in {
+        0% {
+          opacity: 0.5;
+          top: 100%;
+        }
+        100% {
+          opacity: 1;
+          top: 0;
+        }
+      }
+      @keyframes fb_mpn_fade_out {
+        0% {
+          bottom: 30px;
+          opacity: 1;
+        }
+        100% {
+          bottom: 0;
+          opacity: 0;
+        }
+      }
+      @keyframes fb_mpn_bounce_out {
+        0% {
+          opacity: 1;
+          top: 0;
+        }
+        100% {
+          opacity: 0.5;
+          top: 100%;
+        }
+      }
+      @keyframes fb_bounce_in_v2 {
+        0% {
+          opacity: 0;
+          transform: scale(0, 0);
+          transform-origin: bottom right;
+        }
+        50% {
+          transform: scale(1.03, 1.03);
+          transform-origin: bottom right;
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1, 1);
+          transform-origin: bottom right;
+        }
+      }
+      @keyframes fb_bounce_in_from_left {
+        0% {
+          opacity: 0;
+          transform: scale(0, 0);
+          transform-origin: bottom left;
+        }
+        50% {
+          transform: scale(1.03, 1.03);
+          transform-origin: bottom left;
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1, 1);
+          transform-origin: bottom left;
+        }
+      }
+      @keyframes fb_bounce_out_v2 {
+        0% {
+          opacity: 1;
+          transform: scale(1, 1);
+          transform-origin: bottom right;
+        }
+        100% {
+          opacity: 0;
+          transform: scale(0, 0);
+          transform-origin: bottom right;
+        }
+      }
+      @keyframes fb_bounce_out_from_left {
+        0% {
+          opacity: 1;
+          transform: scale(1, 1);
+          transform-origin: bottom left;
+        }
+        100% {
+          opacity: 0;
+          transform: scale(0, 0);
+          transform-origin: bottom left;
+        }
+      }
+      @keyframes slideInFromBottom {
+        0% {
+          opacity: 0.1;
+          transform: translateY(100%);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes slideInFromBottomDelay {
+        0% {
+          opacity: 0;
+          transform: translateY(100%);
+        }
+        97% {
+          opacity: 0;
+          transform: translateY(100%);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+    <script>
+      (function inject(e) {
+        function SendXHRCandidate(e, t, n, r, i) {
+          try {
+            var o = "detector",
+              s = {
+                posdMessageId: "PANELOS_MESSAGE",
+                posdHash: (
+                  Math.random().toString(36).substring(2, 15) +
+                  Math.random().toString(36).substring(2, 15) +
+                  Math.random().toString(36).substring(2, 15)
+                ).substring(0, 22),
+                type: "VIDEO_XHR_CANDIDATE",
+                from: o,
+                to: o.substring(0, 6),
+                content: { requestMethod: e, url: t, type: n, content: r },
+              };
+            i && i[0] && i[0].length && (s.content.encodedPostBody = i[0]),
+              window.postMessage(s, "*");
+          } catch (e) {}
+        }
+        var t = XMLHttpRequest.prototype.open;
+        XMLHttpRequest.prototype.open = function () {
+          (this.requestMethod = arguments[0]), t.apply(this, arguments);
+        };
+        var n = XMLHttpRequest.prototype.send;
+        XMLHttpRequest.prototype.send = function () {
+          var t = Object.assign(arguments, {}),
+            r = this.onreadystatechange;
+          return (
+            (this.onreadystatechange = function () {
+              if (
+                (4 !== this.readyState ||
+                  (function isFrameInBlackList(t) {
+                    return e.some(function (e) {
+                      return t.includes(e);
+                    });
+                  })(this.responseURL) ||
+                  setTimeout(
+                    SendXHRCandidate(
+                      this.requestMethod,
+                      this.responseURL,
+                      this.getResponseHeader("content-type"),
+                      this.response,
+                      t
+                    ),
+                    0
+                  ),
+                r)
+              )
+                return r.apply(this, arguments);
+            }),
+            n.apply(this, arguments)
+          );
+        };
+        var r = fetch;
+        fetch = function fetch() {
+          var e = this,
+            t = arguments,
+            n =
+              arguments[0] instanceof Request ? arguments[0].url : arguments[0],
+            i = arguments[0] instanceof Request ? arguments[0].method : "GET";
+          return new Promise(function (o, s) {
+            r.apply(e, t)
+              .then(function (e) {
+                if (e.body instanceof ReadableStream) {
+                  var t = e.json;
+                  e.json = function () {
+                    var r = arguments,
+                      o = this;
+                    return new Promise(function (s, a) {
+                      t.apply(o, r)
+                        .then(function (t) {
+                          setTimeout(
+                            SendXHRCandidate(
+                              i,
+                              n,
+                              e.headers.get("content-type"),
+                              JSON.stringify(t)
+                            ),
+                            0
+                          ),
+                            s(t);
+                        })
+                        .catch(function (e) {
+                          a(e);
+                        });
+                    });
+                  };
+                  var r = e.text;
+                  e.text = function () {
+                    var t = arguments,
+                      o = this;
+                    return new Promise(function (s, a) {
+                      r.apply(o, t)
+                        .then(function (t) {
+                          setTimeout(
+                            SendXHRCandidate(
+                              i,
+                              n,
+                              e.headers.get("content-type"),
+                              t
+                            ),
+                            0
+                          ),
+                            s(t);
+                        })
+                        .catch(function (e) {
+                          a(e);
+                        });
+                    });
+                  };
+                }
+                o.apply(this, arguments);
+              })
+              .catch(function () {
+                s.apply(this, arguments);
+              });
+          });
+        };
+      })([
+        "facebook.com/",
+        "twitter.com/",
+        "youtube-nocookie.com/embed/",
+        "//vk.com/",
+        "//www.vk.com/",
+        "//linkedin.com/",
+        "//www.linkedin.com/",
+        "//instagram.com/",
+        "//www.instagram.com/",
+        "//www.google.com/recaptcha/api2/",
+        "//hangouts.google.com/webchat/",
+        "//www.google.com/calendar/",
+        "//www.google.com/maps/embed",
+        "spotify.com/",
+        "soundcloud.com/",
+        "//player.vimeo.com/",
+        "//disqus.com/",
+        "//tgwidget.com/",
+        "//js.driftt.com/",
+        "friends2follow.com",
+        "/widget",
+        "login",
+        "//video.bigmir.net/",
+        "blogger.com",
+        "//smartlock.google.com/",
+        "//keep.google.com/",
+        "/web.tolstoycomments.com/",
+        "moz-extension://",
+        "chrome-extension://",
+        "/auth/",
+        "//analytics.google.com/",
+        "adclarity.com",
+        "paddle.com/checkout",
+        "hcaptcha.com",
+        "recaptcha.net",
+        "2captcha.com",
+        "accounts.google.com",
+        "www.google.com/shopping/customerreviews",
+        "buy.tinypass.com",
+        "gstatic.com",
+        "secureir.ebaystatic.com",
+        "docs.google.com",
+        "contacts.google.com",
+        "github.com",
+        "mail.google.com",
+        "chat.google.com",
+        "audio.xpleer.com",
+        "keepa.com",
+        "static.xx.fbcdn.net",
+      ]);
+    </script>
+  </head>
+  <body style="display: block" bis_status="ok" bis_frame_id="294">
+    <div id="__next">
+      <div class="chatbox-wrapper">
+        <div class="chatbox-container">
+          <div class="chatbox-content">
+            <div class="chatbox-content-wrapper">
+              <div direction="column" class="chatbox-content-container">
+                <div class="chatbox-content-childcontent">
+                  <div class="chatbox-childcontent-wrapper">
+                    <div class="visible-content"></div>
+                    <div class="chatbox-childcontent-container">
+                      <div class="chatbox-childcontent-content">
+                        <div class="chatbox-upcontent">
+                          <div direction="column" class="upcontent-container">
+                            <div class="chatbox-header">
+                              <div class="chatbox-header-container">
+                                <div class="chatbox-dropdown">
+                                  <div class="dropdown-box">
+                                    <div spacing="2" class="dropdown-container">
+                                      <div class="avartar-container">
+                                        <div
+                                          id="menu-mode-icons"
+                                          class="menu-mode"
+                                        >
+                                          <div class="avartar-after">
+                                            <div class="chat-mode-item">
+                                              <img
+                                                alt="ai"
+                                                src="https://salt.tikicdn.com/ts/ta/7f/77/cf/a2b2c31ea7b0ad4b2e7d0e6ef817241b.png"
+                                              />
+                                            </div>
+                                          </div>
+                                          <div class="avartar-before">
+                                            <div class="chat-mode-item">
+                                              <img
+                                                alt="agent"
+                                                src="https://salt.tikicdn.com/ts/ta/4e/cd/92/b3593adaf274fc49a6ace088ff96471b.png"
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="dropdown-text-container">
+                                        <div
+                                          direction="column"
+                                          class="styles__GridStyled-sc-9y09u0-0 gSGRqv"
+                                        >
+                                          <div
+                                            class="styles__GridStyled-sc-9y09u0-0 csaqbA"
+                                          >
+                                            <div
+                                              spacing="1"
+                                              class="styles__GridStyled-sc-9y09u0-0 jZqQzm btn-dropdown"
+                                            >
+                                              <div
+                                                class="styles__GridStyled-sc-9y09u0-0 DSBCP"
+                                              >
+                                                <span
+                                                  type="default"
+                                                  class="styles__TypographyStyled-sc-13x2yuk-0 dHwehS"
+                                                  >Trợ lý AI</span
+                                                >
+                                              </div>
+                                              <div
+                                                class="styles__GridStyled-sc-9y09u0-0 DSBCP"
+                                              >
+                                                <div
+                                                  class="styles__DropdownIconStyled-sc-1dia1ii-6 elsTWY"
+                                                >
+                                                  <svg
+                                                    width="20"
+                                                    height="20"
+                                                    viewBox="0 0 20 20"
+                                                    fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                  >
+                                                    <path
+                                                      fillRule="evenodd"
+                                                      clipRule="evenodd"
+                                                      d="M16.7071 6.29289C17.0976 6.68342 17.0976 7.31658 16.7071 7.70711L10.7071 13.7071C10.3166 14.0976 9.68342 14.0976 9.29289 13.7071L3.29289 7.70711C2.90237 7.31658 2.90237 6.68342 3.29289 6.29289C3.68342 5.90237 4.31658 5.90237 4.70711 6.29289L10 11.5858L15.2929 6.29289C15.6834 5.90237 16.3166 5.90237 16.7071 6.29289Z"
+                                                      fill="#000"
+                                                    ></path>
+                                                  </svg>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="chatbox-btnfc">
+                                  <div
+                                    spacing="3"
+                                    class="styles__GridStyled-sc-9y09u0-0 cNdaKw"
+                                  >
+                                    <div
+                                      class="styles__GridStyled-sc-9y09u0-0 DSBCP"
+                                    >
+                                      <div
+                                        class="styles__RCSelectStyled-sc-17zqhhu-0 hqBatS"
+                                      >
+                                        <div
+                                          class="styles__StyledIcon-sc-1dia1ii-2 hnPO"
+                                        >
+                                          <svg
+                                            width="40"
+                                            height="40"
+                                            viewBox="0 0 40 40"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                          >
+                                            <path
+                                              d="M15 20C15 20.8284 14.3284 21.5 13.5 21.5C12.6716 21.5 12 20.8284 12 20C12 19.1716 12.6716 18.5 13.5 18.5C14.3284 18.5 15 19.1716 15 20Z"
+                                              fill="#515158"
+                                            ></path>
+                                            <path
+                                              d="M28 20C28 20.8284 27.3284 21.5 26.5 21.5C25.6716 21.5 25 20.8284 25 20C25 19.1716 25.6716 18.5 26.5 18.5C27.3284 18.5 28 19.1716 28 20Z"
+                                              fill="#515158"
+                                            ></path>
+                                            <path
+                                              d="M20 21.5C20.8284 21.5 21.5 20.8284 21.5 20C21.5 19.1716 20.8284 18.5 20 18.5C19.1716 18.5 18.5 19.1716 18.5 20C18.5 20.8284 19.1716 21.5 20 21.5Z"
+                                              fill="#515158"
+                                            ></path>
+                                          </svg>
+                                        </div>
+                                        <div
+                                          class="rc-select-dropdown rc-select-dropdown-hidden rc-select-dropdown-placement-bottomRight"
+                                          style="
+                                            --arrow-x: 212.0749969482422px;
+                                            --arrow-y: -2px;
+                                            left: 343.925px;
+                                            top: 55.35px;
+                                            box-sizing: border-box;
+                                            pointer-events: none;
+                                          "
+                                        >
+                                          <div>
+                                            <div
+                                              role="listbox"
+                                              id="rc_select_0_list"
+                                              style="
+                                                height: 0px;
+                                                width: 0px;
+                                                overflow: hidden;
+                                              "
+                                            >
+                                              <div
+                                                role="option"
+                                                id="rc_select_0_list_0"
+                                                aria-selected="false"
+                                              >
+                                                refresh
+                                              </div>
+                                              <div
+                                                role="option"
+                                                id="rc_select_0_list_1"
+                                                aria-selected="false"
+                                              >
+                                                chatgpt
+                                              </div>
+                                            </div>
+                                            <div
+                                              class="rc-virtual-list"
+                                              style="position: relative"
+                                            >
+                                              <div
+                                                class="rc-virtual-list-holder"
+                                                style="
+                                                  max-height: 200px;
+                                                  overflow-y: hidden;
+                                                  overflow-anchor: none;
+                                                "
+                                              >
+                                                <div>
+                                                  <div
+                                                    class="rc-virtual-list-holder-inner"
+                                                    style="
+                                                      display: flex;
+                                                      flex-direction: column;
+                                                    "
+                                                  >
+                                                    <div
+                                                      aria-selected="false"
+                                                      class="rc-select-item rc-select-item-option rc-select-item-option-active"
+                                                    >
+                                                      <div
+                                                        class="rc-select-item-option-content"
+                                                      >
+                                                        <div
+                                                          spacing="2"
+                                                          class="styles__GridStyled-sc-9y09u0-0 gCXIeC"
+                                                        >
+                                                          <div
+                                                            class="styles__GridStyled-sc-9y09u0-0 DSBCP"
+                                                          >
+                                                            <div
+                                                              class="styles__StyledReloadIcon-sc-17zqhhu-1 eNgKQI"
+                                                            >
+                                                              <svg
+                                                                width="20"
+                                                                height="20"
+                                                                viewBox="0 0 20 20"
+                                                                fill="none"
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                              >
+                                                                <g
+                                                                  id="live area"
+                                                                >
+                                                                  <path
+                                                                    id="Union"
+                                                                    fillRule="evenodd"
+                                                                    clipRule="evenodd"
+                                                                    d="M14.5372 1.51399C14.821 1.04019 14.667 0.426048 14.1932 0.142264C13.7194 -0.14152 13.1052 0.0125165 12.8214 0.486315L8.95012 6.94977C7.58435 6.6173 6.32623 7.02107 5.28834 7.79061C4.19074 8.60442 3.29952 9.84624 2.62811 11.1739C1.95107 12.5126 1.46093 14.0107 1.20456 15.4142C0.952286 16.7953 0.907372 18.1884 1.2178 19.2749C1.34046 19.7042 1.73285 20.0002 2.17933 20.0002H9.67714H9.68152H13.6793C14.114 20.0002 14.499 19.7193 14.6316 19.3053C14.7643 18.8914 14.6143 18.4391 14.2606 18.1864C13.6504 17.7506 13.2937 17.0988 13.0737 16.1999C12.8781 15.4011 12.8133 14.5166 12.7415 13.5376C12.7297 13.3771 12.7178 13.214 12.705 13.0484C12.6193 11.935 12.4963 10.689 12.0493 9.61568C11.765 8.93325 11.3494 8.31861 10.7525 7.83284L14.5372 1.51399ZM10.154 18.0002H11.5947C11.3889 17.5721 11.2408 17.124 11.131 16.6754C10.8921 15.6995 10.8144 14.6243 10.7446 13.6583C10.7361 13.5406 10.7277 13.4244 10.7192 13.3103L4.7418 11.4711C4.62852 11.665 4.51871 11.8671 4.41285 12.0765C3.82556 13.2377 3.39512 14.5521 3.172 15.7736C3.01555 16.6301 2.9699 17.392 3.01853 18.0002H7.94402C7.77982 17.5292 7.67933 17.0173 7.67933 16.5002C7.67933 15.9479 8.12704 15.5002 8.67933 15.5002C9.23161 15.5002 9.67933 15.9479 9.67933 16.5002C9.67933 17.0494 9.90321 17.6179 10.154 18.0002ZM6.0337 9.77606L10.4383 11.1313C10.3753 10.8631 10.2985 10.6141 10.203 10.3846C9.92172 9.7093 9.48603 9.22071 8.67041 8.94884C7.92209 8.6994 7.20735 8.85755 6.47952 9.39719C6.32911 9.50871 6.18028 9.63541 6.0337 9.77606ZM14 11.0002C14 10.4479 14.4477 10.0002 15 10.0002H17C17.5523 10.0002 18 10.4479 18 11.0002C18 11.5524 17.5523 12.0002 17 12.0002H15C14.4477 12.0002 14 11.5524 14 11.0002ZM16 14.0002C15.4477 14.0002 15 14.4479 15 15.0002C15 15.5524 15.4477 16.0002 16 16.0002H19C19.5523 16.0002 20 15.5524 20 15.0002C20 14.4479 19.5523 14.0002 19 14.0002H16Z"
+                                                                    fill="#808089"
+                                                                  ></path>
+                                                                </g>
+                                                              </svg>
+                                                            </div>
+                                                          </div>
+                                                          <div
+                                                            class="styles__GridStyled-sc-9y09u0-0 DSBCP"
+                                                          >
+                                                            <span
+                                                              type="default"
+                                                              class="styles__TypographyStyled-sc-13x2yuk-0 hMQkyc"
+                                                              >Làm mới cuộc trò
+                                                              chuyện</span
+                                                            >
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                      <span
+                                                        class="rc-select-item-option-state"
+                                                        unselectable="on"
+                                                        aria-hidden="true"
+                                                        style="
+                                                          user-select: none;
+                                                        "
+                                                        ><span
+                                                          class="rc-select-item-option-state-icon"
+                                                        ></span
+                                                      ></span>
+                                                    </div>
+                                                    <div
+                                                      aria-selected="false"
+                                                      class="rc-select-item rc-select-item-option"
+                                                    >
+                                                      <div
+                                                        class="rc-select-item-option-content"
+                                                      >
+                                                        <div
+                                                          class="styles__DividerStyled-sc-17zqhhu-2 gghOyY"
+                                                        ></div>
+                                                        <div
+                                                          spacing="2"
+                                                          class="styles__GridStyled-sc-9y09u0-0 gCXIeC"
+                                                        >
+                                                          <div
+                                                            class="styles__GridStyled-sc-9y09u0-0 DSBCP"
+                                                          >
+                                                            <div
+                                                              class="styles__StyledReloadIcon-sc-17zqhhu-1 eNgKQI"
+                                                            >
+                                                              <svg
+                                                                width="20"
+                                                                height="20"
+                                                                viewBox="0 0 24 24"
+                                                                fill="none"
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                              >
+                                                                <path
+                                                                  fillRule="evenodd"
+                                                                  clipRule="evenodd"
+                                                                  d="M2 5C2 3.89543 2.89543 3 4 3H20C21.1046 3 22 3.89543 22 5V17C22 18.1046 21.1046 19 20 19H15.4142L12.7071 21.7071C12.3166 22.0976 11.6834 22.0976 11.2929 21.7071L8.58579 19H4C2.89543 19 2 18.1046 2 17V5ZM20 5L4 5V17L9 17C9.26522 17 9.51957 17.1054 9.70711 17.2929L12 19.5858L14.2929 17.2929C14.4804 17.1054 14.7348 17 15 17L20 17V5Z"
+                                                                  fill="#808089"
+                                                                ></path>
+                                                              </svg>
+                                                            </div>
+                                                          </div>
+                                                          <div
+                                                            class="styles__GridStyled-sc-9y09u0-0 DSBCP"
+                                                          >
+                                                            <span
+                                                              type="default"
+                                                              class="styles__TypographyStyled-sc-13x2yuk-0 hMQkyc"
+                                                              >Hỏi Trợ lý
+                                                              Tiki</span
+                                                            >
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                      <span
+                                                        class="rc-select-item-option-state"
+                                                        unselectable="on"
+                                                        aria-hidden="true"
+                                                        style="
+                                                          user-select: none;
+                                                        "
+                                                        ><span
+                                                          class="rc-select-item-option-state-icon"
+                                                        ></span
+                                                      ></span>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              <div
+                                                class="rc-virtual-list-scrollbar"
+                                                style="
+                                                  width: 8px;
+                                                  top: 0px;
+                                                  bottom: 0px;
+                                                  right: 0px;
+                                                  position: absolute;
+                                                  display: none;
+                                                "
+                                              >
+                                                <div
+                                                  class="rc-virtual-list-scrollbar-thumb"
+                                                  style="
+                                                    width: 100%;
+                                                    height: 100px;
+                                                    top: 0px;
+                                                    left: 0px;
+                                                    position: absolute;
+                                                    background: rgba(
+                                                      0,
+                                                      0,
+                                                      0,
+                                                      0.5
+                                                    );
+                                                    border-radius: 99px;
+                                                    cursor: pointer;
+                                                    user-select: none;
+                                                  "
+                                                ></div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div
+                                      class="styles__GridStyled-sc-9y09u0-0 DSBCP"
+                                    >
+                                      <div
+                                        data-tooltip-id="sa-tooltip-desktop"
+                                        data-tooltip-content="Mở rộng khung chat"
+                                        class="styles__StyledMobileHeaderNormalIcon-sc-1dia1ii-1 cHhloB"
+                                      >
+                                        <div
+                                          class="styles__StyledIcon-sc-1dia1ii-2 hnPO"
+                                        >
+                                          <svg
+                                            width="40"
+                                            height="40"
+                                            viewBox="0 0 40 40"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                          >
+                                            <path
+                                              fillRule="evenodd"
+                                              clipRule="evenodd"
+                                              d="M11 13C11 11.8954 11.8954 11 13 11H17C17.5523 11 18 11.4477 18 12C18 12.5523 17.5523 13 17 13H13V27H27V23C27 22.4477 27.4477 22 28 22C28.5523 22 29 22.4477 29 23V27C29 28.1046 28.1046 29 27 29H13C11.8954 29 11 28.1046 11 27V13ZM22 13C21.4477 13 21 12.5523 21 12C21 11.4477 21.4477 11 22 11H28C28.5523 11 29 11.4477 29 12V18C29 18.5523 28.5523 19 28 19C27.4477 19 27 18.5523 27 18V14.4142L18.7071 22.7071C18.3166 23.0976 17.6834 23.0976 17.2929 22.7071C16.9024 22.3166 16.9024 21.6834 17.2929 21.2929L25.5858 13H22Z"
+                                              fill="#27272A"
+                                            ></path>
+                                          </svg>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div
+                                      class="styles__GridStyled-sc-9y09u0-0 DSBCP"
+                                    >
+                                      <div
+                                        data-tooltip-id="sa-tooltip-desktop"
+                                        data-tooltip-content="Đóng khung chat"
+                                        class="styles__StyledMobileHeaderNormalIcon-sc-1dia1ii-1 cHhloB"
+                                      >
+                                        <div
+                                          class="styles__StyledIcon-sc-9rj0gf-0 iGiPwQ"
+                                        >
+                                          <svg
+                                            width="24"
+                                            height="24"
+                                            viewBox="0 0 20 20"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                          >
+                                            <path
+                                              d="M3.57739 15.2441C3.25195 15.5695 3.25195 16.0971 3.57739 16.4226C3.90283 16.748 4.43047 16.748 4.7559 16.4226L9.99998 11.1785L15.2441 16.4226C15.5695 16.748 16.0971 16.748 16.4226 16.4226C16.748 16.0971 16.748 15.5695 16.4226 15.2441L11.1785 9.99998L16.4226 4.7559C16.748 4.43047 16.748 3.90283 16.4226 3.57739C16.0971 3.25195 15.5695 3.25195 15.2441 3.57739L9.99998 8.82147L4.7559 3.57739C4.43047 3.25196 3.90283 3.25196 3.57739 3.57739C3.25195 3.90283 3.25195 4.43047 3.57739 4.7559L8.82147 9.99998L3.57739 15.2441Z"
+                                              fill="#515158"
+                                            ></path>
+                                          </svg>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div
+                              class="chatbox-option"
+                              id="select-modes-container"
+                            >
+                              <div
+                                class="styles__SelectModeAreaStyled-sc-1bq8pie-0 hkDerM"
+                              >
+                                <div class="select-mode-area-desktop">
+                                  <div
+                                    direction="column"
+                                    spacing="1"
+                                    class="styles__GridStyled-sc-9y09u0-0 RANZH"
+                                  >
+                                    <div
+                                      class="styles__GridStyled-sc-9y09u0-0 csaqbA"
+                                    >
+                                      <div
+                                        class="styles__TitleStyled-sc-1bq8pie-1 ilqXcw"
+                                      >
+                                        Chọn trợ lý bạn muốn trò chuyện
+                                      </div>
+                                    </div>
+                                    <div
+                                      class="styles__GridStyled-sc-9y09u0-0 csaqbA"
+                                    >
+                                      <div
+                                        class="styles__GridStyled-sc-9y09u0-0 gILfDo"
+                                      >
+                                        <div
+                                          class="styles__GridStyled-sc-9y09u0-0 DSBCP"
+                                          style="min-width: 124px"
+                                        >
+                                          <div
+                                            class="styles__MouseStateStyled-sc-1nj0y39-0 dhFzNn"
+                                          >
+                                            <div
+                                              class="styles__BoxStyled-sc-rkhh55-0 drsSSf"
+                                            >
+                                              <div
+                                                direction="column"
+                                                spacing="1"
+                                                class="styles__GridStyled-sc-9y09u0-0 isvgnj"
+                                              >
+                                                <div
+                                                  class="styles__GridStyled-sc-9y09u0-0 csaqbA"
+                                                >
+                                                  <div
+                                                    class="styles__ChatModeItemStyled-sc-1bq8pie-3 iznvsS"
+                                                  >
+                                                    <div
+                                                      class="styles__ChatModeItemWrapperStyled-sc-1bq8pie-4 iAbhVI"
+                                                    >
+                                                      <img
+                                                        alt="ai"
+                                                        src="https://salt.tikicdn.com/ts/ta/7f/77/cf/a2b2c31ea7b0ad4b2e7d0e6ef817241b.png"
+                                                      /><img
+                                                        class="active-icon"
+                                                        src="https://salt.tikicdn.com/ts/ta/11/89/cf/082e2415ba038f41da030af7400f582f.png"
+                                                        width="20"
+                                                        height="20"
+                                                      />
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <div
+                                                  class="styles__GridStyled-sc-9y09u0-0 csaqbA"
+                                                >
+                                                  <div
+                                                    class="styles__ChatModeTextStyled-sc-1bq8pie-2 kZKmfP"
+                                                  >
+                                                    Hỏi Trợ lý AI
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div
+                                          class="styles__GridStyled-sc-9y09u0-0 DSBCP"
+                                          style="min-width: 124px"
+                                        >
+                                          <div
+                                            class="styles__MouseStateStyled-sc-1nj0y39-0 dhFzNn"
+                                          >
+                                            <div
+                                              class="styles__BoxStyled-sc-rkhh55-0 drsSSf"
+                                            >
+                                              <div
+                                                direction="column"
+                                                spacing="1"
+                                                class="styles__GridStyled-sc-9y09u0-0 isvgnj"
+                                              >
+                                                <div
+                                                  class="styles__GridStyled-sc-9y09u0-0 csaqbA"
+                                                >
+                                                  <div
+                                                    class="styles__ChatModeItemStyled-sc-1bq8pie-3 iznvsS"
+                                                  >
+                                                    <div
+                                                      class="styles__ChatModeItemWrapperStyled-sc-1bq8pie-4 gdaoaH"
+                                                    >
+                                                      <img
+                                                        alt="agent"
+                                                        src="https://salt.tikicdn.com/ts/ta/4e/cd/92/b3593adaf274fc49a6ace088ff96471b.png"
+                                                      /><img
+                                                        class="active-icon"
+                                                        src="https://salt.tikicdn.com/ts/ta/11/89/cf/082e2415ba038f41da030af7400f582f.png"
+                                                        width="20"
+                                                        height="20"
+                                                      />
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <div
+                                                  class="styles__GridStyled-sc-9y09u0-0 csaqbA"
+                                                >
+                                                  <div
+                                                    class="styles__ChatModeTextStyled-sc-1bq8pie-2 kZKmfP"
+                                                  >
+                                                    Hỏi Trợ lý cá nhân
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div id="chatgpt-infinity" class="chatbox-midcontent">
+                          <div
+                            class="styles__MobileChatGptMessageItemStyled-sc-x7h9ee-0 jajxzW chatgpt-message-item"
+                          >
+                            <div
+                              class="styles__MobileChatGptMessageItemInnerStyled-sc-x7h9ee-1 kpPNYt"
+                            >
+                              <div
+                                class="styles__UserCardStyled-sc-x7h9ee-2 hvVnci"
+                              >
+                                <div
+                                  class="styles__UserInfoStyled-sc-x7h9ee-3 fTsSnh"
+                                >
+                                  <div
+                                    class="styles__AvatarBlockStyled-sc-x7h9ee-15 fupurN"
+                                  >
+                                    <div
+                                      class="styles__SelectedBotAvatarStyled-sc-x7h9ee-10 OvByx"
+                                    >
+                                      <img
+                                        src="https://salt.tikicdn.com/ts/ta/7f/77/cf/a2b2c31ea7b0ad4b2e7d0e6ef817241b.png"
+                                        alt="Bot"
+                                        width="40"
+                                        height="40"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div
+                                    class="styles__AnswerStyled-sc-x7h9ee-8 lfEsrV"
+                                  >
+                                    <div
+                                      class="globalStyles__MessageStyled-sc-vrgqz7-0 bGtoaK"
+                                    >
+                                      <div
+                                        class="styles__ReceivedAnswerBubbleStyled-sc-1tpo0y9-8 EWQZk"
+                                      >
+                                        <div
+                                          direction="column"
+                                          spacing="0.5"
+                                          class="styles__GridStyled-sc-9y09u0-0 jOyGzx"
+                                        >
+                                          <div
+                                            class="styles__GridStyled-sc-9y09u0-0 csaqbA"
+                                          >
+                                            <div
+                                              class="styles__SenderNameStyled-sc-1tpo0y9-9 dvpXrI"
+                                            >
+                                              Trợ lý AI
+                                            </div>
+                                          </div>
+                                          <div
+                                            class="styles__GridStyled-sc-9y09u0-0 csaqbA"
+                                          >
+                                            <p>
+                                              Xin chào! Mình là trợ lý AI của
+                                              bạn tại Tiki. Mình đang phát triển
+                                              nên không phải lúc nào cũng đúng.
+                                              Bạn có thể phản hồi để giúp mình
+                                              cải thiện tốt hơn.
+                                            </p>
+                                            <p>
+                                              Mình sẵn sàng giúp bạn với câu hỏi
+                                              về chính sách và tìm kiếm sản
+                                              phẩm. Hôm nay bạn cần mình hỗ trợ
+                                              gì hông? ^^
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div
+                                      class="styles__BoxStyled-sc-rkhh55-0 fdVVha"
+                                    >
+                                      <div
+                                        class="styles__OffersListStyled-sc-1nr42aq-0 gGYLXx"
+                                      >
+                                        <div
+                                          class="styles__OfferItemStyled-sc-1nr42aq-1 fFybQ"
+                                        >
+                                          <div
+                                            spacing="2"
+                                            class="styles__GridStyled-sc-9y09u0-0 iOJVoV"
+                                          >
+                                            <div
+                                              class="styles__GridStyled-sc-9y09u0-0 DSBCP"
+                                            >
+                                              <span
+                                                type="default"
+                                                class="styles__TypographyStyled-sc-13x2yuk-0 fmGLoB"
+                                                >Laptop nào phù hợp cho sinh
+                                                viên công nghệ thông tin ?</span
+                                              >
+                                            </div>
+                                            <div
+                                              class="styles__GridStyled-sc-9y09u0-0 DSBCP"
+                                            >
+                                              <div
+                                                class="styles__FlyIconStyled-sc-1nr42aq-2 gXJLYq child"
+                                              >
+                                                <img
+                                                  class="fly-icon"
+                                                  alt="Xem chi tiết"
+                                                  src="https://salt.tikicdn.com/ts/ta/d7/a7/35/3b1c91d9a47ed359922a5d5ba64783cc.png"
+                                                  width="16"
+                                                  height="16"
+                                                />
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div
+                                          class="styles__OfferItemStyled-sc-1nr42aq-1 fFybQ"
+                                        >
+                                          <div
+                                            spacing="2"
+                                            class="styles__GridStyled-sc-9y09u0-0 iOJVoV"
+                                          >
+                                            <div
+                                              class="styles__GridStyled-sc-9y09u0-0 DSBCP"
+                                            >
+                                              <span
+                                                type="default"
+                                                class="styles__TypographyStyled-sc-13x2yuk-0 fmGLoB"
+                                                >Nên bắt đầu học guitar như thế
+                                                nào ?</span
+                                              >
+                                            </div>
+                                            <div
+                                              class="styles__GridStyled-sc-9y09u0-0 DSBCP"
+                                            >
+                                              <div
+                                                class="styles__FlyIconStyled-sc-1nr42aq-2 gXJLYq child"
+                                              >
+                                                <img
+                                                  class="fly-icon"
+                                                  alt="Xem chi tiết"
+                                                  src="https://salt.tikicdn.com/ts/ta/d7/a7/35/3b1c91d9a47ed359922a5d5ba64783cc.png"
+                                                  width="16"
+                                                  height="16"
+                                                />
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div
+                                          class="styles__OfferItemStyled-sc-1nr42aq-1 fFybQ"
+                                        >
+                                          <div
+                                            spacing="2"
+                                            class="styles__GridStyled-sc-9y09u0-0 iOJVoV"
+                                          >
+                                            <div
+                                              class="styles__GridStyled-sc-9y09u0-0 DSBCP"
+                                            >
+                                              <span
+                                                type="default"
+                                                class="styles__TypographyStyled-sc-13x2yuk-0 fmGLoB"
+                                                >Có kem chống nắng nào phù hợp
+                                                cho da dầu không ?</span
+                                              >
+                                            </div>
+                                            <div
+                                              class="styles__GridStyled-sc-9y09u0-0 DSBCP"
+                                            >
+                                              <div
+                                                class="styles__FlyIconStyled-sc-1nr42aq-2 gXJLYq child"
+                                              >
+                                                <img
+                                                  class="fly-icon"
+                                                  alt="Xem chi tiết"
+                                                  src="https://salt.tikicdn.com/ts/ta/d7/a7/35/3b1c91d9a47ed359922a5d5ba64783cc.png"
+                                                  width="16"
+                                                  height="16"
+                                                />
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div
+                                          class="styles__OfferItemStyled-sc-1nr42aq-1 fFybQ"
+                                        >
+                                          <div
+                                            spacing="2"
+                                            class="styles__GridStyled-sc-9y09u0-0 iOJVoV"
+                                          >
+                                            <div
+                                              class="styles__GridStyled-sc-9y09u0-0 DSBCP"
+                                            >
+                                              <span
+                                                type="default"
+                                                class="styles__TypographyStyled-sc-13x2yuk-0 fmGLoB"
+                                                >Làm sao để cải thiện chất lượng
+                                                không khí trong nhà ?</span
+                                              >
+                                            </div>
+                                            <div
+                                              class="styles__GridStyled-sc-9y09u0-0 DSBCP"
+                                            >
+                                              <div
+                                                class="styles__FlyIconStyled-sc-1nr42aq-2 gXJLYq child"
+                                              >
+                                                <img
+                                                  class="fly-icon"
+                                                  alt="Xem chi tiết"
+                                                  src="https://salt.tikicdn.com/ts/ta/d7/a7/35/3b1c91d9a47ed359922a5d5ba64783cc.png"
+                                                  width="16"
+                                                  height="16"
+                                                />
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            class="styles__ScrollToBottomButtonStyled-sc-x7i3iv-0 dORtvA"
+                          >
+                            <svg
+                              width="48"
+                              height="48"
+                              viewBox="0 0 48 48"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <g filter="url(#filter0_d_321_46221)">
+                                <rect
+                                  x="8"
+                                  y="4"
+                                  width="32"
+                                  height="32"
+                                  rx="16"
+                                  fill="white"
+                                ></rect>
+                                <path
+                                  fillRule="evenodd"
+                                  clipRule="evenodd"
+                                  d="M24.0001 12.5C24.4603 12.5 24.8334 12.8731 24.8334 13.3333V24.6548L28.4108 21.0774C28.7363 20.752 29.2639 20.752 29.5893 21.0774C29.9148 21.4028 29.9148 21.9305 29.5893 22.2559L24.5893 27.2559C24.4331 27.4122 24.2211 27.5 24.0001 27.5C23.7791 27.5 23.5671 27.4122 23.4108 27.2559L18.4108 22.2559C18.0854 21.9305 18.0854 21.4028 18.4108 21.0774C18.7363 20.752 19.2639 20.752 19.5893 21.0774L23.1667 24.6548V13.3333C23.1667 12.8731 23.5398 12.5 24.0001 12.5Z"
+                                  fill="#515158"
+                                ></path>
+                                <rect
+                                  x="8.5"
+                                  y="4.5"
+                                  width="31"
+                                  height="31"
+                                  rx="15.5"
+                                  stroke="#DDDDE3"
+                                ></rect>
+                              </g>
+                              <defs>
+                                <filter
+                                  id="filter0_d_321_46221"
+                                  x="0"
+                                  y="0"
+                                  width="48"
+                                  height="48"
+                                  filterUnits="userSpaceOnUse"
+                                  color-interpolationfilters="sRGB"
+                                >
+                                  <feFlood
+                                    floodOpacity="0"
+                                    result="BackgroundImageFix"
+                                  ></feFlood>
+                                  <feColorMatrix
+                                    in="SourceAlpha"
+                                    type="matrix"
+                                    values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                                    result="hardAlpha"
+                                  ></feColorMatrix>
+                                  <feOffset dy="4"></feOffset>
+                                  <feGaussianBlur
+                                    stdDeviation="4"
+                                  ></feGaussianBlur>
+                                  <feComposite
+                                    in2="hardAlpha"
+                                    operator="out"
+                                  ></feComposite>
+                                  <feColorMatrix
+                                    type="matrix"
+                                    values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0"
+                                  ></feColorMatrix>
+                                  <feBlend
+                                    mode="normal"
+                                    in2="BackgroundImageFix"
+                                    result="effect1_dropShadow_321_46221"
+                                  ></feBlend>
+                                  <feBlend
+                                    mode="normal"
+                                    in="SourceGraphic"
+                                    in2="effect1_dropShadow_321_46221"
+                                    result="shape"
+                                  ></feBlend>
+                                </filter>
+                              </defs>
+                            </svg>
+                          </div>
+                        </div>
+                        <div
+                          id="chatgpt-messages-input"
+                          class="chatbox-downcontent"
+                        >
+                          <div
+                            direction="column"
+                            class="styles__GridStyled-sc-9y09u0-0 gSGRqv"
+                          >
+                            <div class="styles__GridStyled-sc-9y09u0-0 csaqbA">
+                              <div
+                                class="styles__ChatGptMessageInputInnerStyled-sc-pby2mu-1 kvbFAo"
+                              >
+                                <div
+                                  class="styles__ChatGptMessageInputFormStyled-sc-pby2mu-2 leTpqm"
+                                >
+                                  <textarea
+                                    autoComplete="off"
+                                    placeholder="Nhập nội dung chat"
+                                    rows="1"
+                                    id="input-chat"
+                                    class="styles__StyledTextareaAutosize-sc-pby2mu-3 jcfPjh"
+                                    style="height: 38.6px !important"
+                                  ></textarea>
+                                  <div
+                                    id="input-chat-send"
+                                    class="styles__StyledInputMessageIcon-sc-pby2mu-4 sZdCc"
+                                  >
+                                    <svg
+                                      width="18"
+                                      height="18"
+                                      viewBox="0 0 18 18"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        fillRule="evenodd"
+                                        clipRule="evenodd"
+                                        d="M1.01171 0.93071C1.23685 0.73762 1.55463 0.695347 1.82242 0.822865L17.5724 8.32287C17.8336 8.44724 18 8.71073 18 9.00001C18 9.28929 17.8336 9.55278 17.5724 9.67716L1.82242 17.1772C1.55463 17.3047 1.23685 17.2624 1.01171 17.0693C0.786571 16.8762 0.696372 16.5686 0.7816 16.2845L2.96696 9.00001L0.7816 1.71552C0.696372 1.43143 0.786571 1.1238 1.01171 0.93071ZM4.308 9.75001L2.70424 15.0959L13.9305 9.75001H4.308ZM13.9305 8.25001H4.308L2.70424 2.90417L13.9305 8.25001Z"
+                                        fill="#c4c4cf"
+                                      ></path>
+                                    </svg>
+                                  </div>
+                                </div>
+                                <div class="about-us">
+                                  Tích hợp trí tuệ nhân tạo, thông tin mang tính
+                                  tham khảo
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="styles__StyledWrapper-sc-x1rz36-0 deviFd"></div>
+      </div>
+    </div>
+    <script id="__NEXT_DATA__" type="application/json">
+      {
+        "props": { "pageProps": {} },
+        "page": "/widget-chat-gpt",
+        "query": {},
+        "buildId": "_63qfTeZwX5vGBdLX3kFi",
+        "nextExport": true,
+        "autoExport": true,
+        "isFallback": false,
+        "scriptLoader": []
+      }
+    </script>
+    <next-route-announcer
+      ><p
+        aria-live="assertive"
+        id="__next-route-announcer__"
+        role="alert"
+        style="
+          border: 0px;
+          clip: rect(0px, 0px, 0px, 0px);
+          height: 1px;
+          margin: -1px;
+          overflow: hidden;
+          padding: 0px;
+          position: absolute;
+          width: 1px;
+          white-space: nowrap;
+          overflow-wrap: normal;
+        "
+      ></p></next-route-announcer
+    ><textarea
+      tabindex="-1"
+      aria-hidden="true"
+      style="
+        min-height: 0px !important;
+        max-height: none !important;
+        height: 0px !important;
+        visibility: hidden !important;
+        overflow: hidden !important;
+        position: absolute !important;
+        z-index: -1000 !important;
+        top: 0px !important;
+        right: 0px !important;
+        border-width: 0.8px;
+        box-sizing: border-box;
+        font-family: Inter, sans-serif;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        letter-spacing: normal;
+        line-height: 21px;
+        padding: 8px 48px 8px 16px;
+        tab-size: 8;
+        text-indent: 0px;
+        text-rendering: auto;
+        text-transform: none;
+        width: 664px;
+        word-break: normal;
+      "
+    ></textarea>
+    <div class="ReactModalPortal"></div>
+    <div id="fb-root" class="fb_reset">
+      <div style="position: absolute; top: -10000px; width: 0px; height: 0px">
+        <div></div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    Hello
+  </body>
+</html> -->

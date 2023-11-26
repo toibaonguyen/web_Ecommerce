@@ -10,6 +10,8 @@ import HomePageLayout from "@/components/Layouts/HomePageLayout.js";
 import { useSelector, useDispatch } from "react-redux";
 import { renderProducts } from "@/redux/slice/productReducer";
 import { useEffect } from "react";
+import SingupModal from "@/components/Modal/SingupModal";
+import ChatOption from "@/container/Chat";
 
 const cx = classNames.bind(styles);
 export default function HomePage() {
@@ -38,6 +40,22 @@ export default function HomePage() {
 
   return (
     <div className={cx("homepage-wrapper")}>
+      {/* <SingupModal></SingupModal> */}
+      <ChatOption />
+      {/* <iframe
+        className={cx("tiki-chatgpt-service")}
+        id="chatgpt-service"
+        src="./ChatService"
+        ref={(node) => {
+          if (node) console.log("p1Table", node);
+          //Do something with node
+        }}
+      ></iframe> */}
+      <iframe
+        className={cx("conversation-service")}
+        id="chatgpt-service"
+        src="./ChatConservation"
+      ></iframe>
       <div className={cx("homepage-container")}>
         <div className={cx("homepage-content")}>
           <section className={cx("homepage-banner")}>
