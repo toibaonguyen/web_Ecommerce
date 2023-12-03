@@ -14,7 +14,7 @@ export default function Header({
                     className="h-20 w-30"
                     src="https://upload.wikimedia.org/wikipedia/commons/6/64/Logo_Tiki.png"/>
             </div>
-            <h2 className="mt-6 text-center text-5xl font-extrabold text-gray-900 text-#D6E6F2">
+            <h2 className="mt-6 text-center text-5xl font-extrabold text-blue-500">
                 {heading}
             </h2>
             <p className="mt-2 text-center text-2xl text-gray-600 mt-5">
