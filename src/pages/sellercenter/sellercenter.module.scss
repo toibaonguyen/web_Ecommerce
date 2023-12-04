@@ -269,3 +269,93 @@
     }
   }
 }
+
+.new-wrapper {
+  background: #f0f2f5;
+  text-align: center;
+  font-size: 0;
+  // background-image:
+  background: none;
+  display: grid;
+  min-height: 100%;
+  min-width: 1024px;
+  width: 100%;
+  height: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  .welcomepage-container {
+    row-gap: 0px;
+    position: relative;
+    padding: 32px 50px 50px;
+    max-height: 100vh;
+    overflow: auto;
+    -webkit-box-pack: center;
+    justify-content: center;
+    display: flex;
+    flex-flow: row wrap;
+    .welcomepage-decor {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      height: 0px;
+      background: rgb(250, 250, 250);
+      z-index: -1;
+    }
+    .store-infor {
+      margin-bottom: 40px;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 65px;
+      .store-content {
+        max-width: 1000px;
+        form {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+          color: rgba(0, 0, 0, 0.85);
+          font-size: 14px;
+          font-variant: tabular-nums;
+          line-height: 1.5715;
+          list-style: none;
+          font-feature-settings: "tnum";
+          .business-store-infor {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 24px;
+          }
+          .name-infor {
+            text-align: center;
+            .ant-row {
+              margin-left: -8px;
+              margin-right: -8px;
+              row-gap: 24px;
+              display: flex;
+              flex-flow: row wrap;
+            }
+          }
+        }
+      }
+    }
+    .action-container {
+      font-size: 14px;
+      left: 0px;
+      transition: transform 200ms ease-in-out 0s;
+      position: fixed;
+      bottom: 0px;
+      background-color: rgb(255, 255, 255);
+      border-top: 1px solid rgb(232, 232, 232);
+      z-index: 500;
+      display: flex;
+      padding: 16px 15px 32px;
+      -webkit-box-align: center;
+      align-items: center;
+      -webkit-box-pack: center;
+      justify-content: center;
+      width: 100vw;
+      transform: translateX(0px);
+      min-height: 65px !important;
+    }
+  }
+}

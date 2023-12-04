@@ -63,6 +63,11 @@
           overflow-clip-margin: content-box;
           overflow: hidden;
         }
+
+        &:hover {
+          background-color: var(--hover-color);
+          border-radius: 4px;
+        }
       }
     }
   }
