@@ -8,12 +8,12 @@ import MayLikeProducts from "@/container/Section/MayLikeProducts";
 import StandoutProducts from "@/container/Section/StandoutBrands";
 import HomePageLayout from "@/components/Layouts/HomePageLayout.js";
 import { useSelector, useDispatch } from "react-redux";
+import { useState } from "react";
 import { renderProducts } from "@/redux/slice/productReducer";
 import { useEffect } from "react";
-import SingupModal from "@/components/Modal/SingupModal";
-import ChatOption from "@/container/Chat";
 
 const cx = classNames.bind(styles);
+
 export default function HomePage() {
   const dispatch = useDispatch();
 
@@ -36,26 +36,86 @@ export default function HomePage() {
     return () => componentDidMount();
   }, []);
 
+  //Handle Iframe
+  const [iframe1Closed, setIframe1Closed] = useState(true);
+  const [iframe2Closed, setIframe2Closed] = useState(true);
+
+  const handleIframeMessage = (event) => {
+    if (event.data === "closeIframe") {
+      setIframe1Closed(true);
+      setIframe2Closed(true);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("message", handleIframeMessage);
+    return () => {
+      window.removeEventListener("message", handleIframeMessage);
+    };
+  }, []);
+
+  //Handle show chat bot
+  const handleShowChatbot = (num) => {
+    if (num === 1) {
+      setIframe1Closed(false);
+      setIframe2Closed(true);
+    } else {
+      setIframe1Closed(true);
+      setIframe2Closed(false);
+    }
+  };
+
   console.log(mapStateToProps.productsArr);
 
   return (
     <div className={cx("homepage-wrapper")}>
       {/* <SingupModal></SingupModal> */}
-      <ChatOption />
-      {/* <iframe
-        className={cx("tiki-chatgpt-service")}
-        id="chatgpt-service"
-        src="./ChatService"
-        ref={(node) => {
-          if (node) console.log("p1Table", node);
-          //Do something with node
-        }}
-      ></iframe> */}
-      <iframe
-        className={cx("conversation-service")}
-        id="chatgpt-service"
-        src="./ChatConservation"
-      ></iframe>
+      <div className={cx("chat-wrapper")}>
+        <div
+          className={cx("chatbot-container")}
+          onClick={() => handleShowChatbot(1)}
+        >
+          <img
+            className="chat-gpt-icon"
+            alt="chat-gpt-icon"
+            src="https://salt.tikicdn.com/ts/ta/f8/a1/bf/95b4110dc1fba3d9b48dfc6c60be4a90.png"
+            height="32"
+            width="32"
+          />
+          <div className={cx("assistant")}>Trợ lý</div>
+        </div>
+        <div className={cx("chat-seperator")}></div>
+        <div
+          id="chat-platform"
+          className={cx("chat-platform-container")}
+          onClick={() => handleShowChatbot(2)}
+        >
+          <img
+            src="https://salt.tikicdn.com/ts/ta/e1/5e/b4/2e33d86e11e2841a6a571de6084ff365.png"
+            alt="chat-consumer"
+            width="32"
+            height="32"
+          />
+          <div className={cx("new-chat")}>Tin mới</div>
+          <span data-total-unread-message="4">4</span>
+        </div>
+      </div>
+      {!iframe1Closed && (
+        <iframe
+          className={cx("tiki-chatgpt-service")}
+          id="chatgpt-service"
+          src="./ChatService"
+        ></iframe>
+      )}
+
+      {!iframe2Closed && (
+        <iframe
+          className={cx("conversation-service")}
+          id="chatgpt-service"
+          src="./ChatConservation"
+        />
+      )}
+
       <div className={cx("homepage-container")}>
         <div className={cx("homepage-content")}>
           <section className={cx("homepage-banner")}>

@@ -26,10 +26,7 @@ const ChatConservation = () => {
   }, []);
 
   const handleCloseIframe = () => {
-    // if (iframe) {
-    //   console.log("Hello");
-    //   iframe.style.display = "none";
-    // }
+    window.parent.postMessage("closeIframe", "*");
   };
   return (
     <div className={cx("conversation-wrapper")}>
@@ -42,7 +39,7 @@ const ChatConservation = () => {
           &nbsp;
         </div>
         <div className={cx("header-icon")}>
-          <div className={cx("close-icon")}>
+          <div className={cx("close-icon")} onClick={handleCloseIframe}>
             <svg
               width="14"
               height="14"
@@ -143,43 +140,6 @@ const ChatConservation = () => {
                 </div>
                 <div className={cx("channel-item")}>
                   <div className={cx("avatar-outer")}>
-                    <div
-                      type="three"
-                      size="56"
-                      className={cx("avatar-by-name")}
-                    >
-                      km
-                    </div>
-                  </div>
-                  <div className={cx("item-wrapper")}>
-                    <div className={cx("item-name")}>
-                      <span>Gợi ý - khuyến mãi</span>
-                      <div className={cx("icon-verify")}>
-                        <svg
-                          width="12"
-                          height="12"
-                          viewBox="0 0 12 12"
-                          fill="none"
-                          xmlns="https://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M6 0C4.81331 0 3.65328 0.351894 2.66658 1.01118C1.67989 1.67047 0.910851 2.60754 0.456725 3.7039C0.00259972 4.80026 -0.11622 6.00666 0.115291 7.17054C0.346802 8.33443 0.918247 9.40352 1.75736 10.2426C2.59648 11.0818 3.66557 11.6532 4.82946 11.8847C5.99335 12.1162 7.19975 11.9974 8.2961 11.5433C9.39246 11.0892 10.3295 10.3201 10.9888 9.33342C11.6481 8.34673 12 7.18669 12 6C11.9954 4.41012 11.3618 2.88668 10.2375 1.76246C9.11332 0.638241 7.58988 0.00461698 6 0ZM5.35356 8.35345C5.15829 8.54871 4.84171 8.54871 4.64645 8.35345L2.6465 6.3535C2.45127 6.15827 2.45127 5.84173 2.6465 5.6465C2.84174 5.45127 3.15827 5.45127 3.3535 5.6465L5 7.293L8.6465 3.6465C8.84174 3.45127 9.15827 3.45127 9.3535 3.6465C9.54873 3.84173 9.54873 4.15827 9.3535 4.3535L5.35356 8.35345Z"
-                            fill="#1A94FF"
-                          ></path>
-                        </svg>
-                      </div>
-                    </div>
-                    <div className={cx("item-title")}>
-                      💓 BLACK FRIDAY 24.11 - SALE CHẠM ĐÁY 💓 GIẢM 50% - MUA LÀ
-                      CÓ QUÀ Nhanh tay thu thập COUPON ĐẾN 800K
-                    </div>
-                  </div>
-                  <div className={cx("item-rest")}>
-                    <div className={cx("item-date")}>24/11</div>
-                  </div>
-                </div>
-                <div className={cx("channel-item")}>
-                  <div className={cx("avatar-outer")}>
                     <div size="56" className={cx("avatar-wrapper")}>
                       <div
                         style={{
@@ -246,7 +206,7 @@ const ChatConservation = () => {
               </div>
               <div className={cx("detail-header-infor")}>
                 <div className={cx("info__name")}>
-                  <span>ASAbot</span>
+                  <span>Đầm YuRin</span>
                   <div className={cx("icon-verify")}>
                     <svg
                       width="12"
@@ -327,7 +287,7 @@ const ChatConservation = () => {
                               alt="AHABOOKS"
                               class="styles__StyledAvatar-sc-djljgk-1 eizUKP"
                               sizes="100vw"
-                              srcset="https://chat-service.tiki.vn/_next/image?url=https%3A%2F%2Fvcdn.tikicdn.com%2Fts%2Fseller%2F7c%2Fb8%2Fe1%2F357f6a5d18da8daa4e9060a6b7eb9d5f.png&w=828&q=75"
+                              srcSet="https://chat-service.tiki.vn/_next/image?url=https%3A%2F%2Fvcdn.tikicdn.com%2Fts%2Fseller%2F7c%2Fb8%2Fe1%2F357f6a5d18da8daa4e9060a6b7eb9d5f.png&w=828&q=75"
                               src="https://chat-service.tiki.vn/_next/image?url=https%3A%2F%2Fvcdn.tikicdn.com%2Fts%2Fseller%2F7c%2Fb8%2Fe1%2F357f6a5d18da8daa4e9060a6b7eb9d5f.png&w=828&q=75"
                               decoding="async"
                               data-nimg="fill"
@@ -396,7 +356,7 @@ const ChatConservation = () => {
                               alt="AHABOOKS"
                               class="styles__StyledAvatar-sc-djljgk-1 eizUKP"
                               sizes="100vw"
-                              srcset="https://chat-service.tiki.vn/_next/image?url=https%3A%2F%2Fvcdn.tikicdn.com%2Fts%2Fseller%2F7c%2Fb8%2Fe1%2F357f6a5d18da8daa4e9060a6b7eb9d5f.png&w=828&q=75"
+                              srcSet="https://chat-service.tiki.vn/_next/image?url=https%3A%2F%2Fvcdn.tikicdn.com%2Fts%2Fseller%2F7c%2Fb8%2Fe1%2F357f6a5d18da8daa4e9060a6b7eb9d5f.png&w=828&q=75"
                               src="https://chat-service.tiki.vn/_next/image?url=https%3A%2F%2Fvcdn.tikicdn.com%2Fts%2Fseller%2F7c%2Fb8%2Fe1%2F357f6a5d18da8daa4e9060a6b7eb9d5f.png&w=828&q=75"
                               decoding="async"
                               data-nimg="fill"

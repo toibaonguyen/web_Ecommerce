@@ -1,6 +1,6 @@
 import classNames from "classnames/bind";
 import styles from "./chatbotifram.module.scss";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import ChatServiceLayout from "@/components/Layouts/ChatServiceLayout/ChatServiceLayout";
 const cx = classNames.bind(styles);
 const ChatService = () => {
@@ -19,18 +19,10 @@ const ChatService = () => {
     }
   };
 
-  useEffect(() => {
-    const iframe = document.getElementById("chatgpt-service");
-    console.log("iframe: ");
-    console.log(iframe);
-  }, []);
-
   const handleCloseIframe = () => {
-    // if (iframe) {
-    //   console.log("Hello");
-    //   iframe.style.display = "none";
-    // }
+    window.parent.postMessage("closeIframe", "*");
   };
+
   return (
     <div className={cx("chatbox-wrapper")}>
       <div className={cx("chatbox-container")}>

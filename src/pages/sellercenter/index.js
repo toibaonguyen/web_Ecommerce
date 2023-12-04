@@ -1,10 +1,44 @@
 import classNames from "classnames/bind";
 import styles from "./sellercenter.module.scss";
-import React from "react";
+import React, { useState } from "react";
 import FullContentLayout from "@/components/Layouts/FullContentLayout/FullContentLayout";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 
 const cx = classNames.bind(styles);
 function SellerCenter() {
+  const validationSchema = Yup.object().shape({
+    first_name: Yup.string().required("First Name is required"),
+    last_name: Yup.string().required("Last name is required"),
+    email: Yup.string().required("Email is required").email("Email is invalid"),
+    password: Yup.string().required("password is required"),
+  });
+  const formOptions = { resolver: yupResolver(validationSchema) };
+  // get functions to build form with useForm() hook
+  const { register, handleSubmit, formState } = useForm(formOptions);
+  const { errors } = formState;
+
+  const [email, setEmail] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [password, setPassWord] = useState("");
+  const [repassword, setRepassword] = useState("");
+
+  const handleOnChange = (event, string) => {
+    if (string === "email") {
+      setEmail(event.target.value);
+    } else if (string === "fullname") {
+      setFullName(event.target.value);
+    } else if (string === "phonenumber") {
+      setPhoneNumber(event.target.value);
+    } else if (string === "password") {
+      setPassWord(event.target.value);
+    } else {
+      setRepassword(event.target.value);
+    }
+  };
+
   return (
     <div className={cx("register-wrapper")}>
       <div
@@ -124,7 +158,7 @@ function SellerCenter() {
           >
             <div className={cx("register-form-container")}>
               <h2 className={cx("register-headline")}>Đăng ký ngay</h2>
-              <form id="register">
+              <form id="register" onSubmit={handleSubmit}>
                 <div className={cx("input-area")}>
                   <div className={cx("input-label")}>
                     <div>
@@ -153,13 +187,17 @@ function SellerCenter() {
                   </div>
                   <div className={cx("input-filed")}>
                     <input
-                      autoComplete="new-password"
+                      {...register("email")}
+                      name="email"
                       type="email"
+                      id="email"
+                      htmlFor="email"
                       placeholder="Nhập địa chỉ email"
                       className={cx("input-typing")}
-                      value=""
+                      value={email}
+                      onChange={(e) => handleOnChange(e, "email")}
                     />
-                    {/* <span className="RegisterInput__SuffixStatusIcon-sc-b9zh6a-4 cbmaSl">
+                    <span className="RegisterInput__SuffixStatusIcon-sc-b9zh6a-4 cbmaSl">
                       <span
                         role="img"
                         aria-label="close-circle"
@@ -177,7 +215,10 @@ function SellerCenter() {
                           <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm165.4 618.2l-66-.3L512 563.4l-99.3 118.4-66.1.3c-4.4 0-8-3.5-8-8 0-1.9.7-3.7 1.9-5.2l130.1-155L340.5 359a8.32 8.32 0 01-1.9-5.2c0-4.4 3.6-8 8-8l66.1.3L512 464.6l99.3-118.4 66-.3c4.4 0 8 3.5 8 8 0 1.9-.7 3.7-1.9 5.2L553.5 514l130 155c1.2 1.5 1.9 3.3 1.9 5.2 0 4.4-3.6 8-8 8z"></path>
                         </svg>
                       </span>
-                    </span> */}
+                    </span>
+                    <div className={cx("text-red-500 ml-2 mt-2")}>
+                      {errors.email?.message}
+                    </div>
                   </div>
                 </div>
                 <div className={cx("input-area")}>
@@ -212,7 +253,8 @@ function SellerCenter() {
                       autoComplete="new-password"
                       placeholder="Nhập đầy đủ họ tên"
                       className={cx("input-typing")}
-                      value=""
+                      value={fullName}
+                      onChange={(e) => handleOnChange(e, "fullname")}
                     />
                     {/* <span className="RegisterInput__SuffixStatusIcon-sc-b9zh6a-4 cbmaSl">
                       <span
@@ -245,7 +287,8 @@ function SellerCenter() {
                       type="tel"
                       placeholder="Nhập số điện thoại"
                       className={cx("input-typing")}
-                      value=""
+                      value={phoneNumber}
+                      onChange={(e) => handleOnChange(e, "phonenumber")}
                     />
                   </div>
                 </div>
@@ -291,7 +334,8 @@ function SellerCenter() {
                       type="password"
                       placeholder="Nhập mật khẩu"
                       className={cx("input-typing")}
-                      value=""
+                      value={password}
+                      onChange={(e) => handleOnChange(e, "password")}
                     />
                     <span className="RegisterInput__SuffixIcon-sc-b9zh6a-3 iUrBIW">
                       <span
@@ -324,7 +368,8 @@ function SellerCenter() {
                       autoComplete="new-password"
                       type="password"
                       className={cx("input-typing")}
-                      value=""
+                      value={repassword}
+                      onChange={(e) => handleOnChange(e, "repassword")}
                     />
                     <span className="RegisterInput__SuffixIcon-sc-b9zh6a-3 iUrBIW">
                       <span
@@ -441,6 +486,85 @@ function SellerCenter() {
         </div>
       </section>
     </div>
+
+    // <div className="my-8 mx-8">
+    //   <form onSubmit={handleSubmit()} id="reset">
+    //     <div className="py-1">
+    //       <label className="text-gray-600 font-medium" htmlFor="first_name">
+    //         First Name :
+    //       </label>
+    //       <div className="py-2">
+    //         <input
+    //           {...register("first_name")}
+    //           name="first_name"
+    //           type="text"
+    //           className="text-md px-2 text-gray-500 border w-[40rem] focus:outline-none focus:border-orange-500 rounded py-1"
+    //           id="first_name"
+    //         />
+    //         <div className="text-red-500 ml-2 mt-2">
+    //           {errors.first_name?.message}
+    //         </div>
+    //       </div>
+    //     </div>
+    //     <div className="py-1">
+    //       <label className="text-gray-600 font-medium" htmlFor="last_name">
+    //         Last Name :
+    //       </label>
+    //       <div className="py-2">
+    //         <input
+    //           {...register("last_name")}
+    //           name="last_name"
+    //           type="text"
+    //           id="last_name"
+    //           className="text-md px-2 text-gray-500 border w-[40rem] focus:outline-none focus:border-orange-500 rounded py-1"
+    //         />
+    //         <div className="text-red-500 ml-2 mt-2">
+    //           {errors.last_name?.message}
+    //         </div>
+    //       </div>
+    //     </div>
+    //     <div className="py-1">
+    //       <label className="text-gray-600 font-medium" htmlFor="email">
+    //         Email :
+    //       </label>
+    //       <div className="py-2">
+    //         <input
+    //           {...register("email")}
+    //           name="email"
+    //           type="text"
+    //           id="email"
+    //           className="text-md  px-2 text-gray-500 border w-[40rem] focus:outline-none focus:border-orange-500 rounded py-1"
+    //         />
+    //         <div className="text-red-500 ml-2 mt-2">
+    //           {errors.email?.message}
+    //         </div>
+    //       </div>
+    //     </div>
+    //     <div className="py-1">
+    //       <label className="text-gray-600 font-medium" htmlFor="password">
+    //         Password :
+    //       </label>
+    //       <div className="py-2">
+    //         <input
+    //           {...register("password")}
+    //           name="password"
+    //           type="password"
+    //           id="password"
+    //           className="text-md px-2 text-gray-500 border w-[40rem] focus:outline-none focus:border-orange-500 rounded py-1"
+    //         />
+    //         <div className="text-red-500 ml-2 mt-2">
+    //           {errors.password?.message}
+    //         </div>
+    //       </div>
+    //     </div>
+    //     <button
+    //       type="submit"
+    //       className="border focus:border-1  focus:outline-none focus:border-green-600 px-5 py-1.5 rounded bg-green-500 text-white font-bold hover:bg-green-600"
+    //     >
+    //       submit
+    //     </button>
+    //   </form>
+    // </div>
   );
 }
 
