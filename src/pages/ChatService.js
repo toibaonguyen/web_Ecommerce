@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-import styles from "./chatbotifram.module.scss";
+import styles from "./chatbotiframe.module.scss";
 import { useState } from "react";
 import ChatServiceLayout from "@/components/Layouts/ChatServiceLayout/ChatServiceLayout";
 const cx = classNames.bind(styles);

@@ -1,7 +1,7 @@
 import React from "react";
 function RatingStarsCourses() {
   return (
-    <div className="rating-stars">
+    <div className="rating-stars" style={{display: 'flex'}}>
       <svg
         className="starts-rate-coures"
         width="800"

@@ -65,7 +65,7 @@ export default function HomePage() {
     }
   };
 
-  console.log(mapStateToProps.productsArr);
+  // console.log(mapStateToProps.productsArr);
 
   return (
     <div className={cx("homepage-wrapper")}>
