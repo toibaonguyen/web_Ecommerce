@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import classNames from "classnames/bind";
 import styles from "./product.module.scss";
 import ProductLayout from "@/components/Layouts/ProductLayout";
@@ -7,117 +7,138 @@ import Widget from "@/components/product/Widget";
 import RatingStarsCourses from "@/components/SVGImg/RatingStarsCoures";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
+import { renderProsById } from "@/redux/slice/productReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/router";
 const cx = classNames.bind(styles);
 
 //cần chỉnh lại ở đây
-export async function getServerSideProps() {
-  const productdetaillist = [
-    {
-      productId: "idkwtd",
-      productName:
-        "Điện Thoại Samsung Galaxy Z Flip 4 - Hàng Chính Hãnggggggggggggggggggg",
-      sold: 100,
-      typeRoute: ["Điện Thoại - Máy Tính Bảng", "Điện thoại Smartphone"],
-      productPrice: 2900000,
-      discount: 25,
-      images: [
-        "https://product.hstatic.net/1000284478/product/0000_black_m9160c_1_da1c1e61bbf44183940afe225b3f5f75_large.jpg",
-        "https://product.hstatic.net/1000284478/product/0000_black_m9160c_1_da1c1e61bbf44183940afe225b3f5f75_large.jpg",
-        "https://product.hstatic.net/1000284478/product/0000_black_m9160c_1_da1c1e61bbf44183940afe225b3f5f75_large.jpg",
-        "https://product.hstatic.net/1000284478/product/0000_black_m9160c_1_da1c1e61bbf44183940afe225b3f5f75_large.jpg",
-      ],
-      description:
-        "Màu sắc: Black\nChất liệu: Vải canvas. Đế: Cao su\nKiểu dáng giày cổ cao đặc trưng với form ôm sát cổ chân\nDây thắt mảnh đơn giản\nLogo thương hiệu in nổi bật ở má ngoài\nHai khoen tròn nhỏ ở bên hông giúp chân thông thoáng\nPhối đường viền foxing đen nổi bật ở đế\nĐế cao su bền chắc, có độ bám và ma sát cao\nGam màu hiện đại, dễ dàng phối với nhiều trang phục và phụ kiện\nXuất xứ thương hiệu: Mỹ",
-      details: {
-        "Thương hiệu": "Samsung",
-        "Chip set": "Snapdragon 8+ Gen 1 8 nhân",
-        "Chức năng khác ":
-          "AI Camera Ban đêm (Night Mode); Chống rung quang học (OIS); Góc siêu rộng (Ultrawide); Zoom kỹ thuật số",
-        "Tốc độ CPU": "1 nhân 3.18 GHz, 3 nhân 2.7 GHz & 4 nhân 2 GHz",
-      },
+// export async function getServerSideProps() {
+//   const productdetaillist = [
+//     {
+//       productId: "idkwtd",
+//       productName:
+//         "Điện Thoại Samsung Galaxy Z Flip 4 - Hàng Chính Hãnggggggggggggggggggg",
+//       sold: 100,
+//       typeRoute: ["Điện Thoại - Máy Tính Bảng", "Điện thoại Smartphone"],
+//       productPrice: 2900000,
+//       discount: 25,
+//       images: [
+//         "https://product.hstatic.net/1000284478/product/0000_black_m9160c_1_da1c1e61bbf44183940afe225b3f5f75_large.jpg",
+//         "https://product.hstatic.net/1000284478/product/0000_black_m9160c_1_da1c1e61bbf44183940afe225b3f5f75_large.jpg",
+//         "https://product.hstatic.net/1000284478/product/0000_black_m9160c_1_da1c1e61bbf44183940afe225b3f5f75_large.jpg",
+//         "https://product.hstatic.net/1000284478/product/0000_black_m9160c_1_da1c1e61bbf44183940afe225b3f5f75_large.jpg",
+//       ],
+//       description:
+//         "Màu sắc: Black\nChất liệu: Vải canvas. Đế: Cao su\nKiểu dáng giày cổ cao đặc trưng với form ôm sát cổ chân\nDây thắt mảnh đơn giản\nLogo thương hiệu in nổi bật ở má ngoài\nHai khoen tròn nhỏ ở bên hông giúp chân thông thoáng\nPhối đường viền foxing đen nổi bật ở đế\nĐế cao su bền chắc, có độ bám và ma sát cao\nGam màu hiện đại, dễ dàng phối với nhiều trang phục và phụ kiện\nXuất xứ thương hiệu: Mỹ",
+//       details: {
+//         "Thương hiệu": "Samsung",
+//         "Chip set": "Snapdragon 8+ Gen 1 8 nhân",
+//         "Chức năng khác ":
+//           "AI Camera Ban đêm (Night Mode); Chống rung quang học (OIS); Góc siêu rộng (Ultrawide); Zoom kỹ thuật số",
+//         "Tốc độ CPU": "1 nhân 3.18 GHz, 3 nhân 2.7 GHz & 4 nhân 2 GHz",
+//       },
 
-      status: "SELLING",
-      avrRating: 2.5,
-      reviews: [
-        {
-          customer: {
-            name: "musashi miyamoto",
-          },
-          rating: 4,
-          comment: "smartphone này xịn vc",
-          reviewDate: "2023-10-01T04:18:57.584Z",
-        },
-        {
-          customer: {
-            name: "sasaki kojiro",
-          },
-          rating: 1,
-          comment: "smartphone này lỏd vl",
-          reviewDate: "2023-11-01T04:18:57.584Z",
-        },
-      ],
-      createAt: "2020-10-01T04:18:57.584Z",
-      options: {
-        "Màu sắc": [
-          "Hồng Champagne",
-          "Tím Bora",
-          "Xanh Lovebird",
-          " Xám Graphite",
-        ],
-        "Dung lượng": ["8GB l 256GB", "8GB-128GB"],
-      },
-      similarProducts: [
-        {
-          productId: "asfasfas",
-          productName: "Điện Thoại Samsung Galaxy Z Flip 4 - Hàng Chính Hãng",
-          productImage:
-            "https://product.hstatic.net/1000284478/product/0000_black_m9160c_1_da1c1e61bbf44183940afe225b3f5f75_large.jpg",
-          avrRating: 4.9,
-          productPrice: 2900000,
-          discount: 20,
-        },
-        {
-          productId: "12asfasfasf",
-          productName: "Điện Thoại Samsung Galaxy Z Flip 7 - Hàng Chính Hãng",
-          productImage:
-            "https://product.hstatic.net/1000284478/product/0000_black_m9160c_1_da1c1e61bbf44183940afe225b3f5f75_large.jpg",
-          avrRating: 3.0,
-          productPrice: 5900000,
-          discount: null,
-        },
-        {
-          productId: "kmsdkgms",
-          productName: "Điện Thoại Samsung Galaxy Z Flip 7 - Hàng Chính Hãng",
-          productImage:
-            "https://product.hstatic.net/1000284478/product/0000_black_m9160c_1_da1c1e61bbf44183940afe225b3f5f75_large.jpg",
-          avrRating: 3.0,
-          productPrice: 5900000,
-          discount: null,
-        },
-        {
-          productId: "sdgawg",
-          productName: "Điện Thoại Samsung Galaxy Z Flip 7 - Hàng Chính Hãng",
-          productImage:
-            "https://product.hstatic.net/1000284478/product/0000_black_m9160c_1_da1c1e61bbf44183940afe225b3f5f75_large.jpg",
-          avrRating: 3.0,
-          productPrice: 5900000,
-          discount: null,
-        },
-      ],
-      Business: {
-        name: "SamCenter",
-        id: "lkaljalksfa",
-        avatar:
-          "https://vcdn.tikicdn.com/cache/w100/ts/seller/21/ce/5c/b52d0b8576680dc3666474ae31b091ec.jpg",
-      },
-    },
-  ];
-  const repo = productdetaillist[0];
+//       status: "SELLING",
+//       avrRating: 2.5,
+//       reviews: [
+//         {
+//           customer: {
+//             name: "musashi miyamoto",
+//           },
+//           rating: 4,
+//           comment: "smartphone này xịn vc",
+//           reviewDate: "2023-10-01T04:18:57.584Z",
+//         },
+//         {
+//           customer: {
+//             name: "sasaki kojiro",
+//           },
+//           rating: 1,
+//           comment: "smartphone này lỏd vl",
+//           reviewDate: "2023-11-01T04:18:57.584Z",
+//         },
+//       ],
+//       createAt: "2020-10-01T04:18:57.584Z",
+//       options: {
+//         "Màu sắc": [
+//           "Hồng Champagne",
+//           "Tím Bora",
+//           "Xanh Lovebird",
+//           " Xám Graphite",
+//         ],
+//         "Dung lượng": ["8GB l 256GB", "8GB-128GB"],
+//       },
+//       similarProducts: [
+//         {
+//           productId: "asfasfas",
+//           productName: "Điện Thoại Samsung Galaxy Z Flip 4 - Hàng Chính Hãng",
+//           productImage:
+//             "https://product.hstatic.net/1000284478/product/0000_black_m9160c_1_da1c1e61bbf44183940afe225b3f5f75_large.jpg",
+//           avrRating: 4.9,
+//           productPrice: 2900000,
+//           discount: 20,
+//         },
+//         {
+//           productId: "12asfasfasf",
+//           productName: "Điện Thoại Samsung Galaxy Z Flip 7 - Hàng Chính Hãng",
+//           productImage:
+//             "https://product.hstatic.net/1000284478/product/0000_black_m9160c_1_da1c1e61bbf44183940afe225b3f5f75_large.jpg",
+//           avrRating: 3.0,
+//           productPrice: 5900000,
+//           discount: null,
+//         },
+//         {
+//           productId: "kmsdkgms",
+//           productName: "Điện Thoại Samsung Galaxy Z Flip 7 - Hàng Chính Hãng",
+//           productImage:
+//             "https://product.hstatic.net/1000284478/product/0000_black_m9160c_1_da1c1e61bbf44183940afe225b3f5f75_large.jpg",
+//           avrRating: 3.0,
+//           productPrice: 5900000,
+//           discount: null,
+//         },
+//         {
+//           productId: "sdgawg",
+//           productName: "Điện Thoại Samsung Galaxy Z Flip 7 - Hàng Chính Hãng",
+//           productImage:
+//             "https://product.hstatic.net/1000284478/product/0000_black_m9160c_1_da1c1e61bbf44183940afe225b3f5f75_large.jpg",
+//           avrRating: 3.0,
+//           productPrice: 5900000,
+//           discount: null,
+//         },
+//       ],
+//       Business: {
+//         name: "SamCenter",
+//         id: "lkaljalksfa",
+//         avatar:
+//           "https://vcdn.tikicdn.com/cache/w100/ts/seller/21/ce/5c/b52d0b8576680dc3666474ae31b091ec.jpg",
+//       },
+//     },
+//   ];
+//   const repo = productdetaillist[0];
 
-  return { props: { repo: repo } };
-}
+//   return { props: { repo: repo } };
+// }
 
-export default function ProductPage({ repo }) {
+export default function ProductPage() {
+  const router = useRouter();
+  const productId = router.query.productId;
+  const mapStateToProps = useSelector((state) => {
+    return {
+      proDetail: state.product.proDetail,
+    };
+  });
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    try {
+      dispatch(renderProsById(productId));
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+  console.log(mapStateToProps.proDetail);
+
   const settings = {
     dots: false,
     infinite: false,
@@ -125,8 +146,11 @@ export default function ProductPage({ repo }) {
     slidesToShow: 6,
     slidestoscroll: 1,
   };
-  const optionsEntries = Object.entries(repo.options);
-  const detailsEntries = Object.entries(repo.details);
+  // const optionsEntries = Object.entries(repo.options);
+  // const detailsEntries = Object.entries(repo.details);
+  const currencyFormat = (num) => {
+    return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + " ₫";
+  };
   return (
     // <div className={cx("product-wrapper")}>
     <div className={cx("container")}>
@@ -135,15 +159,18 @@ export default function ProductPage({ repo }) {
           <span>Trang chủ &nbsp;</span>
         </Link>
         <path> &gt;</path>
-        {repo.typeRoute.map((item) => (
-          <>
+        {/* {.typeRoute.map((item) => (
+          <repo>
             <Link href={"/" + item} color="#38383d">
               <span>&nbsp;{item}&nbsp;</span>
             </Link>
             <path> &gt;</path>
-          </>
-        ))}
-        <p>&nbsp;{repo.productName} </p>
+          </repo>
+        ))} */}
+        <p>
+          &nbsp;{" "}
+          {mapStateToProps.proDetail && mapStateToProps.proDetail.productName}{" "}
+        </p>
       </div>
       <div className={cx("info-container")}>
         <div className={cx("info-container-left-body")}>
@@ -152,11 +179,12 @@ export default function ProductPage({ repo }) {
               <div className={cx("review-images")}>
                 <Widget>
                   <Carousel>
-                    {repo.images.map((item) => (
-                      <div id={item.productId}>
-                        <img src={item} />
-                      </div>
-                    ))}
+                    {mapStateToProps.proDetail.productListImage &&
+                      mapStateToProps.proDetail.productListImage.map((item) => (
+                        <div id={item.productId}>
+                          <img src={item} />
+                        </div>
+                      ))}
                   </Carousel>
                 </Widget>
               </div>
@@ -165,16 +193,29 @@ export default function ProductPage({ repo }) {
               <Widget>
                 <div className={cx("brand-author")}></div>
 
-                <h1 className={cx("titledstyled")}>{repo.productName}</h1>
+                <h1 className={cx("titledstyled")}>
+                  {mapStateToProps.proDetail &&
+                    mapStateToProps.proDetail.productName}
+                </h1>
                 <div className={cx("ratingstyled")}>
-                  <div>{repo.avrRating}</div>
+                  <div>
+                    {mapStateToProps.proDetail.rating &&
+                      mapStateToProps.proDetail.rating}
+                  </div>
                   <RatingStarsCourses />
-                  <div>({repo.reviews.length})</div>
-                  <div>| đã bán {repo.sold}</div>
+                  {/* <div>({repo.reviews.length})</div> */}
+                  <div>
+                    | đã bán{" "}
+                    {mapStateToProps.proDetail.sold &&
+                      mapStateToProps.proDetail.sold}
+                  </div>
                 </div>
                 <div className={cx("product-price")}>
                   <div className={cx("current-price")}>
-                    {repo.productPrice}
+                    {mapStateToProps.proDetail.productSalePrice &&
+                      currencyFormat(
+                        mapStateToProps.proDetail.productSalePrice
+                      )}
                     <sup
                       style={{
                         color: "#27272a",
@@ -187,31 +228,28 @@ export default function ProductPage({ repo }) {
                       đ
                     </sup>
                   </div>
-                  {repo.discount && (
-                    <div className={cx("discount-rate")}>-{repo.discount}%</div>
-                  )}
                 </div>
-                {optionsEntries.map(([key, value]) => (
-                  <div
-                    key={key}
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: 12,
-                    }}
-                  >
-                    <p>{key}</p>
+                {mapStateToProps.proDetail.options &&
+                  mapStateToProps.proDetail.options.map((item, index) => (
                     <div
+                      key={index}
                       style={{
-                        color: "#27272a",
                         display: "flex",
-                        flexWrap: "wrap",
-                        fonSize: "14px",
-                        lineHeight: "21px",
-                        gap: "8px 12px",
+                        flexDirection: "column",
+                        gap: 12,
                       }}
                     >
-                      {value.map((item) => (
+                      <p>{item[0]}</p>
+                      <div
+                        style={{
+                          color: "#27272a",
+                          display: "flex",
+                          flexWrap: "wrap",
+                          fonSize: "14px",
+                          lineHeight: "21px",
+                          gap: "8px 12px",
+                        }}
+                      >
                         <div
                           style={{
                             display: "flex",
@@ -228,10 +266,9 @@ export default function ProductPage({ repo }) {
                         >
                           {item}
                         </div>
-                      ))}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
               </Widget>
               <Widget>
                 <div
@@ -284,7 +321,7 @@ export default function ProductPage({ repo }) {
                         height: "100%",
                         display: "block",
                       }}
-                      src={repo.Business.avatar}
+                      // src={repo.Business.avatar}
                     ></img>
                   </a>
                   <div
@@ -302,7 +339,7 @@ export default function ProductPage({ repo }) {
                         lineHeight: "24px",
                       }}
                     >
-                      {repo.Business.name}
+                      {/* {repo.Business.name} */}
                     </span>
                   </div>
                 </div>
@@ -318,7 +355,7 @@ export default function ProductPage({ repo }) {
                   Thông tin chi tiết
                 </div>
                 <div>
-                  {detailsEntries.map(([key, value]) => (
+                  {/* {detailsEntries.map(([key, value]) => (
                     <Widget>
                       <div
                         style={{
@@ -352,7 +389,7 @@ export default function ProductPage({ repo }) {
                         </span>
                       </div>
                     </Widget>
-                  ))}
+                  ))} */}
                 </div>
               </Widget>
               <Widget>
@@ -362,9 +399,12 @@ export default function ProductPage({ repo }) {
                     fontWeight: 600,
                     lineHeight: "24px",
                   }}
-                >Mô tả sản phẩm</div>
+                >
+                  Mô tả sản phẩm
+                </div>
                 <div>
-                  {repo.description}
+                  {mapStateToProps.proDetail.description &&
+                    mapStateToProps.proDetail.description}
                 </div>
               </Widget>
             </div>
