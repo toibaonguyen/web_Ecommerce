@@ -1,14 +1,37 @@
 import classNames from "classnames/bind";
 import styles from "./Section.module.scss";
 import React from "react";
-import { useState } from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import RatingStarsCourses from "@/components/SVGImg/RatingStarsCoures";
+import { useSelector, useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
+import { renderProducts } from "@/redux/slice/productReducer";
 
 const cx = classNames.bind(styles);
 function SellingProducts() {
+  const dispatch = useDispatch();
+
+  const mapStateToProps = useSelector((state) => {
+    return {
+      productsArr: state.product.productsArr,
+    };
+  });
+
+  const componentDidMount = async () => {
+    try {
+      dispatch(renderProducts());
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    componentDidMount();
+    return () => componentDidMount();
+  }, []);
+  console.log(mapStateToProps.productsArr);
   let settings = {
     dots: false,
     infinite: false,

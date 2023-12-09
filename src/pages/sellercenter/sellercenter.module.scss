@@ -271,91 +271,347 @@
 }
 
 .new-wrapper {
-  background: #f0f2f5;
-  text-align: center;
-  font-size: 0;
-  // background-image:
-  background: none;
-  display: grid;
-  min-height: 100%;
-  min-width: 1024px;
-  width: 100%;
-  height: auto;
-  position: fixed;
-  top: 0;
-  left: 0;
-  .welcomepage-container {
-    row-gap: 0px;
-    position: relative;
-    padding: 32px 50px 50px;
-    max-height: 100vh;
-    overflow: auto;
-    -webkit-box-pack: center;
-    justify-content: center;
+  .store-content {
     display: flex;
-    flex-flow: row wrap;
-    .welcomepage-decor {
-      position: absolute;
-      top: 0px;
-      left: 0px;
-      width: 100%;
-      height: 0px;
-      background: rgb(250, 250, 250);
-      z-index: -1;
-    }
-    .store-infor {
-      margin-bottom: 40px;
-      display: flex;
-      justify-content: center;
-      margin-bottom: 65px;
-      .store-content {
-        max-width: 1000px;
-        form {
+    .store-sidebar {
+      border: 1px solid green;
+      width: 16.5%;
+      background: #001529;
+      min-height: 100vh;
+      box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
+      position: relative;
+      z-index: 2;
+      overflow: auto;
+      .sidebar-content {
+        height: 100%;
+        margin-top: -0.1px;
+        padding-top: 0.1px;
+        .logo {
+          height: 64px;
+          position: relative;
+          line-height: 64px;
+          padding-left: 24px;
+          transition: all 0.3s;
+          background: #002140;
+          overflow: hidden;
+          a {
+            color: #1890ff;
+            text-decoration: none;
+            background-color: initial;
+            outline: none;
+            cursor: pointer;
+            transition: color 0.3s;
+            img {
+              display: inline-block;
+              vertical-align: middle;
+              height: 32px;
+            }
+            h1 {
+              color: #fff;
+              display: inline-block;
+              vertical-align: middle;
+              font-size: 20px;
+              margin: 0 0 0 12px;
+              font-family: Myriad Pro, Helvetica Neue, Arial, Helvetica,
+                sans-serif;
+              font-weight: 600;
+            }
+          }
+        }
+        .menu {
+          padding-bottom: 160px;
+          width: 100%;
+          overflow-x: hidden;
+          border-right: 0;
+          color: hsla(0, 0%, 100%, 0.65);
+          background: #001529;
+          box-shadow: none;
           box-sizing: border-box;
-          margin: 0;
-          padding: 0;
-          color: rgba(0, 0, 0, 0.85);
-          font-size: 14px;
           font-variant: tabular-nums;
           line-height: 1.5715;
-          list-style: none;
           font-feature-settings: "tnum";
-          .business-store-infor {
+          margin: 0;
+          padding: 0;
+          font-size: 14px;
+          text-align: left;
+          list-style: none;
+          outline: none;
+          li {
+            padding-left: 16px;
+            width: 100%;
             display: flex;
-            flex-direction: column;
-            margin-bottom: 24px;
-          }
-          .name-infor {
-            text-align: center;
-            .ant-row {
-              margin-left: -8px;
-              margin-right: -8px;
-              row-gap: 24px;
+            align-items: center;
+            color: hsla(0, 0%, 100%, 0.65);
+            height: 40px;
+            line-height: 40px;
+            margin-top: 4px;
+            padding: 0 16px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            position: relative;
+            cursor: pointer;
+            white-space: nowrap;
+            .ant-menu-title-content {
+              flex: auto;
+              min-width: 0;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              color: hsla(0, 0%, 100%, 0.65);
+              line-height: 40px;
+              white-space: nowrap;
+              cursor: pointer;
               display: flex;
-              flex-flow: row wrap;
+              align-items: center;
+              a {
+                color: hsla(0, 0%, 100%, 0.65);
+                text-decoration: none;
+                background-color: initial;
+                outline: none;
+                cursor: pointer;
+                transition: color 0.3s;
+                line-height: 40px;
+                white-space: nowrap;
+                font-feature-settings: "tnum";
+                font-size: 14px;
+                list-style: none;
+                display: flex;
+                align-items: center;
+              }
+              .anticon {
+                min-width: 14px;
+                font-size: 14px;
+                transition: font-size 0.15s cubic-bezier(0.215, 0.61, 0.355, 1),
+                  margin 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), color 0.3s;
+                display: inline-block;
+                color: inherit;
+                font-style: normal;
+                line-height: 0;
+                text-align: center;
+                text-transform: none;
+                vertical-align: -0.125em;
+                text-rendering: optimizeLegibility;
+                svg {
+                  display: inline-block;
+                }
+              }
+              .menu-title {
+                margin-left: 10px;
+                opacity: 1;
+                transition: opacity 0.3s cubic-bezier(0.645, 0.045, 0.355, 1),
+                  margin 0.3s, color 0.3s;
+              }
             }
           }
         }
       }
     }
-    .action-container {
-      font-size: 14px;
-      left: 0px;
-      transition: transform 200ms ease-in-out 0s;
-      position: fixed;
-      bottom: 0px;
-      background-color: rgb(255, 255, 255);
-      border-top: 1px solid rgb(232, 232, 232);
-      z-index: 500;
-      display: flex;
-      padding: 16px 15px 32px;
-      -webkit-box-align: center;
-      align-items: center;
-      -webkit-box-pack: center;
-      justify-content: center;
-      width: 100vw;
-      transform: translateX(0px);
-      min-height: 65px !important;
+    .main-content {
+      border: 1px solid red;
+      flex: 1;
+      .ant-layout-header {
+        padding: 0;
+        height: 64px;
+        color: rgba(0, 0, 0, 0.85);
+        line-height: 64px;
+        background: #001529;
+        .header {
+          height: 64px;
+          padding: 0;
+          background: #fff;
+          box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+          position: relative;
+          .right {
+            display: flex;
+            align-items: center;
+            float: right;
+            height: 100%;
+            overflow: hidden;
+            .tikiChatPlatform {
+              display: inline-block;
+              vertical-align: middle;
+              .tiki-chat-mini {
+                width: 32px;
+                height: 32px;
+                top: auto;
+                user-select: none;
+                cursor: pointer;
+                user-select: none;
+                cursor: pointer;
+                z-index: 1;
+                margin: 0 6px;
+                border: 1px solid #d9d9d9;
+                border-radius: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: relative;
+                svg {
+                  display: inline-block;
+                }
+                .ant-badge-count {
+                  background: #ffc400;
+                  color: #38383d;
+                  font-weight: 600;
+                  top: 5px;
+                  right: 5px;
+                  overflow: hidden;
+                  position: absolute;
+                  z-index: auto;
+                  min-width: 20px;
+                  height: 20px;
+                  padding: 0 6px;
+                  color: #fff;
+                  font-weight: 400;
+                  font-size: 12px;
+                  line-height: 20px;
+                  white-space: nowrap;
+                  text-align: center;
+                  background: #ff4d4f;
+                  border-radius: 10px;
+                  box-shadow: 0 0 0 1px #fff;
+                  transform: translate(50%, -50%);
+                  transform-origin: 100% 0;
+                }
+              }
+            }
+            .noticeButton {
+              vertical-align: middle;
+              cursor: pointer;
+              padding: 0 8px;
+              display: inline-block;
+              transition: all 0.3s;
+              height: 100%;
+              .ant-badge {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+                color: rgba(0, 0, 0, 0.85);
+                font-size: 14px;
+                font-variant: tabular-nums;
+                list-style: none;
+                font-feature-settings: "tnum";
+                position: relative;
+                display: inline-block;
+                line-height: 1;
+                .icon-btn {
+                  min-width: 32px;
+                  padding-right: 0;
+                  padding-left: 0;
+                  text-align: center;
+                  border-radius: 50%;
+                  width: 32px;
+                  height: 32px;
+                  padding: 2.4px 0;
+                  font-size: 16px;
+                  line-height: 1.5715;
+                  position: relative;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  font-weight: 400;
+                  white-space: nowrap;
+                  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.015);
+                  cursor: pointer;
+                  user-select: none;
+                  touch-action: manipulation;
+                  color: rgba(0, 0, 0, 0.85);
+                  border: 1px solid #d9d9d9;
+                  background: #fff;
+                  outline: 0;
+                  vertical-align: -3px;
+                }
+                .ant-badge-count {
+                  background: #ffc400;
+                  color: #38383d;
+                  font-weight: 600;
+                  top: 5px;
+                  right: 5px;
+                  overflow: hidden;
+                  position: absolute;
+                  z-index: auto;
+                  min-width: 20px;
+                  height: 20px;
+                  padding: 0 6px;
+                  color: #fff;
+                  font-weight: 400;
+                  font-size: 12px;
+                  line-height: 20px;
+                  white-space: nowrap;
+                  text-align: center;
+                  background: #ff4d4f;
+                  border-radius: 10px;
+                  box-shadow: 0 0 0 1px #fff;
+                  transform: translate(50%, -50%);
+                  transform-origin: 100% 0;
+                }
+              }
+            }
+            .ant-dropdown-trigger {
+              vertical-align: middle;
+              cursor: pointer;
+              padding: 0 8px;
+              display: inline-block;
+              transition: all 0.3s;
+              height: 100%;
+              .action-wrapper {
+                display: flex;
+                align-items: center;
+                height: 100%;
+
+                .account-wrapper {
+                  height: 32px;
+                  border: 1px solid #d9d9d9;
+                  border-radius: 16px;
+                  padding: 4px;
+                  transition: all 0.3s;
+                  display: flex;
+                  align-items: center;
+                  flex-wrap: nowrap;
+                  .ant-avatar {
+                    width: 24px;
+                    height: 24px;
+                    color: #1890ff;
+                    background: hsla(0, 0%, 100%, 0.85);
+                    img {
+                      display: block;
+                      width: 100%;
+                      height: 100%;
+                      object-fit: cover;
+                      border-style: none;
+                      border-radius: 50px;
+                    }
+                  }
+                  .name {
+                    padding-left: 6px;
+                    display: inline-block;
+                    width: 100px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    text-align: center;
+                  }
+                  .anticon-down {
+                    margin-right: 6px;
+                    margin-left: 10px;
+                    display: inline-block;
+                    color: inherit;
+                    font-style: normal;
+                    line-height: 0;
+                    text-align: center;
+                    text-transform: none;
+                    vertical-align: -0.125em;
+                    text-rendering: optimizeLegibility;
+                    svg {
+                      width: 11px;
+                      overflow: hidden;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
