@@ -5,7 +5,6 @@ import InterestedProducts from "@/container/Section/InterestedProducts";
 import Banner from "@/container/Section/Banner";
 import SellingProducts from "@/container/Section/SellingProducts";
 import MayLikeProducts from "@/container/Section/MayLikeProducts";
-import StandoutProducts from "@/container/Section/StandoutBrands";
 import HomePageLayout from "@/components/Layouts/HomePageLayout.js";
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
@@ -132,11 +131,6 @@ export default function HomePage() {
           <section className={cx("may-like-products")}>
             <h3 className={cx("section-heading")}>Bạn có thể thích</h3>
             <MayLikeProducts />
-          </section>
-
-          <section className={cx("standout-brands")}>
-            <h3 className={cx("section-heading")}>Thương hiệu nổi bật</h3>
-            <StandoutProducts />
           </section>
           <div className={cx("moreBtn")}>Xem Thêm</div>
         </div>
