@@ -25,7 +25,7 @@ export default function Signup(){
   }
 
     return(
-        <form className="mt-8 space-y-6 mx-auto mb-20 w-[840px] text-white" onSubmit={handleSubmit}>
+        <form className="mt-8 space-y-6 mx-auto mb-20  text-white" onSubmit={handleSubmit}>
         <div className="">
         {
                 fields.map(field=>

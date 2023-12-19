@@ -26,7 +26,7 @@ export default function Login(){
     }
 
     return(
-        <form className="mt-8 space-y-6 mx-auto mb-20 w-[840px] text-white pl-{20px} pr-{20px}" onSubmit={handleSubmit}>
+        <form className="mt-8 space-y-6 mx-auto mb-20  text-white pl-{20px} pr-{20px}" onSubmit={handleSubmit}>
         <div className="-space-y-px">
             {
                 fields.map(field=>
@@ -53,3 +53,4 @@ export default function Login(){
       </form>
     )
 }
+Login.getLayout = (page) => <FullContentLayout>{page}</FullContentLayout>;

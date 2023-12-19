@@ -1,0 +1,32 @@
+.main-container{
+   display:flex;    
+   width: 100vw;
+   height:100vh;
+   .image-styled{
+        display: flex;
+        flex-direction: column;
+        width: 70vw;
+        height:100vh;
+        background-image: url("https://salt.tikicdn.com/ts/brickv2og/1f/f5/99/33b2eca14193975e80510590aff8e0e3.png");
+        background-size:cover;
+        background-repeat: no-repeat;
+        background-position:center;
+   }
+   .form-container{
+     margin: 167px 0px 0px;
+     flex-basis: 520px;
+     height: auto;
+     position: relative;
+     align-self: self-start;
+     // display: flex;
+     .form-loginsignup{
+     //     flex-flow:column;
+         padding:40px;
+         position: relative;
+         width: 650px;
+         background: #fff;
+         text-align: left;
+     }
+
+   }
+}
