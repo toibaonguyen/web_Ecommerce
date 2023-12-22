@@ -464,16 +464,16 @@ export default function CategoryLayout() {
               <h4 className={cx('h4-title')}>Giá</h4>
               <div className={cx('fast-price-filter')}>
                 <div className={cx('item')}>
-                  <span class="">Dưới 60.000</span>
+                  <span className="">Dưới 60.000</span>
                 </div>
                 <div className={cx('item')}>
-                  <span class="">60.000 -&gt; 160.000</span>
+                  <span className="">60.000 -&gt; 160.000</span>
                 </div>
                 <div className={cx('item')}>
-                  <span class="">160.000 -&gt; 400.000</span>
+                  <span className="">160.000 -&gt; 400.000</span>
                 </div>
                 <div className={cx('item')}>
-                  <span class="">Trên 400.000</span>
+                  <span className="">Trên 400.000</span>
                 </div>
               </div>
               <div className={cx('price-small-text')}>Chọn khoảng giá</div>
@@ -533,7 +533,7 @@ export default function CategoryLayout() {
                 <svg
                   stroke="currentColor"
                   fill="currentColor"
-                  stroke-width="0"
+                  strokeWidth="0"
                   viewBox="0 0 512 512"
                   color="#0B74E5"
                   height="1em"
@@ -594,7 +594,7 @@ export default function CategoryLayout() {
                 <svg
                   stroke="currentColor"
                   fill="currentColor"
-                  stroke-width="0"
+                  strokeWidth="0"
                   viewBox="0 0 512 512"
                   color="#0B74E5"
                   height="1em"
@@ -655,7 +655,7 @@ export default function CategoryLayout() {
                 <svg
                   stroke="currentColor"
                   fill="currentColor"
-                  stroke-width="0"
+                  strokeWidth="0"
                   viewBox="0 0 512 512"
                   color="#0B74E5"
                   height="1em"
@@ -716,7 +716,7 @@ export default function CategoryLayout() {
                 <svg
                   stroke="currentColor"
                   fill="currentColor"
-                  stroke-width="0"
+                  strokeWidth="0"
                   viewBox="0 0 512 512"
                   color="#0B74E5"
                   height="1em"
@@ -769,7 +769,7 @@ export default function CategoryLayout() {
                 <svg
                   stroke="currentColor"
                   fill="currentColor"
-                  stroke-width="0"
+                  strokeWidth="0"
                   viewBox="0 0 512 512"
                   color="#0B74E5"
                   height="1em"
@@ -796,7 +796,7 @@ export default function CategoryLayout() {
                           data-view-id="search_sort_item"
                           data-view-index="0"
                           data-view-content='{"click_data":{"trace_id":"Rbf2nEvz4VoweLhK"}}'
-                          class=""
+                          className=""
                           rel="nofollow"
                           // href="/do-choi-me-be/c2549?sort=default"
                         >
@@ -806,7 +806,7 @@ export default function CategoryLayout() {
                           data-view-id="search_sort_item"
                           data-view-index="1"
                           data-view-content='{"click_data":{"trace_id":"Rbf2nEvz4VoweLhK"}}'
-                          class=""
+                          className=""
                           rel="nofollow"
                           // href="/do-choi-me-be/c2549?sort=top_seller"
                         >
@@ -816,7 +816,7 @@ export default function CategoryLayout() {
                           data-view-id="search_sort_item"
                           data-view-index="2"
                           data-view-content='{"click_data":{"trace_id":"Rbf2nEvz4VoweLhK"}}'
-                          class=""
+                          className=""
                           rel="nofollow"
                           // href="/do-choi-me-be/c2549?sort=newest"
                         >
@@ -826,7 +826,7 @@ export default function CategoryLayout() {
                           data-view-id="search_sort_item"
                           data-view-index="3"
                           data-view-content='{"click_data":{"trace_id":"Rbf2nEvz4VoweLhK"}}'
-                          class=""
+                          className=""
                           rel="nofollow"
                           // href="/do-choi-me-be/c2549?sort=price,asc"
                         >
@@ -836,7 +836,7 @@ export default function CategoryLayout() {
                           data-view-id="search_sort_item"
                           data-view-index="4"
                           data-view-content='{"click_data":{"trace_id":"Rbf2nEvz4VoweLhK"}}'
-                          class=""
+                          className=""
                           rel="nofollow"
                           // href="/do-choi-me-be/c2549?sort=price,desc"
                         >

@@ -100,7 +100,7 @@ function Success() {
                           <div className={cx("item-container")}>
                             <div className={cx("item-icon")}>
                               <img
-                                src={item.productImg}
+                                src={item.productImage}
                                 alt="icon"
                                 width="48"
                                 height="48"

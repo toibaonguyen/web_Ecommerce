@@ -125,7 +125,7 @@ function Payment() {
                             <div className={cx("package-item")} key={index}>
                               <div className={cx("item-icon")}>
                                 <img
-                                  src={item.productImg}
+                                  src={item.productImage}
                                   alt="icon"
                                   width="48"
                                   height="48"
@@ -143,7 +143,7 @@ function Payment() {
                                 </div>
                                 <div className={cx("item-info__second-line")}>
                                   <div className={cx("item-info__qty")}>
-                                    SL: x{item.productQuantity}
+                                    SL: x{item.quantity}
                                   </div>
                                   <div className={cx("item-info__price")}>
                                     {currencyFormat(item.productSalePrice)}

@@ -69,8 +69,8 @@ const ChatConservation = () => {
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
                       d="M9.26105 10.1449C8.29876 10.9147 7.07813 11.375 5.75 11.375C2.6434 11.375 0.125 8.8566 0.125 5.75C0.125 2.6434 2.6434 0.125 5.75 0.125C8.8566 0.125 11.375 2.6434 11.375 5.75C11.375 7.07813 10.9147 8.29876 10.1449 9.26105L13.6919 12.8081C13.936 13.0521 13.936 13.4479 13.6919 13.6919C13.4479 13.936 13.0521 13.936 12.8081 13.6919L9.26105 10.1449ZM1.375 5.75C1.375 3.33375 3.33375 1.375 5.75 1.375C8.16625 1.375 10.125 3.33375 10.125 5.75C10.125 6.94774 9.64369 8.03306 8.86394 8.82311C8.85687 8.82957 8.84991 8.83622 8.84306 8.84306C8.83622 8.84991 8.82957 8.85687 8.82311 8.86394C8.03306 9.64369 6.94774 10.125 5.75 10.125C3.33375 10.125 1.375 8.16625 1.375 5.75Z"
                       fill="#808089"
                     ></path>
@@ -285,7 +285,7 @@ const ChatConservation = () => {
                           >
                             <img
                               alt="AHABOOKS"
-                              class="styles__StyledAvatar-sc-djljgk-1 eizUKP"
+                              className="styles__StyledAvatar-sc-djljgk-1 eizUKP"
                               sizes="100vw"
                               srcSet="https://chat-service.tiki.vn/_next/image?url=https%3A%2F%2Fvcdn.tikicdn.com%2Fts%2Fseller%2F7c%2Fb8%2Fe1%2F357f6a5d18da8daa4e9060a6b7eb9d5f.png&w=828&q=75"
                               src="https://chat-service.tiki.vn/_next/image?url=https%3A%2F%2Fvcdn.tikicdn.com%2Fts%2Fseller%2F7c%2Fb8%2Fe1%2F357f6a5d18da8daa4e9060a6b7eb9d5f.png&w=828&q=75"
@@ -354,7 +354,7 @@ const ChatConservation = () => {
                           >
                             <img
                               alt="AHABOOKS"
-                              class="styles__StyledAvatar-sc-djljgk-1 eizUKP"
+                              className="styles__StyledAvatar-sc-djljgk-1 eizUKP"
                               sizes="100vw"
                               srcSet="https://chat-service.tiki.vn/_next/image?url=https%3A%2F%2Fvcdn.tikicdn.com%2Fts%2Fseller%2F7c%2Fb8%2Fe1%2F357f6a5d18da8daa4e9060a6b7eb9d5f.png&w=828&q=75"
                               src="https://chat-service.tiki.vn/_next/image?url=https%3A%2F%2Fvcdn.tikicdn.com%2Fts%2Fseller%2F7c%2Fb8%2Fe1%2F357f6a5d18da8daa4e9060a6b7eb9d5f.png&w=828&q=75"
@@ -431,8 +431,8 @@ const ChatConservation = () => {
                     height="18"
                   >
                     <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
                       d="M0.750006 3C0.750006 1.75736 1.75737 0.75 3.00001 0.75H15C16.2426 0.75 17.25 1.75736 17.25 3V15C17.25 16.2426 16.2426 17.25 15 17.25H13.5007C13.5003 17.25 13.4998 17.25 13.4993 17.25H3.00001C1.75737 17.25 0.750006 16.2426 0.750006 15V11.6284C0.749998 11.6263 0.749998 11.6242 0.750006 11.6221V3ZM2.25001 11.959V15C2.25001 15.4142 2.58579 15.75 3.00001 15.75H11.6893L5.22283 9.28348L2.25001 11.959ZM13.8107 15.75L5.78034 7.71967C5.49827 7.43761 5.04478 7.42568 4.74828 7.69253L2.25001 9.94098V3C2.25001 2.58579 2.58579 2.25 3.00001 2.25H15C15.4142 2.25 15.75 2.58579 15.75 3V15C15.75 15.4142 15.4142 15.75 15 15.75H13.8107ZM12 6C11.5858 6 11.25 6.33579 11.25 6.75C11.25 7.16421 11.5858 7.5 12 7.5C12.4142 7.5 12.75 7.16421 12.75 6.75C12.75 6.33579 12.4142 6 12 6ZM9.75001 6.75C9.75001 5.50736 10.7574 4.5 12 4.5C13.2426 4.5 14.25 5.50736 14.25 6.75C14.25 7.99264 13.2426 9 12 9C10.7574 9 9.75001 7.99264 9.75001 6.75Z"
                       fill="#0B74E5"
                     ></path>
@@ -446,7 +446,7 @@ const ChatConservation = () => {
                   multiple=""
                   type="file"
                   accept="image/*"
-                  class="styles__StyledMessageInputsFile-sc-vanpsk-2 bAumrE"
+                  className="styles__StyledMessageInputsFile-sc-vanpsk-2 bAumrE"
                 />
               </label>
               <div className={cx("input-message")}>
@@ -463,8 +463,8 @@ const ChatConservation = () => {
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
                       d="M1.01171 0.93071C1.23685 0.73762 1.55463 0.695347 1.82242 0.822865L17.5724 8.32287C17.8336 8.44724 18 8.71073 18 9.00001C18 9.28929 17.8336 9.55278 17.5724 9.67716L1.82242 17.1772C1.55463 17.3047 1.23685 17.2624 1.01171 17.0693C0.786571 16.8762 0.696372 16.5686 0.7816 16.2845L2.96696 9.00001L0.7816 1.71552C0.696372 1.43143 0.786571 1.1238 1.01171 0.93071ZM4.308 9.75001L2.70424 15.0959L13.9305 9.75001H4.308ZM13.9305 8.25001H4.308L2.70424 2.90417L13.9305 8.25001Z"
                       fill="#C4C4CF"
                     ></path>

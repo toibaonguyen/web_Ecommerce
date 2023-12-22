@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getCartProducts } from "@/services/cartService";
+import { getAddressById } from "@/services/userService";
 
-export const renderCartProducts = createAsyncThunk(
-  "carts/renderCartProducts",
+export const renderAddress = createAsyncThunk(
+  "user/renderAddress",
   async (userId) => {
     try {
-      let response = await getCartProducts(userId);
+      let response = await getAddressById(userId);
       if (response.status === 200) {
         return response.data;
       } else {
@@ -17,26 +17,26 @@ export const renderCartProducts = createAsyncThunk(
   }
 );
 
-export const cartReducer = createSlice({
-  name: "carts",
+export const userReducer = createSlice({
+  name: "user",
   initialState: {
     error: "",
     loading: false,
-    cartProductsArr: [],
+    addressArr: [],
   },
   extraReducers: (builder) => {
     builder
-      .addCase(renderCartProducts.pending, (state) => {
+      .addCase(renderAddress.pending, (state) => {
         state.loading = true;
-        state.cartProductsArr = [];
+        state.addressArr = [];
         state.error = null;
       })
-      .addCase(renderCartProducts.fulfilled, (state, action) => {
+      .addCase(renderAddress.fulfilled, (state, action) => {
         state.loading = false;
-        state.cartProductsArr = action.payload;
+        state.addressArr = action.payload;
         state.error = null;
       })
-      .addCase(renderCartProducts.rejected, (state, action) => {
+      .addCase(renderAddress.rejected, (state, action) => {
         state.loading = false;
         console.log(action.error);
         state.error = action.error;
@@ -44,4 +44,4 @@ export const cartReducer = createSlice({
   },
 });
 
-export default cartReducer.reducer;
+export default userReducer.reducer;

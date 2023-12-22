@@ -8,9 +8,9 @@ import {
 
 export const renderProducts = createAsyncThunk(
   "products/renderProducts",
-  async () => {
+  async (limit) => {
     try {
-      let response = await getAllProducts();
+      let response = await getAllProducts(limit);
       if (response.status === 200) {
         return response.data;
       } else {
@@ -22,12 +22,32 @@ export const renderProducts = createAsyncThunk(
   }
 );
 
-export const renderProsByCategory = createAsyncThunk(
-  "products/renderProsByCategory",
+export const renderMayLikePros = createAsyncThunk(
+  "products/renderMayLikePros",
   async (categoryId) => {
     try {
-      let response = await getProductsByCategory(categoryId);
+      let response = await getProductsByCategory(categoryId, 10);
+      console.log("response");
       if (response.status === 200) {
+        console.log(response.data);
+        return response.data;
+      } else {
+        return -1;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
+export const renderSellingPros = createAsyncThunk(
+  "products/renderSellingPros",
+  async (categoryId) => {
+    try {
+      let response = await getProductsByCategory(categoryId, 10);
+      console.log("response");
+      if (response.status === 200) {
+        console.log(response.data);
         return response.data;
       } else {
         return -1;
@@ -60,7 +80,8 @@ export const productsSlice = createSlice({
     error: "",
     loading: false,
     productsArr: [],
-    prosByCateArr: [],
+    sellingProsArr: [],
+    mayLikeProsArr: [],
     proDetail: [],
   },
   extraReducers: (builder) => {
@@ -80,17 +101,32 @@ export const productsSlice = createSlice({
         console.log(action.error);
         state.error = action.error;
       })
-      .addCase(renderProsByCategory.pending, (state) => {
+      .addCase(renderMayLikePros.pending, (state) => {
         state.loading = true;
-        state.prosByCateArr = [];
+        state.mayLikeProsArr = [];
         state.error = null;
       })
-      .addCase(renderProsByCategory.fulfilled, (state, action) => {
+      .addCase(renderMayLikePros.fulfilled, (state, action) => {
         state.loading = false;
-        state.prosByCateArr = action.payload;
+        state.mayLikeProsArr = action.payload;
         state.error = null;
       })
-      .addCase(renderProsByCategory.rejected, (state, action) => {
+      .addCase(renderMayLikePros.rejected, (state, action) => {
+        state.loading = false;
+        console.log(action.error);
+        state.error = action.error;
+      })
+      .addCase(renderSellingPros.pending, (state) => {
+        state.loading = true;
+        state.sellingProsArr = [];
+        state.error = null;
+      })
+      .addCase(renderSellingPros.fulfilled, (state, action) => {
+        state.loading = false;
+        state.sellingProsArr = action.payload;
+        state.error = null;
+      })
+      .addCase(renderSellingPros.rejected, (state, action) => {
         state.loading = false;
         console.log(action.error);
         state.error = action.error;

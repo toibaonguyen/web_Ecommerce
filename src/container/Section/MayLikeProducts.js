@@ -7,8 +7,8 @@ import Slider from "react-slick";
 import RatingStarsCourses from "@/components/SVGImg/RatingStarsCoures";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
-import { renderProsByCategory } from "@/redux/slice/productReducer";
 import { useRouter } from "next/router";
+import { renderMayLikePros } from "@/redux/slice/productReducer";
 
 const cx = classNames.bind(styles);
 function MayLikeProducts() {
@@ -16,7 +16,7 @@ function MayLikeProducts() {
 
   const mapStateToProps = useSelector((state) => {
     return {
-      prosByCateArr: state.product.prosByCateArr,
+      mayLikeProsArr: state.product.mayLikeProsArr,
     };
   });
 
@@ -36,7 +36,7 @@ function MayLikeProducts() {
   const generateRandomId = () => {
     do {
       let check = 0;
-      const categoryId = Math.floor(Math.random() * (12 - 0) + 0);
+      const categoryId = Math.floor(Math.random() * (12 - 2) + 1);
       for (let i = 0; i < numArr.length; i++) {
         if (numArr[i] === categoryId) {
           check = 1;
@@ -53,12 +53,13 @@ function MayLikeProducts() {
   const componentDidMount = async () => {
     try {
       const id = generateRandomId();
+      console.log(id);
       if (!prosList1.length) {
-        dispatch(renderProsByCategory(id));
+        dispatch(renderMayLikePros(id));
       } else if (prosList2.length) {
-        dispatch(renderProsByCategory(id));
+        dispatch(renderMayLikePros(id));
       } else if (!prosList3.length) {
-        dispatch(renderProsByCategory(id));
+        dispatch(renderMayLikePros(id));
       }
     } catch (error) {
       console.log(error);
@@ -73,19 +74,19 @@ function MayLikeProducts() {
   useEffect(() => {
     try {
       if (!prosList1.length) {
-        setProsList1(mapStateToProps.prosByCateArr);
-        setCategory1(mapStateToProps.prosByCateArr[0].category);
+        setProsList1(mapStateToProps.mayLikeProsArr);
+        setCategory1(mapStateToProps.mayLikeProsArr[0].category);
       } else if (!prosList2.length) {
-        setProsList2(mapStateToProps.prosByCateArr);
-        setCategory2(mapStateToProps.prosByCateArr[0].category);
+        setProsList2(mapStateToProps.mayLikeProsArr);
+        setCategory2(mapStateToProps.mayLikeProsArr[0].category);
       } else if (!prosList3.length) {
-        setProsList3(mapStateToProps.prosByCateArr);
-        setCategory3(mapStateToProps.prosByCateArr[0].category);
+        setProsList3(mapStateToProps.mayLikeProsArr);
+        setCategory3(mapStateToProps.mayLikeProsArr[0].category);
       }
     } catch (error) {
       console.log(error);
     }
-  }, [mapStateToProps.prosByCateArr]);
+  }, [mapStateToProps.mayLikeProsArr]);
 
   const currencyFormat = (num) => {
     return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + " ₫";
@@ -112,7 +113,6 @@ function MayLikeProducts() {
       },
     });
   };
-
   return (
     <div className={cx("selling-product-content")}>
       <div className={cx("product-type")}>
@@ -152,7 +152,7 @@ function MayLikeProducts() {
                   onClick={() => handleClickPros(item.id)}
                 >
                   <img
-                    src={item.productImg}
+                    src={item.productImage}
                     className={cx("product-img")}
                   ></img>
                   <div className={cx("product-des")}>
@@ -194,7 +194,7 @@ function MayLikeProducts() {
                   onClick={() => handleClickPros(item.id)}
                 >
                   <img
-                    src={item.productImg}
+                    src={item.productImage}
                     className={cx("product-img")}
                   ></img>
                   <div className={cx("product-des")}>
@@ -237,7 +237,7 @@ function MayLikeProducts() {
                   onClick={() => handleClickPros(item.id)}
                 >
                   <img
-                    src={item.productImg}
+                    src={item.productImage}
                     className={cx("product-img")}
                   ></img>
                   <div className={cx("product-des")}>

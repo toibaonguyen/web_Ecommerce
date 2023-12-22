@@ -24,7 +24,7 @@ export default function HomePage() {
 
   const componentDidMount = async () => {
     try {
-      dispatch(renderProducts());
+      dispatch(renderProducts(10));
     } catch (error) {
       console.log(error);
     }

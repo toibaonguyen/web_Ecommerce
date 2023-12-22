@@ -11,7 +11,7 @@ function WishList() {
       <div className={cx("heading")}>Danh sách yêu thích </div>
       <div className={cx("styled-empty-content")}>
         <img src="https://frontend.tikicdn.com/_desktop-next/static/img/mascot_fail.svg" />
-        <p class="message">
+        <p className="message">
           <span>
             Hãy tim sản phẩm bạn yêu thích khi mua sắm để xem lại thuận tiện
             nhất

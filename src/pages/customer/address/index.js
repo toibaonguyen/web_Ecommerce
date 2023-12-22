@@ -3,9 +3,42 @@ import classNames from "classnames/bind";
 import styles from "./address.module.scss";
 import Link from "next/link";
 import CustomerLayout from "@/components/Layouts/CustomerLayout";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { renderAddress } from "@/redux/slice/userReducer";
 
 const cx = classNames.bind(styles);
 function AddressPage() {
+  const mapStateToProps = useSelector((state) => {
+    return {
+      addressArr: state.user.addressArr,
+    };
+  });
+
+  const dispatch = useDispatch();
+
+  const componentDidMount = async () => {
+    try {
+      dispatch(renderAddress(1));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    componentDidMount();
+  }, []);
+  console.log(mapStateToProps.addressArr);
+  
+  // useEffect(() => {
+  //   try {
+  //     if (mapStateToProps.addressArr !== null) {
+  //       setCart(mapStateToProps.addressArr);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }, [mapStateToProps.cartProductsArr]);
   return (
     <div className={cx("address-wrapper")}>
       <div className={cx("heading")}>Sổ địa chỉ</div>
@@ -15,7 +48,7 @@ function AddressPage() {
             <svg
               stroke="currentColor"
               fill="currentColor"
-              stroke-width="0"
+              strokeWidth="0"
               viewBox="0 0 24 24"
               height="1em"
               width="1em"
@@ -34,7 +67,7 @@ function AddressPage() {
                 <svg
                   stroke="currentColor"
                   fill="currentColor"
-                  stroke-width="0"
+                  strokeWidth="0"
                   viewBox="0 0 512 512"
                   height="1em"
                   width="1em"
@@ -45,11 +78,11 @@ function AddressPage() {
                 <span>Địa chỉ mặc định</span>
               </div>
             </div>
-            <div class="address">
+            <div className="address">
               <span>Địa chỉ: </span>84/36 Lý Thường Kiệt, Phường 07, Quận Gò
               Vấp, Hồ Chí Minh
             </div>
-            <div class="phone">
+            <div className="phone">
               <span>Điện thoại: </span>0929019827
             </div>
           </div>

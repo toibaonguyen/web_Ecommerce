@@ -207,7 +207,7 @@ function CreateAddress() {
           </div>
           <div className={cx("form-control")}>
             <label className={cx("input-label")}>&nbsp;</label>
-            <label class="styled-checkbox">
+            <label className="styled-checkbox">
               <input type="checkbox" />
               <span className={cx("label")}>Đặt làm địa chỉ mặc định</span>
             </label>

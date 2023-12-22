@@ -7,15 +7,15 @@ import Slider from "react-slick";
 import RatingStarsCourses from "@/components/SVGImg/RatingStarsCoures";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
-import { renderProsByCategory } from "@/redux/slice/productReducer";
-
+import { renderSellingPros } from "@/redux/slice/productReducer";
+import { useRouter } from "next/router";
 const cx = classNames.bind(styles);
 function SellingProducts() {
   const dispatch = useDispatch();
 
   const mapStateToProps = useSelector((state) => {
     return {
-      prosByCateArr: state.product.prosByCateArr,
+      sellingProsArr: state.product.sellingProsArr,
     };
   });
 
@@ -54,11 +54,11 @@ function SellingProducts() {
     try {
       const id = generateRandomId();
       if (!prosList1.length) {
-        dispatch(renderProsByCategory(id));
+        dispatch(renderSellingPros(id));
       } else if (prosList2.length) {
-        dispatch(renderProsByCategory(id));
+        dispatch(renderSellingPros(id));
       } else if (!prosList3.length) {
-        dispatch(renderProsByCategory(id));
+        dispatch(renderSellingPros(id));
       }
     } catch (error) {
       console.log(error);
@@ -73,19 +73,19 @@ function SellingProducts() {
   useEffect(() => {
     try {
       if (!prosList1.length) {
-        setProsList1(mapStateToProps.prosByCateArr);
-        setCategory1(mapStateToProps.prosByCateArr[0].category);
+        setProsList1(mapStateToProps.sellingProsArr);
+        setCategory1(mapStateToProps.sellingProsArr[0].category);
       } else if (!prosList2.length) {
-        setProsList2(mapStateToProps.prosByCateArr);
-        setCategory2(mapStateToProps.prosByCateArr[0].category);
+        setProsList2(mapStateToProps.sellingProsArr);
+        setCategory2(mapStateToProps.sellingProsArr[0].category);
       } else if (!prosList3.length) {
-        setProsList3(mapStateToProps.prosByCateArr);
-        setCategory3(mapStateToProps.prosByCateArr[0].category);
+        setProsList3(mapStateToProps.sellingProsArr);
+        setCategory3(mapStateToProps.sellingProsArr[0].category);
       }
     } catch (error) {
       console.log(error);
     }
-  }, [mapStateToProps.prosByCateArr]);
+  }, [mapStateToProps.sellingProsArr]);
 
   let settings = {
     dots: false,
@@ -100,6 +100,16 @@ function SellingProducts() {
   };
   const currencyFormat = (num) => {
     return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + " ₫";
+  };
+  const router = useRouter();
+  const handleClickPros = (productId) => {
+    console.log(productId);
+    router.push({
+      pathname: "/product",
+      query: {
+        productId: productId,
+      },
+    });
   };
 
   return (
@@ -135,9 +145,13 @@ function SellingProducts() {
             prosList1.length > 0 &&
             prosList1.map((item, index) => {
               return (
-                <div className={cx("product-item")} key={index}>
+                <div
+                  className={cx("product-item")}
+                  key={index}
+                  onClick={() => handleClickPros(item.id)}
+                >
                   <img
-                    src={item.productImg}
+                    src={item.productImage}
                     className={cx("product-img")}
                   ></img>
                   <div className={cx("product-des")}>
@@ -174,9 +188,13 @@ function SellingProducts() {
             prosList2.length > 0 &&
             prosList2.map((item, index) => {
               return (
-                <div className={cx("product-item")} key={index}>
+                <div
+                  className={cx("product-item")}
+                  key={index}
+                  onClick={() => handleClickPros(item.id)}
+                >
                   <img
-                    src={item.productImg}
+                    src={item.productImage}
                     className={cx("product-img")}
                   ></img>
                   <div className={cx("product-des")}>
@@ -213,9 +231,13 @@ function SellingProducts() {
             prosList3.length > 0 &&
             prosList3.map((item, index) => {
               return (
-                <div className={cx("product-item")} key={index}>
+                <div
+                  className={cx("product-item")}
+                  key={index}
+                  onClick={() => handleClickPros(item.id)}
+                >
                   <img
-                    src={item.productImg}
+                    src={item.productImage}
                     className={cx("product-img")}
                   ></img>
                   <div className={cx("product-des")}>

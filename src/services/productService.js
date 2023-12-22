@@ -1,17 +1,19 @@
 import axios from "axios";
 
-export const getAllProducts = () => {
-  return axios.get("https://se-347.onrender.com/getListProductHomepage");
+export const getAllProducts = (limit) => {
+  return axios.get(
+    `http://localhost:5000/getListProductHomepage?limit=${limit}`
+  );
 };
 
-export const getProductsByCategory = (categoryId) => {
+export const getProductsByCategory = (categoryId, limit) => {
   return axios.get(
-    `https://se-347.onrender.com/getListByCategoryId?categoryId=${categoryId}`
+    `http://localhost:5000/getListByCategoryId?categoryId=${categoryId}&limit=${limit}`
   );
 };
 
 export const getProductsById = (productId) => {
   return axios.get(
-    `https://se-347.onrender.com/getProductDetail?product_id=${productId}`
+    `http://localhost:5000/getProductDetail?product_id=${productId}`
   );
 };
