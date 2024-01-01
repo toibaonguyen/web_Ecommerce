@@ -289,7 +289,7 @@ function Cart() {
   return (
     <div className={cx("checkout-wrapper")}>
       <div>
-        <button onClick={openModal}>Open Modal</button>
+        {/* <button onClick={openModal}>Open Modal</button> */}
         <Modal
           isOpen={modalIsOpen}
           onAfterOpen={afterOpenModal}
