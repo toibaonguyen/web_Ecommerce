@@ -46,7 +46,7 @@ export default function HomePage() {
 
   return (
     <div className={cx("homepage-wrapper")}>
-      {session ? console.log(session) : <p>You are not signed in.</p>}
+      {/* {session ? console.log(session) : <p>You are not signed in.</p>} */}
       <div className={cx("chat-wrapper")}>
         <div
           className={cx("chatbot-container")}

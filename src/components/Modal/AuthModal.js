@@ -6,15 +6,12 @@ import { memo } from "react";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { SessionProvider } from "next-auth/react";
-import { useDispatch } from "react-redux";
-import { loginForUser } from "@/redux/slice/userReducer";
 // import { useSession, signIn, signOut } from "next-auth/react";
 
 const cx = classNames.bind(styles);
 
 function AuthModal({ setCloseModal }) {
   const router = useRouter();
-  const dispatch = useDispatch();
   // const mapStateToProps = useSelector((state) => {
   //   return {
   //     isLoginSuccess: state.user.isLoginSuccess,
