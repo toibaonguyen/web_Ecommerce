@@ -52,7 +52,7 @@ export default function Header() {
     <header className={cx("header-wrapper")}>
       <div className={cx("container")}>
         <div>
-          <button onClick={openModal}>Open Modal</button>
+          {/* <button onClick={openModal}>Open Modal</button> */}
           <Modal
             isOpen={modalIsOpen}
             onRequestClose={closeModal}
