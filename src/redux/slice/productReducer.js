@@ -4,6 +4,7 @@ import {
   getAllProducts,
   getProductsByCategory,
   getProductsById,
+  getProductsByShopId,
 } from "@/services/productService";
 
 export const renderProducts = createAsyncThunk(
@@ -22,14 +23,28 @@ export const renderProducts = createAsyncThunk(
   }
 );
 
+export const renderProsByShopId = createAsyncThunk(
+  "products/renderProsByShopId",
+  async (shopId) => {
+    try {
+      let response = await getProductsByShopId(shopId, 15);
+      if (response.status === 200) {
+        return response.data;
+      } else {
+        return -1;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 export const renderMayLikePros = createAsyncThunk(
   "products/renderMayLikePros",
   async (categoryId) => {
     try {
       let response = await getProductsByCategory(categoryId, 10);
-      console.log("response");
       if (response.status === 200) {
-        console.log(response.data);
         return response.data;
       } else {
         return -1;
@@ -45,9 +60,7 @@ export const renderSellingPros = createAsyncThunk(
   async (categoryId) => {
     try {
       let response = await getProductsByCategory(categoryId, 10);
-      console.log("response");
       if (response.status === 200) {
-        console.log(response.data);
         return response.data;
       } else {
         return -1;
@@ -83,6 +96,7 @@ export const productsSlice = createSlice({
     sellingProsArr: [],
     mayLikeProsArr: [],
     proDetail: [],
+    prosInShop: [],
   },
   extraReducers: (builder) => {
     builder
@@ -142,6 +156,21 @@ export const productsSlice = createSlice({
         state.error = null;
       })
       .addCase(renderProsById.rejected, (state, action) => {
+        state.loading = false;
+        console.log(action.error);
+        state.error = action.error;
+      })
+      .addCase(renderProsByShopId.pending, (state) => {
+        state.loading = true;
+        state.prosInShop = [];
+        state.error = null;
+      })
+      .addCase(renderProsByShopId.fulfilled, (state, action) => {
+        state.loading = false;
+        state.prosInShop = action.payload;
+        state.error = null;
+      })
+      .addCase(renderProsByShopId.rejected, (state, action) => {
         state.loading = false;
         console.log(action.error);
         state.error = action.error;

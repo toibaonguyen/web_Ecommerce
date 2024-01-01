@@ -1,11 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./store.module.scss";
 import classNames from "classnames/bind";
+import { useRouter } from "next/router";
+import { renderShopInfor } from "@/redux/slice/sellerReducer";
+import { useSelector, useDispatch } from "react-redux";
+import { renderProsByShopId } from "@/redux/slice/productReducer";
 const cx = classNames.bind(styles);
 function sellerPage() {
+  const router = useRouter();
+  const shopId = router.query.shopId;
+  const dispatch = useDispatch();
+  const mapStateToProps = useSelector((state) => {
+    return {
+      inforArr: state.seller.inforArr,
+      prosInShop: state.product.prosInShop,
+    };
+  });
+  useEffect(() => {
+    try {
+      dispatch(renderShopInfor(shopId));
+      dispatch(renderProsByShopId(shopId));
+    } catch (error) {
+      console.log(error);
+    }
+  }, [shopId]);
+  console.log(mapStateToProps.inforArr);
+  console.log(mapStateToProps.prosInShop);
   const [pane, switchPane] = useState(1);
   const handleSwitchPane = (num) => {
     switchPane(num);
+  };
+  const currencyFormat = (num) => {
+    return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
   };
   return (
     <div className={cx("container")}>
@@ -24,7 +50,9 @@ function sellerPage() {
             />
           </div>
           <div className={cx("seller-name-wrapper")}>
-            <h1 className={cx("seller-name")}>Tiki Trading</h1>
+            <h1 className={cx("seller-name")}>
+              {mapStateToProps.inforArr && mapStateToProps.inforArr.name}
+            </h1>
             <div className={cx("info-row")}>
               <img
                 src="https://salt.tikicdn.com/ts/upload/5d/4c/f7/0261315e75127c2ff73efd7a1f1ffdf2.png"
@@ -48,7 +76,10 @@ function sellerPage() {
                     ></path>
                   </svg>
                 </div>
-                <div className={cx("header-sub-info")}>4.7 / 5</div>
+                <div className={cx("header-sub-info")}>
+                  {mapStateToProps.inforArr && mapStateToProps.inforArr.rating}{" "}
+                  / 5
+                </div>
               </div>
               <div className={cx("header-line-row")}></div>
               <div className={cx("header-badge-wrapper")}>
@@ -63,17 +94,17 @@ function sellerPage() {
                     <path
                       d="M6.5 8C5.1195 8 4 6.3805 4 5V4.5C4 3.1195 5.1195 2 6.5 2C7.8805 2 9 3.1195 9 4.5V5C9 6.3805 7.8805 8 6.5 8Z"
                       fill="white"
-                      fill-opacity="0.7"
+                      fillOpacity="0.7"
                     ></path>
                     <path
                       d="M8.765 12.4065C8.2715 11.919 8 11.27 8 10.5775C8 10.075 8.147 9.597 8.4145 9.1855C7.8345 9.076 7.1865 9 6.5 9C5.088 9 3.8355 9.319 3.013 9.5965C2.405 9.802 2 10.3745 2 11.016V13H9.3655L8.765 12.4065Z"
                       fill="white"
-                      fill-opacity="0.7"
+                      fillOpacity="0.7"
                     ></path>
                     <path
                       d="M13.5315 9.46C13.1925 9.125 12.726 8.961 12.2485 9.008C11.9755 9.0355 11.7185 9.131 11.4995 9.2825C11.2805 9.131 11.024 9.0355 10.7505 9.008C10.274 8.962 9.8065 9.125 9.4675 9.46C9.1665 9.758 9 10.155 9 10.5775C9 11 9.1665 11.397 9.468 11.695L11.5 13.703L13.532 11.6955C13.8335 11.397 14 11 14 10.5775C14 10.155 13.8335 9.758 13.5315 9.46Z"
                       fill="white"
-                      fill-opacity="0.7"
+                      fillOpacity="0.7"
                     ></path>
                   </svg>
                 </div>
@@ -178,7 +209,7 @@ function sellerPage() {
                       <picture className={cx("image-container")}>
                         <source
                           type="image/webp"
-                          srcset="
+                          srcSet="
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
                     "
@@ -187,7 +218,7 @@ function sellerPage() {
                           src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
                           className={cx("styled-image")}
                           alt="Mã thẻ game Garena 100K"
-                          srcset="
+                          srcSet="
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
                     "
@@ -250,7 +281,7 @@ function sellerPage() {
                       <picture className={cx("image-container")}>
                         <source
                           type="image/webp"
-                          srcset="
+                          srcSet="
                       https://salt.tikicdn.com/cache/w300/ts/product/8a/b6/ba/1d95b88597f28e42d8ca91e3b3ff600f.jpg.webp 1x,
                       https://salt.tikicdn.com/cache/w300/ts/product/8a/b6/ba/1d95b88597f28e42d8ca91e3b3ff600f.jpg.webp 2x
                     "
@@ -259,7 +290,7 @@ function sellerPage() {
                           src="https://salt.tikicdn.com/cache/w300/ts/product/8a/b6/ba/1d95b88597f28e42d8ca91e3b3ff600f.jpg"
                           className={cx("styled-image")}
                           alt="Lý Thuyết Trò Chơi"
-                          srcset="
+                          srcSet="
                       https://salt.tikicdn.com/cache/w300/ts/product/8a/b6/ba/1d95b88597f28e42d8ca91e3b3ff600f.jpg 1x,
                       https://salt.tikicdn.com/cache/w300/ts/product/8a/b6/ba/1d95b88597f28e42d8ca91e3b3ff600f.jpg 2x
                     "
@@ -320,7 +351,7 @@ function sellerPage() {
                       <picture className={cx("image-container")}>
                         <source
                           type="image/webp"
-                          srcset="
+                          srcSet="
                       https://salt.tikicdn.com/cache/w300/ts/product/81/78/66/02ec1b5b5b446e0af6197bec737c8456.png.webp 1x,
                       https://salt.tikicdn.com/cache/w300/ts/product/81/78/66/02ec1b5b5b446e0af6197bec737c8456.png.webp 2x
                     "
@@ -329,7 +360,7 @@ function sellerPage() {
                           src="https://salt.tikicdn.com/cache/w300/ts/product/81/78/66/02ec1b5b5b446e0af6197bec737c8456.png"
                           className={cx("styled-image")}
                           alt="Mã thẻ game Garena 200K"
-                          srcset="
+                          srcSet="
                       https://salt.tikicdn.com/cache/w300/ts/product/81/78/66/02ec1b5b5b446e0af6197bec737c8456.png 1x,
                       https://salt.tikicdn.com/cache/w300/ts/product/81/78/66/02ec1b5b5b446e0af6197bec737c8456.png 2x
                     "
@@ -416,1212 +447,79 @@ function sellerPage() {
               <div className={cx("product-filter-and-sort-bar-divider")}></div>
             </div>
             <div type="flex" className={cx("product-row-container")}>
-              <a
-                href="/san-pham-so/the-cao-game?spid=192048498"
-                className={cx("styled-wrapper")}
-              >
-                <div className={cx("product-container")}>
-                  <div className={cx("product-thumbnail")}>
-                    <picture className={cx("image-container")}>
-                      <source
-                        type="image/webp"
-                        srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
-                    "
-                      />
-                      <img
-                        src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
-                        className={cx("styled-image")}
-                        alt="Mã thẻ game Garena 100K"
-                        srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
-                    "
-                      />
-                    </picture>
-                    <div className={cx("product-badge-ship")}>
-                      <img
-                        src="https://salt.tikicdn.com/ts/tka/69/cf/22/1be823299ae34c7ddcd922e73abd4909.png"
-                        alt="badge icon"
-                      />
-                    </div>
-                  </div>
-                  <div className={cx("product-info")}>
-                    <div className={cx("product-name")}>
-                      <h3>Mã thẻ game Garena 100K</h3>
-                    </div>
-                    <div className={cx("product-container-rating")}>
-                      <div className={cx("product-container-text-rating")}>
-                        4.8
-                      </div>
-                      <img
-                        src="https://salt.tikicdn.com/ts/tmp/76/32/ae/3b087e1ae6fa94a7cade963cc2e1311c.png"
-                        alt=""
-                        className={cx("wrapper-follow")}
-                      />
-                      <div className={cx("line-wrap")}></div>
-                      <span className={cx("percent")}>Đã bán 5k+</span>
-                    </div>
-                    <div className={cx("product-price-discount")}>
-                      <div className={cx("price-discount-value")}>
-                        <span>97.000</span>
-                      </div>
-                      <div className={cx("discount-currency")}>₫</div>
-                      <div className={cx("price-discount-percent")}>-3%</div>
-                    </div>
+              {mapStateToProps.prosInShop &&
+                mapStateToProps.prosInShop.length > 0 &&
+                mapStateToProps.prosInShop.map((item, index) => {
+                  return (
+                    <a
+                      key={index}
+                      href="/san-pham-so/the-cao-game?spid=192048498"
+                      className={cx("styled-wrapper")}
+                    >
+                      <div className={cx("product-container")}>
+                        <div className={cx("product-thumbnail")}>
+                          <picture className={cx("image-container")}>
+                            <source
+                              type="image/webp"
+                              srcSet={item.productImage}
+                            />
+                            <img
+                              src={item.productImage}
+                              className={cx("styled-image")}
+                              alt="Mã thẻ game Garena 100K"
+                              srcSet={item.productImage}
+                            />
+                          </picture>
+                          <div className={cx("product-badge-ship")}>
+                            <img
+                              src="https://salt.tikicdn.com/ts/tka/69/cf/22/1be823299ae34c7ddcd922e73abd4909.png"
+                              alt="badge icon"
+                            />
+                          </div>
+                        </div>
+                        <div className={cx("product-info")}>
+                          <div className={cx("product-name")}>
+                            <h3>{item.productName}</h3>
+                          </div>
+                          <div className={cx("product-container-rating")}>
+                            <div
+                              className={cx("product-container-text-rating")}
+                            >
+                              {item.rating}
+                            </div>
+                            <img
+                              src="https://salt.tikicdn.com/ts/tmp/76/32/ae/3b087e1ae6fa94a7cade963cc2e1311c.png"
+                              alt=""
+                              className={cx("wrapper-follow")}
+                            />
+                            <div className={cx("line-wrap")}></div>
+                            <span className={cx("percent")}>
+                              Đã bán {item.sold}
+                            </span>
+                          </div>
+                          <div className={cx("product-price-discount")}>
+                            <div className={cx("price-discount-value")}>
+                              <span>
+                                {currencyFormat(item.productSalePrice)}
+                              </span>
+                            </div>
+                            <div className={cx("discount-currency")}>₫</div>
+                          </div>
 
-                    <div className={cx("product-benefit-wrapper")}></div>
-                    <div className={cx("badge-wrapper")}>
-                      <div className={cx("line-badge-row")}></div>
-                      <div className={cx("badge-wrapper-text")}>
-                        <div className={cx("ship-text")}>
-                          Thanh toán qua thẻ &amp; ví
+                          <div className={cx("product-benefit-wrapper")}></div>
+                          <div className={cx("badge-wrapper")}>
+                            <div className={cx("line-badge-row")}></div>
+                            <div className={cx("badge-wrapper-text")}>
+                              <div className={cx("ship-text")}>
+                                Thanh toán qua thẻ &amp; ví
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                </div>
-              </a>
-              <a
-                href="/san-pham-so/the-cao-game?spid=192048498"
-                className={cx("styled-wrapper")}
-              >
-                <div className={cx("product-container")}>
-                  <div className={cx("product-thumbnail")}>
-                    <picture className={cx("image-container")}>
-                      <source
-                        type="image/webp"
-                        srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
-                    "
-                      />
-                      <img
-                        src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
-                        className={cx("styled-image")}
-                        alt="Mã thẻ game Garena 100K"
-                        srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
-                    "
-                      />
-                    </picture>
-                    <div className={cx("product-badge-ship")}>
-                      <img
-                        src="https://salt.tikicdn.com/ts/tka/69/cf/22/1be823299ae34c7ddcd922e73abd4909.png"
-                        alt="badge icon"
-                      />
-                    </div>
-                  </div>
-                  <div className={cx("product-info")}>
-                    <div className={cx("product-name")}>
-                      <h3>Mã thẻ game Garena 100K</h3>
-                    </div>
-                    <div className={cx("product-container-rating")}>
-                      <div className={cx("product-container-text-rating")}>
-                        4.8
-                      </div>
-                      <img
-                        src="https://salt.tikicdn.com/ts/tmp/76/32/ae/3b087e1ae6fa94a7cade963cc2e1311c.png"
-                        alt=""
-                        className={cx("wrapper-follow")}
-                      />
-                      <div className={cx("line-wrap")}></div>
-                      <span className={cx("percent")}>Đã bán 5k+</span>
-                    </div>
-                    <div className={cx("product-price-discount")}>
-                      <div className={cx("price-discount-value")}>
-                        <span>97.000</span>
-                      </div>
-                      <div className={cx("discount-currency")}>₫</div>
-                      <div className={cx("price-discount-percent")}>-3%</div>
-                    </div>
-
-                    <div className={cx("product-benefit-wrapper")}></div>
-                    <div className={cx("badge-wrapper")}>
-                      <div className={cx("line-badge-row")}></div>
-                      <div className={cx("badge-wrapper-text")}>
-                        <div className={cx("ship-text")}>
-                          Thanh toán qua thẻ &amp; ví
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </a>
-              <a
-                href="/san-pham-so/the-cao-game?spid=192048498"
-                className={cx("styled-wrapper")}
-              >
-                <div className={cx("product-container")}>
-                  <div className={cx("product-thumbnail")}>
-                    <picture className={cx("image-container")}>
-                      <source
-                        type="image/webp"
-                        srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
-                    "
-                      />
-                      <img
-                        src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
-                        className={cx("styled-image")}
-                        alt="Mã thẻ game Garena 100K"
-                        srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
-                    "
-                      />
-                    </picture>
-                    <div className={cx("product-badge-ship")}>
-                      <img
-                        src="https://salt.tikicdn.com/ts/tka/69/cf/22/1be823299ae34c7ddcd922e73abd4909.png"
-                        alt="badge icon"
-                      />
-                    </div>
-                  </div>
-                  <div className={cx("product-info")}>
-                    <div className={cx("product-name")}>
-                      <h3>Mã thẻ game Garena 100K</h3>
-                    </div>
-                    <div className={cx("product-container-rating")}>
-                      <div className={cx("product-container-text-rating")}>
-                        4.8
-                      </div>
-                      <img
-                        src="https://salt.tikicdn.com/ts/tmp/76/32/ae/3b087e1ae6fa94a7cade963cc2e1311c.png"
-                        alt=""
-                        className={cx("wrapper-follow")}
-                      />
-                      <div className={cx("line-wrap")}></div>
-                      <span className={cx("percent")}>Đã bán 5k+</span>
-                    </div>
-                    <div className={cx("product-price-discount")}>
-                      <div className={cx("price-discount-value")}>
-                        <span>97.000</span>
-                      </div>
-                      <div className={cx("discount-currency")}>₫</div>
-                      <div className={cx("price-discount-percent")}>-3%</div>
-                    </div>
-
-                    <div className={cx("product-benefit-wrapper")}></div>
-                    <div className={cx("badge-wrapper")}>
-                      <div className={cx("line-badge-row")}></div>
-                      <div className={cx("badge-wrapper-text")}>
-                        <div className={cx("ship-text")}>
-                          Thanh toán qua thẻ &amp; ví
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </a>
-              <a
-                href="/san-pham-so/the-cao-game?spid=192048498"
-                className={cx("styled-wrapper")}
-              >
-                <div className={cx("product-container")}>
-                  <div className={cx("product-thumbnail")}>
-                    <picture className={cx("image-container")}>
-                      <source
-                        type="image/webp"
-                        srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
-                    "
-                      />
-                      <img
-                        src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
-                        className={cx("styled-image")}
-                        alt="Mã thẻ game Garena 100K"
-                        srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
-                    "
-                      />
-                    </picture>
-                    <div className={cx("product-badge-ship")}>
-                      <img
-                        src="https://salt.tikicdn.com/ts/tka/69/cf/22/1be823299ae34c7ddcd922e73abd4909.png"
-                        alt="badge icon"
-                      />
-                    </div>
-                  </div>
-                  <div className={cx("product-info")}>
-                    <div className={cx("product-name")}>
-                      <h3>Mã thẻ game Garena 100K</h3>
-                    </div>
-                    <div className={cx("product-container-rating")}>
-                      <div className={cx("product-container-text-rating")}>
-                        4.8
-                      </div>
-                      <img
-                        src="https://salt.tikicdn.com/ts/tmp/76/32/ae/3b087e1ae6fa94a7cade963cc2e1311c.png"
-                        alt=""
-                        className={cx("wrapper-follow")}
-                      />
-                      <div className={cx("line-wrap")}></div>
-                      <span className={cx("percent")}>Đã bán 5k+</span>
-                    </div>
-                    <div className={cx("product-price-discount")}>
-                      <div className={cx("price-discount-value")}>
-                        <span>97.000</span>
-                      </div>
-                      <div className={cx("discount-currency")}>₫</div>
-                      <div className={cx("price-discount-percent")}>-3%</div>
-                    </div>
-
-                    <div className={cx("product-benefit-wrapper")}></div>
-                    <div className={cx("badge-wrapper")}>
-                      <div className={cx("line-badge-row")}></div>
-                      <div className={cx("badge-wrapper-text")}>
-                        <div className={cx("ship-text")}>
-                          Thanh toán qua thẻ &amp; ví
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </a>
-              <a
-                href="/san-pham-so/the-cao-game?spid=192048498"
-                className={cx("styled-wrapper")}
-              >
-                <div className={cx("product-container")}>
-                  <div className={cx("product-thumbnail")}>
-                    <picture className={cx("image-container")}>
-                      <source
-                        type="image/webp"
-                        srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
-                    "
-                      />
-                      <img
-                        src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
-                        className={cx("styled-image")}
-                        alt="Mã thẻ game Garena 100K"
-                        srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
-                    "
-                      />
-                    </picture>
-                    <div className={cx("product-badge-ship")}>
-                      <img
-                        src="https://salt.tikicdn.com/ts/tka/69/cf/22/1be823299ae34c7ddcd922e73abd4909.png"
-                        alt="badge icon"
-                      />
-                    </div>
-                  </div>
-                  <div className={cx("product-info")}>
-                    <div className={cx("product-name")}>
-                      <h3>Mã thẻ game Garena 100K</h3>
-                    </div>
-                    <div className={cx("product-container-rating")}>
-                      <div className={cx("product-container-text-rating")}>
-                        4.8
-                      </div>
-                      <img
-                        src="https://salt.tikicdn.com/ts/tmp/76/32/ae/3b087e1ae6fa94a7cade963cc2e1311c.png"
-                        alt=""
-                        className={cx("wrapper-follow")}
-                      />
-                      <div className={cx("line-wrap")}></div>
-                      <span className={cx("percent")}>Đã bán 5k+</span>
-                    </div>
-                    <div className={cx("product-price-discount")}>
-                      <div className={cx("price-discount-value")}>
-                        <span>97.000</span>
-                      </div>
-                      <div className={cx("discount-currency")}>₫</div>
-                      <div className={cx("price-discount-percent")}>-3%</div>
-                    </div>
-
-                    <div className={cx("product-benefit-wrapper")}></div>
-                    <div className={cx("badge-wrapper")}>
-                      <div className={cx("line-badge-row")}></div>
-                      <div className={cx("badge-wrapper-text")}>
-                        <div className={cx("ship-text")}>
-                          Thanh toán qua thẻ &amp; ví
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </a>
-              <a
-                href="/san-pham-so/the-cao-game?spid=192048498"
-                className={cx("styled-wrapper")}
-              >
-                <div className={cx("product-container")}>
-                  <div className={cx("product-thumbnail")}>
-                    <picture className={cx("image-container")}>
-                      <source
-                        type="image/webp"
-                        srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
-                    "
-                      />
-                      <img
-                        src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
-                        className={cx("styled-image")}
-                        alt="Mã thẻ game Garena 100K"
-                        srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
-                    "
-                      />
-                    </picture>
-                    <div className={cx("product-badge-ship")}>
-                      <img
-                        src="https://salt.tikicdn.com/ts/tka/69/cf/22/1be823299ae34c7ddcd922e73abd4909.png"
-                        alt="badge icon"
-                      />
-                    </div>
-                  </div>
-                  <div className={cx("product-info")}>
-                    <div className={cx("product-name")}>
-                      <h3>Mã thẻ game Garena 100K</h3>
-                    </div>
-                    <div className={cx("product-container-rating")}>
-                      <div className={cx("product-container-text-rating")}>
-                        4.8
-                      </div>
-                      <img
-                        src="https://salt.tikicdn.com/ts/tmp/76/32/ae/3b087e1ae6fa94a7cade963cc2e1311c.png"
-                        alt=""
-                        className={cx("wrapper-follow")}
-                      />
-                      <div className={cx("line-wrap")}></div>
-                      <span className={cx("percent")}>Đã bán 5k+</span>
-                    </div>
-                    <div className={cx("product-price-discount")}>
-                      <div className={cx("price-discount-value")}>
-                        <span>97.000</span>
-                      </div>
-                      <div className={cx("discount-currency")}>₫</div>
-                      <div className={cx("price-discount-percent")}>-3%</div>
-                    </div>
-
-                    <div className={cx("product-benefit-wrapper")}></div>
-                    <div className={cx("badge-wrapper")}>
-                      <div className={cx("line-badge-row")}></div>
-                      <div className={cx("badge-wrapper-text")}>
-                        <div className={cx("ship-text")}>
-                          Thanh toán qua thẻ &amp; ví
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </a>
-              <a
-                href="/san-pham-so/the-cao-game?spid=192048498"
-                className={cx("styled-wrapper")}
-              >
-                <div className={cx("product-container")}>
-                  <div className={cx("product-thumbnail")}>
-                    <picture className={cx("image-container")}>
-                      <source
-                        type="image/webp"
-                        srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
-                    "
-                      />
-                      <img
-                        src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
-                        className={cx("styled-image")}
-                        alt="Mã thẻ game Garena 100K"
-                        srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
-                    "
-                      />
-                    </picture>
-                    <div className={cx("product-badge-ship")}>
-                      <img
-                        src="https://salt.tikicdn.com/ts/tka/69/cf/22/1be823299ae34c7ddcd922e73abd4909.png"
-                        alt="badge icon"
-                      />
-                    </div>
-                  </div>
-                  <div className={cx("product-info")}>
-                    <div className={cx("product-name")}>
-                      <h3>Mã thẻ game Garena 100K</h3>
-                    </div>
-                    <div className={cx("product-container-rating")}>
-                      <div className={cx("product-container-text-rating")}>
-                        4.8
-                      </div>
-                      <img
-                        src="https://salt.tikicdn.com/ts/tmp/76/32/ae/3b087e1ae6fa94a7cade963cc2e1311c.png"
-                        alt=""
-                        className={cx("wrapper-follow")}
-                      />
-                      <div className={cx("line-wrap")}></div>
-                      <span className={cx("percent")}>Đã bán 5k+</span>
-                    </div>
-                    <div className={cx("product-price-discount")}>
-                      <div className={cx("price-discount-value")}>
-                        <span>97.000</span>
-                      </div>
-                      <div className={cx("discount-currency")}>₫</div>
-                      <div className={cx("price-discount-percent")}>-3%</div>
-                    </div>
-
-                    <div className={cx("product-benefit-wrapper")}></div>
-                    <div className={cx("badge-wrapper")}>
-                      <div className={cx("line-badge-row")}></div>
-                      <div className={cx("badge-wrapper-text")}>
-                        <div className={cx("ship-text")}>
-                          Thanh toán qua thẻ &amp; ví
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </a>
-              <a
-                href="/san-pham-so/the-cao-game?spid=192048498"
-                className={cx("styled-wrapper")}
-              >
-                <div className={cx("product-container")}>
-                  <div className={cx("product-thumbnail")}>
-                    <picture className={cx("image-container")}>
-                      <source
-                        type="image/webp"
-                        srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
-                    "
-                      />
-                      <img
-                        src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
-                        className={cx("styled-image")}
-                        alt="Mã thẻ game Garena 100K"
-                        srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
-                    "
-                      />
-                    </picture>
-                    <div className={cx("product-badge-ship")}>
-                      <img
-                        src="https://salt.tikicdn.com/ts/tka/69/cf/22/1be823299ae34c7ddcd922e73abd4909.png"
-                        alt="badge icon"
-                      />
-                    </div>
-                  </div>
-                  <div className={cx("product-info")}>
-                    <div className={cx("product-name")}>
-                      <h3>Mã thẻ game Garena 100K</h3>
-                    </div>
-                    <div className={cx("product-container-rating")}>
-                      <div className={cx("product-container-text-rating")}>
-                        4.8
-                      </div>
-                      <img
-                        src="https://salt.tikicdn.com/ts/tmp/76/32/ae/3b087e1ae6fa94a7cade963cc2e1311c.png"
-                        alt=""
-                        className={cx("wrapper-follow")}
-                      />
-                      <div className={cx("line-wrap")}></div>
-                      <span className={cx("percent")}>Đã bán 5k+</span>
-                    </div>
-                    <div className={cx("product-price-discount")}>
-                      <div className={cx("price-discount-value")}>
-                        <span>97.000</span>
-                      </div>
-                      <div className={cx("discount-currency")}>₫</div>
-                      <div className={cx("price-discount-percent")}>-3%</div>
-                    </div>
-
-                    <div className={cx("product-benefit-wrapper")}></div>
-                    <div className={cx("badge-wrapper")}>
-                      <div className={cx("line-badge-row")}></div>
-                      <div className={cx("badge-wrapper-text")}>
-                        <div className={cx("ship-text")}>
-                          Thanh toán qua thẻ &amp; ví
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </a>
-              <a
-                href="/san-pham-so/the-cao-game?spid=192048498"
-                className={cx("styled-wrapper")}
-              >
-                <div className={cx("product-container")}>
-                  <div className={cx("product-thumbnail")}>
-                    <picture className={cx("image-container")}>
-                      <source
-                        type="image/webp"
-                        srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
-                    "
-                      />
-                      <img
-                        src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
-                        className={cx("styled-image")}
-                        alt="Mã thẻ game Garena 100K"
-                        srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
-                    "
-                      />
-                    </picture>
-                    <div className={cx("product-badge-ship")}>
-                      <img
-                        src="https://salt.tikicdn.com/ts/tka/69/cf/22/1be823299ae34c7ddcd922e73abd4909.png"
-                        alt="badge icon"
-                      />
-                    </div>
-                  </div>
-                  <div className={cx("product-info")}>
-                    <div className={cx("product-name")}>
-                      <h3>Mã thẻ game Garena 100K</h3>
-                    </div>
-                    <div className={cx("product-container-rating")}>
-                      <div className={cx("product-container-text-rating")}>
-                        4.8
-                      </div>
-                      <img
-                        src="https://salt.tikicdn.com/ts/tmp/76/32/ae/3b087e1ae6fa94a7cade963cc2e1311c.png"
-                        alt=""
-                        className={cx("wrapper-follow")}
-                      />
-                      <div className={cx("line-wrap")}></div>
-                      <span className={cx("percent")}>Đã bán 5k+</span>
-                    </div>
-                    <div className={cx("product-price-discount")}>
-                      <div className={cx("price-discount-value")}>
-                        <span>97.000</span>
-                      </div>
-                      <div className={cx("discount-currency")}>₫</div>
-                      <div className={cx("price-discount-percent")}>-3%</div>
-                    </div>
-
-                    <div className={cx("product-benefit-wrapper")}></div>
-                    <div className={cx("badge-wrapper")}>
-                      <div className={cx("line-badge-row")}></div>
-                      <div className={cx("badge-wrapper-text")}>
-                        <div className={cx("ship-text")}>
-                          Thanh toán qua thẻ &amp; ví
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </a>
-              <a
-                href="/san-pham-so/the-cao-game?spid=192048498"
-                className={cx("styled-wrapper")}
-              >
-                <div className={cx("product-container")}>
-                  <div className={cx("product-thumbnail")}>
-                    <picture className={cx("image-container")}>
-                      <source
-                        type="image/webp"
-                        srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
-                    "
-                      />
-                      <img
-                        src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
-                        className={cx("styled-image")}
-                        alt="Mã thẻ game Garena 100K"
-                        srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
-                    "
-                      />
-                    </picture>
-                    <div className={cx("product-badge-ship")}>
-                      <img
-                        src="https://salt.tikicdn.com/ts/tka/69/cf/22/1be823299ae34c7ddcd922e73abd4909.png"
-                        alt="badge icon"
-                      />
-                    </div>
-                  </div>
-                  <div className={cx("product-info")}>
-                    <div className={cx("product-name")}>
-                      <h3>Mã thẻ game Garena 100K</h3>
-                    </div>
-                    <div className={cx("product-container-rating")}>
-                      <div className={cx("product-container-text-rating")}>
-                        4.8
-                      </div>
-                      <img
-                        src="https://salt.tikicdn.com/ts/tmp/76/32/ae/3b087e1ae6fa94a7cade963cc2e1311c.png"
-                        alt=""
-                        className={cx("wrapper-follow")}
-                      />
-                      <div className={cx("line-wrap")}></div>
-                      <span className={cx("percent")}>Đã bán 5k+</span>
-                    </div>
-                    <div className={cx("product-price-discount")}>
-                      <div className={cx("price-discount-value")}>
-                        <span>97.000</span>
-                      </div>
-                      <div className={cx("discount-currency")}>₫</div>
-                      <div className={cx("price-discount-percent")}>-3%</div>
-                    </div>
-
-                    <div className={cx("product-benefit-wrapper")}></div>
-                    <div className={cx("badge-wrapper")}>
-                      <div className={cx("line-badge-row")}></div>
-                      <div className={cx("badge-wrapper-text")}>
-                        <div className={cx("ship-text")}>
-                          Thanh toán qua thẻ &amp; ví
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </a>
-              <a
-                href="/san-pham-so/the-cao-game?spid=192048498"
-                className={cx("styled-wrapper")}
-              >
-                <div className={cx("product-container")}>
-                  <div className={cx("product-thumbnail")}>
-                    <picture className={cx("image-container")}>
-                      <source
-                        type="image/webp"
-                        srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
-                    "
-                      />
-                      <img
-                        src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
-                        className={cx("styled-image")}
-                        alt="Mã thẻ game Garena 100K"
-                        srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
-                    "
-                      />
-                    </picture>
-                    <div className={cx("product-badge-ship")}>
-                      <img
-                        src="https://salt.tikicdn.com/ts/tka/69/cf/22/1be823299ae34c7ddcd922e73abd4909.png"
-                        alt="badge icon"
-                      />
-                    </div>
-                  </div>
-                  <div className={cx("product-info")}>
-                    <div className={cx("product-name")}>
-                      <h3>Mã thẻ game Garena 100K</h3>
-                    </div>
-                    <div className={cx("product-container-rating")}>
-                      <div className={cx("product-container-text-rating")}>
-                        4.8
-                      </div>
-                      <img
-                        src="https://salt.tikicdn.com/ts/tmp/76/32/ae/3b087e1ae6fa94a7cade963cc2e1311c.png"
-                        alt=""
-                        className={cx("wrapper-follow")}
-                      />
-                      <div className={cx("line-wrap")}></div>
-                      <span className={cx("percent")}>Đã bán 5k+</span>
-                    </div>
-                    <div className={cx("product-price-discount")}>
-                      <div className={cx("price-discount-value")}>
-                        <span>97.000</span>
-                      </div>
-                      <div className={cx("discount-currency")}>₫</div>
-                      <div className={cx("price-discount-percent")}>-3%</div>
-                    </div>
-
-                    <div className={cx("product-benefit-wrapper")}></div>
-                    <div className={cx("badge-wrapper")}>
-                      <div className={cx("line-badge-row")}></div>
-                      <div className={cx("badge-wrapper-text")}>
-                        <div className={cx("ship-text")}>
-                          Thanh toán qua thẻ &amp; ví
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </a>
-              <a
-                href="/san-pham-so/the-cao-game?spid=192048498"
-                className={cx("styled-wrapper")}
-              >
-                <div className={cx("product-container")}>
-                  <div className={cx("product-thumbnail")}>
-                    <picture className={cx("image-container")}>
-                      <source
-                        type="image/webp"
-                        srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
-                    "
-                      />
-                      <img
-                        src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
-                        className={cx("styled-image")}
-                        alt="Mã thẻ game Garena 100K"
-                        srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
-                    "
-                      />
-                    </picture>
-                    <div className={cx("product-badge-ship")}>
-                      <img
-                        src="https://salt.tikicdn.com/ts/tka/69/cf/22/1be823299ae34c7ddcd922e73abd4909.png"
-                        alt="badge icon"
-                      />
-                    </div>
-                  </div>
-                  <div className={cx("product-info")}>
-                    <div className={cx("product-name")}>
-                      <h3>Mã thẻ game Garena 100K</h3>
-                    </div>
-                    <div className={cx("product-container-rating")}>
-                      <div className={cx("product-container-text-rating")}>
-                        4.8
-                      </div>
-                      <img
-                        src="https://salt.tikicdn.com/ts/tmp/76/32/ae/3b087e1ae6fa94a7cade963cc2e1311c.png"
-                        alt=""
-                        className={cx("wrapper-follow")}
-                      />
-                      <div className={cx("line-wrap")}></div>
-                      <span className={cx("percent")}>Đã bán 5k+</span>
-                    </div>
-                    <div className={cx("product-price-discount")}>
-                      <div className={cx("price-discount-value")}>
-                        <span>97.000</span>
-                      </div>
-                      <div className={cx("discount-currency")}>₫</div>
-                      <div className={cx("price-discount-percent")}>-3%</div>
-                    </div>
-
-                    <div className={cx("product-benefit-wrapper")}></div>
-                    <div className={cx("badge-wrapper")}>
-                      <div className={cx("line-badge-row")}></div>
-                      <div className={cx("badge-wrapper-text")}>
-                        <div className={cx("ship-text")}>
-                          Thanh toán qua thẻ &amp; ví
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </a>
-              <a
-                href="/san-pham-so/the-cao-game?spid=192048498"
-                className={cx("styled-wrapper")}
-              >
-                <div className={cx("product-container")}>
-                  <div className={cx("product-thumbnail")}>
-                    <picture className={cx("image-container")}>
-                      <source
-                        type="image/webp"
-                        srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
-                    "
-                      />
-                      <img
-                        src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
-                        className={cx("styled-image")}
-                        alt="Mã thẻ game Garena 100K"
-                        srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
-                    "
-                      />
-                    </picture>
-                    <div className={cx("product-badge-ship")}>
-                      <img
-                        src="https://salt.tikicdn.com/ts/tka/69/cf/22/1be823299ae34c7ddcd922e73abd4909.png"
-                        alt="badge icon"
-                      />
-                    </div>
-                  </div>
-                  <div className={cx("product-info")}>
-                    <div className={cx("product-name")}>
-                      <h3>Mã thẻ game Garena 100K</h3>
-                    </div>
-                    <div className={cx("product-container-rating")}>
-                      <div className={cx("product-container-text-rating")}>
-                        4.8
-                      </div>
-                      <img
-                        src="https://salt.tikicdn.com/ts/tmp/76/32/ae/3b087e1ae6fa94a7cade963cc2e1311c.png"
-                        alt=""
-                        className={cx("wrapper-follow")}
-                      />
-                      <div className={cx("line-wrap")}></div>
-                      <span className={cx("percent")}>Đã bán 5k+</span>
-                    </div>
-                    <div className={cx("product-price-discount")}>
-                      <div className={cx("price-discount-value")}>
-                        <span>97.000</span>
-                      </div>
-                      <div className={cx("discount-currency")}>₫</div>
-                      <div className={cx("price-discount-percent")}>-3%</div>
-                    </div>
-
-                    <div className={cx("product-benefit-wrapper")}></div>
-                    <div className={cx("badge-wrapper")}>
-                      <div className={cx("line-badge-row")}></div>
-                      <div className={cx("badge-wrapper-text")}>
-                        <div className={cx("ship-text")}>
-                          Thanh toán qua thẻ &amp; ví
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </a>
-              <a
-                href="/san-pham-so/the-cao-game?spid=192048498"
-                className={cx("styled-wrapper")}
-              >
-                <div className={cx("product-container")}>
-                  <div className={cx("product-thumbnail")}>
-                    <picture className={cx("image-container")}>
-                      <source
-                        type="image/webp"
-                        srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
-                    "
-                      />
-                      <img
-                        src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
-                        className={cx("styled-image")}
-                        alt="Mã thẻ game Garena 100K"
-                        srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
-                    "
-                      />
-                    </picture>
-                    <div className={cx("product-badge-ship")}>
-                      <img
-                        src="https://salt.tikicdn.com/ts/tka/69/cf/22/1be823299ae34c7ddcd922e73abd4909.png"
-                        alt="badge icon"
-                      />
-                    </div>
-                  </div>
-                  <div className={cx("product-info")}>
-                    <div className={cx("product-name")}>
-                      <h3>Mã thẻ game Garena 100K</h3>
-                    </div>
-                    <div className={cx("product-container-rating")}>
-                      <div className={cx("product-container-text-rating")}>
-                        4.8
-                      </div>
-                      <img
-                        src="https://salt.tikicdn.com/ts/tmp/76/32/ae/3b087e1ae6fa94a7cade963cc2e1311c.png"
-                        alt=""
-                        className={cx("wrapper-follow")}
-                      />
-                      <div className={cx("line-wrap")}></div>
-                      <span className={cx("percent")}>Đã bán 5k+</span>
-                    </div>
-                    <div className={cx("product-price-discount")}>
-                      <div className={cx("price-discount-value")}>
-                        <span>97.000</span>
-                      </div>
-                      <div className={cx("discount-currency")}>₫</div>
-                      <div className={cx("price-discount-percent")}>-3%</div>
-                    </div>
-
-                    <div className={cx("product-benefit-wrapper")}></div>
-                    <div className={cx("badge-wrapper")}>
-                      <div className={cx("line-badge-row")}></div>
-                      <div className={cx("badge-wrapper-text")}>
-                        <div className={cx("ship-text")}>
-                          Thanh toán qua thẻ &amp; ví
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </a>
-              <a
-                href="/san-pham-so/the-cao-game?spid=192048498"
-                className={cx("styled-wrapper")}
-              >
-                <div className={cx("product-container")}>
-                  <div className={cx("product-thumbnail")}>
-                    <picture className={cx("image-container")}>
-                      <source
-                        type="image/webp"
-                        srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
-                    "
-                      />
-                      <img
-                        src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
-                        className={cx("styled-image")}
-                        alt="Mã thẻ game Garena 100K"
-                        srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
-                    "
-                      />
-                    </picture>
-                    <div className={cx("product-badge-ship")}>
-                      <img
-                        src="https://salt.tikicdn.com/ts/tka/69/cf/22/1be823299ae34c7ddcd922e73abd4909.png"
-                        alt="badge icon"
-                      />
-                    </div>
-                  </div>
-                  <div className={cx("product-info")}>
-                    <div className={cx("product-name")}>
-                      <h3>Mã thẻ game Garena 100K</h3>
-                    </div>
-                    <div className={cx("product-container-rating")}>
-                      <div className={cx("product-container-text-rating")}>
-                        4.8
-                      </div>
-                      <img
-                        src="https://salt.tikicdn.com/ts/tmp/76/32/ae/3b087e1ae6fa94a7cade963cc2e1311c.png"
-                        alt=""
-                        className={cx("wrapper-follow")}
-                      />
-                      <div className={cx("line-wrap")}></div>
-                      <span className={cx("percent")}>Đã bán 5k+</span>
-                    </div>
-                    <div className={cx("product-price-discount")}>
-                      <div className={cx("price-discount-value")}>
-                        <span>97.000</span>
-                      </div>
-                      <div className={cx("discount-currency")}>₫</div>
-                      <div className={cx("price-discount-percent")}>-3%</div>
-                    </div>
-
-                    <div className={cx("product-benefit-wrapper")}></div>
-                    <div className={cx("badge-wrapper")}>
-                      <div className={cx("line-badge-row")}></div>
-                      <div className={cx("badge-wrapper-text")}>
-                        <div className={cx("ship-text")}>
-                          Thanh toán qua thẻ &amp; ví
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </a>
-              <a
-                href="/san-pham-so/the-cao-game?spid=192048498"
-                className={cx("styled-wrapper")}
-              >
-                <div className={cx("product-container")}>
-                  <div className={cx("product-thumbnail")}>
-                    <picture className={cx("image-container")}>
-                      <source
-                        type="image/webp"
-                        srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
-                    "
-                      />
-                      <img
-                        src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
-                        className={cx("styled-image")}
-                        alt="Mã thẻ game Garena 100K"
-                        srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
-                    "
-                      />
-                    </picture>
-                    <div className={cx("product-badge-ship")}>
-                      <img
-                        src="https://salt.tikicdn.com/ts/tka/69/cf/22/1be823299ae34c7ddcd922e73abd4909.png"
-                        alt="badge icon"
-                      />
-                    </div>
-                  </div>
-                  <div className={cx("product-info")}>
-                    <div className={cx("product-name")}>
-                      <h3>Mã thẻ game Garena 100K</h3>
-                    </div>
-                    <div className={cx("product-container-rating")}>
-                      <div className={cx("product-container-text-rating")}>
-                        4.8
-                      </div>
-                      <img
-                        src="https://salt.tikicdn.com/ts/tmp/76/32/ae/3b087e1ae6fa94a7cade963cc2e1311c.png"
-                        alt=""
-                        className={cx("wrapper-follow")}
-                      />
-                      <div className={cx("line-wrap")}></div>
-                      <span className={cx("percent")}>Đã bán 5k+</span>
-                    </div>
-                    <div className={cx("product-price-discount")}>
-                      <div className={cx("price-discount-value")}>
-                        <span>97.000</span>
-                      </div>
-                      <div className={cx("discount-currency")}>₫</div>
-                      <div className={cx("price-discount-percent")}>-3%</div>
-                    </div>
-
-                    <div className={cx("product-benefit-wrapper")}></div>
-                    <div className={cx("badge-wrapper")}>
-                      <div className={cx("line-badge-row")}></div>
-                      <div className={cx("badge-wrapper-text")}>
-                        <div className={cx("ship-text")}>
-                          Thanh toán qua thẻ &amp; ví
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </a>
-              <a
-                href="/san-pham-so/the-cao-game?spid=192048498"
-                className={cx("styled-wrapper")}
-              >
-                <div className={cx("product-container")}>
-                  <div className={cx("product-thumbnail")}>
-                    <picture className={cx("image-container")}>
-                      <source
-                        type="image/webp"
-                        srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
-                    "
-                      />
-                      <img
-                        src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
-                        className={cx("styled-image")}
-                        alt="Mã thẻ game Garena 100K"
-                        srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
-                    "
-                      />
-                    </picture>
-                    <div className={cx("product-badge-ship")}>
-                      <img
-                        src="https://salt.tikicdn.com/ts/tka/69/cf/22/1be823299ae34c7ddcd922e73abd4909.png"
-                        alt="badge icon"
-                      />
-                    </div>
-                  </div>
-                  <div className={cx("product-info")}>
-                    <div className={cx("product-name")}>
-                      <h3>Mã thẻ game Garena 100K</h3>
-                    </div>
-                    <div className={cx("product-container-rating")}>
-                      <div className={cx("product-container-text-rating")}>
-                        4.8
-                      </div>
-                      <img
-                        src="https://salt.tikicdn.com/ts/tmp/76/32/ae/3b087e1ae6fa94a7cade963cc2e1311c.png"
-                        alt=""
-                        className={cx("wrapper-follow")}
-                      />
-                      <div className={cx("line-wrap")}></div>
-                      <span className={cx("percent")}>Đã bán 5k+</span>
-                    </div>
-                    <div className={cx("product-price-discount")}>
-                      <div className={cx("price-discount-value")}>
-                        <span>97.000</span>
-                      </div>
-                      <div className={cx("discount-currency")}>₫</div>
-                      <div className={cx("price-discount-percent")}>-3%</div>
-                    </div>
-
-                    <div className={cx("product-benefit-wrapper")}></div>
-                    <div className={cx("badge-wrapper")}>
-                      <div className={cx("line-badge-row")}></div>
-                      <div className={cx("badge-wrapper-text")}>
-                        <div className={cx("ship-text")}>
-                          Thanh toán qua thẻ &amp; ví
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </a>
-              <a
-                href="/san-pham-so/the-cao-game?spid=192048498"
-                className={cx("styled-wrapper")}
-              >
-                <div className={cx("product-container")}>
-                  <div className={cx("product-thumbnail")}>
-                    <picture className={cx("image-container")}>
-                      <source
-                        type="image/webp"
-                        srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
-                    "
-                      />
-                      <img
-                        src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
-                        className={cx("styled-image")}
-                        alt="Mã thẻ game Garena 100K"
-                        srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
-                    "
-                      />
-                    </picture>
-                    <div className={cx("product-badge-ship")}>
-                      <img
-                        src="https://salt.tikicdn.com/ts/tka/69/cf/22/1be823299ae34c7ddcd922e73abd4909.png"
-                        alt="badge icon"
-                      />
-                    </div>
-                  </div>
-                  <div className={cx("product-info")}>
-                    <div className={cx("product-name")}>
-                      <h3>Mã thẻ game Garena 100K</h3>
-                    </div>
-                    <div className={cx("product-container-rating")}>
-                      <div className={cx("product-container-text-rating")}>
-                        4.8
-                      </div>
-                      <img
-                        src="https://salt.tikicdn.com/ts/tmp/76/32/ae/3b087e1ae6fa94a7cade963cc2e1311c.png"
-                        alt=""
-                        className={cx("wrapper-follow")}
-                      />
-                      <div className={cx("line-wrap")}></div>
-                      <span className={cx("percent")}>Đã bán 5k+</span>
-                    </div>
-                    <div className={cx("product-price-discount")}>
-                      <div className={cx("price-discount-value")}>
-                        <span>97.000</span>
-                      </div>
-                      <div className={cx("discount-currency")}>₫</div>
-                      <div className={cx("price-discount-percent")}>-3%</div>
-                    </div>
-
-                    <div className={cx("product-benefit-wrapper")}></div>
-                    <div className={cx("badge-wrapper")}>
-                      <div className={cx("line-badge-row")}></div>
-                      <div className={cx("badge-wrapper-text")}>
-                        <div className={cx("ship-text")}>
-                          Thanh toán qua thẻ &amp; ví
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </a>
+                    </a>
+                  );
+                })}
             </div>
           </div>
           <div>
@@ -1737,1011 +635,81 @@ function sellerPage() {
                 ></div>
               </div>
               <div type="flex" className={cx("product-row-container")}>
-                <a
-                  href="/san-pham-so/the-cao-game?spid=192048498"
-                  className={cx("styled-wrapper")}
-                >
-                  <div className={cx("product-container")}>
-                    <div className={cx("product-thumbnail")}>
-                      <picture className={cx("image-container")}>
-                        <source
-                          type="image/webp"
-                          srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
-                    "
-                        />
-                        <img
-                          src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
-                          className={cx("styled-image")}
-                          alt="Mã thẻ game Garena 100K"
-                          srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
-                    "
-                        />
-                      </picture>
-                      <div className={cx("product-badge-ship")}>
-                        <img
-                          src="https://salt.tikicdn.com/ts/tka/69/cf/22/1be823299ae34c7ddcd922e73abd4909.png"
-                          alt="badge icon"
-                        />
-                      </div>
-                    </div>
-                    <div className={cx("product-info")}>
-                      <div className={cx("product-name")}>
-                        <h3>Mã thẻ game Garena 100K</h3>
-                      </div>
-                      <div className={cx("product-container-rating")}>
-                        <div className={cx("product-container-text-rating")}>
-                          4.8
-                        </div>
-                        <img
-                          src="https://salt.tikicdn.com/ts/tmp/76/32/ae/3b087e1ae6fa94a7cade963cc2e1311c.png"
-                          alt=""
-                          className={cx("wrapper-follow")}
-                        />
-                        <div className={cx("line-wrap")}></div>
-                        <span className={cx("percent")}>Đã bán 5k+</span>
-                      </div>
-                      <div className={cx("product-price-discount")}>
-                        <div className={cx("price-discount-value")}>
-                          <span>97.000</span>
-                        </div>
-                        <div className={cx("discount-currency")}>₫</div>
-                        <div className={cx("price-discount-percent")}>-3%</div>
-                      </div>
+                {mapStateToProps.prosInShop &&
+                  mapStateToProps.prosInShop.length > 0 &&
+                  mapStateToProps.prosInShop.map((item, index) => {
+                    return (
+                      <a
+                        key={index}
+                        href="/san-pham-so/the-cao-game?spid=192048498"
+                        className={cx("styled-wrapper")}
+                      >
+                        <div className={cx("product-container")}>
+                          <div className={cx("product-thumbnail")}>
+                            <picture className={cx("image-container")}>
+                              <source
+                                type="image/webp"
+                                srcSet={item.productImage}
+                              />
+                              <img
+                                src={item.productImage}
+                                className={cx("styled-image")}
+                                alt="Mã thẻ game Garena 100K"
+                                srcSet={item.productImage}
+                              />
+                            </picture>
+                            <div className={cx("product-badge-ship")}>
+                              <img
+                                src="https://salt.tikicdn.com/ts/tka/69/cf/22/1be823299ae34c7ddcd922e73abd4909.png"
+                                alt="badge icon"
+                              />
+                            </div>
+                          </div>
+                          <div className={cx("product-info")}>
+                            <div className={cx("product-name")}>
+                              <h3>{item.productName}</h3>
+                            </div>
+                            <div className={cx("product-container-rating")}>
+                              <div
+                                className={cx("product-container-text-rating")}
+                              >
+                                {item.rating}
+                              </div>
+                              <img
+                                src="https://salt.tikicdn.com/ts/tmp/76/32/ae/3b087e1ae6fa94a7cade963cc2e1311c.png"
+                                alt=""
+                                className={cx("wrapper-follow")}
+                              />
+                              <div className={cx("line-wrap")}></div>
+                              <span className={cx("percent")}>
+                                Đã bán {item.sold}
+                              </span>
+                            </div>
+                            <div className={cx("product-price-discount")}>
+                              <div className={cx("price-discount-value")}>
+                                <span>
+                                  {currencyFormat(item.productSalePrice)}
+                                </span>
+                              </div>
+                              <div className={cx("discount-currency")}>₫</div>
+                            </div>
 
-                      <div className={cx("product-benefit-wrapper")}></div>
-                      <div className={cx("badge-wrapper")}>
-                        <div className={cx("line-badge-row")}></div>
-                        <div className={cx("badge-wrapper-text")}>
-                          <div className={cx("ship-text")}>
-                            Thanh toán qua thẻ &amp; ví
+                            <div
+                              className={cx("product-benefit-wrapper")}
+                            ></div>
+                            <div className={cx("badge-wrapper")}>
+                              <div className={cx("line-badge-row")}></div>
+                              <div className={cx("badge-wrapper-text")}>
+                                <div className={cx("ship-text")}>
+                                  Thanh toán qua thẻ &amp; ví
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-                <a
-                  href="/san-pham-so/the-cao-game?spid=192048498"
-                  className={cx("styled-wrapper")}
-                >
-                  <div className={cx("product-container")}>
-                    <div className={cx("product-thumbnail")}>
-                      <picture className={cx("image-container")}>
-                        <source
-                          type="image/webp"
-                          srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
-                    "
-                        />
-                        <img
-                          src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
-                          className={cx("styled-image")}
-                          alt="Mã thẻ game Garena 100K"
-                          srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
-                    "
-                        />
-                      </picture>
-                      <div className={cx("product-badge-ship")}>
-                        <img
-                          src="https://salt.tikicdn.com/ts/tka/69/cf/22/1be823299ae34c7ddcd922e73abd4909.png"
-                          alt="badge icon"
-                        />
-                      </div>
-                    </div>
-                    <div className={cx("product-info")}>
-                      <div className={cx("product-name")}>
-                        <h3>Mã thẻ game Garena 100K</h3>
-                      </div>
-                      <div className={cx("product-container-rating")}>
-                        <div className={cx("product-container-text-rating")}>
-                          4.8
-                        </div>
-                        <img
-                          src="https://salt.tikicdn.com/ts/tmp/76/32/ae/3b087e1ae6fa94a7cade963cc2e1311c.png"
-                          alt=""
-                          className={cx("wrapper-follow")}
-                        />
-                        <div className={cx("line-wrap")}></div>
-                        <span className={cx("percent")}>Đã bán 5k+</span>
-                      </div>
-                      <div className={cx("product-price-discount")}>
-                        <div className={cx("price-discount-value")}>
-                          <span>97.000</span>
-                        </div>
-                        <div className={cx("discount-currency")}>₫</div>
-                        <div className={cx("price-discount-percent")}>-3%</div>
-                      </div>
-
-                      <div className={cx("product-benefit-wrapper")}></div>
-                      <div className={cx("badge-wrapper")}>
-                        <div className={cx("line-badge-row")}></div>
-                        <div className={cx("badge-wrapper-text")}>
-                          <div className={cx("ship-text")}>
-                            Thanh toán qua thẻ &amp; ví
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-                <a
-                  href="/san-pham-so/the-cao-game?spid=192048498"
-                  className={cx("styled-wrapper")}
-                >
-                  <div className={cx("product-container")}>
-                    <div className={cx("product-thumbnail")}>
-                      <picture className={cx("image-container")}>
-                        <source
-                          type="image/webp"
-                          srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
-                    "
-                        />
-                        <img
-                          src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
-                          className={cx("styled-image")}
-                          alt="Mã thẻ game Garena 100K"
-                          srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
-                    "
-                        />
-                      </picture>
-                      <div className={cx("product-badge-ship")}>
-                        <img
-                          src="https://salt.tikicdn.com/ts/tka/69/cf/22/1be823299ae34c7ddcd922e73abd4909.png"
-                          alt="badge icon"
-                        />
-                      </div>
-                    </div>
-                    <div className={cx("product-info")}>
-                      <div className={cx("product-name")}>
-                        <h3>Mã thẻ game Garena 100K</h3>
-                      </div>
-                      <div className={cx("product-container-rating")}>
-                        <div className={cx("product-container-text-rating")}>
-                          4.8
-                        </div>
-                        <img
-                          src="https://salt.tikicdn.com/ts/tmp/76/32/ae/3b087e1ae6fa94a7cade963cc2e1311c.png"
-                          alt=""
-                          className={cx("wrapper-follow")}
-                        />
-                        <div className={cx("line-wrap")}></div>
-                        <span className={cx("percent")}>Đã bán 5k+</span>
-                      </div>
-                      <div className={cx("product-price-discount")}>
-                        <div className={cx("price-discount-value")}>
-                          <span>97.000</span>
-                        </div>
-                        <div className={cx("discount-currency")}>₫</div>
-                        <div className={cx("price-discount-percent")}>-3%</div>
-                      </div>
-
-                      <div className={cx("product-benefit-wrapper")}></div>
-                      <div className={cx("badge-wrapper")}>
-                        <div className={cx("line-badge-row")}></div>
-                        <div className={cx("badge-wrapper-text")}>
-                          <div className={cx("ship-text")}>
-                            Thanh toán qua thẻ &amp; ví
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-                <a
-                  href="/san-pham-so/the-cao-game?spid=192048498"
-                  className={cx("styled-wrapper")}
-                >
-                  <div className={cx("product-container")}>
-                    <div className={cx("product-thumbnail")}>
-                      <picture className={cx("image-container")}>
-                        <source
-                          type="image/webp"
-                          srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
-                    "
-                        />
-                        <img
-                          src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
-                          className={cx("styled-image")}
-                          alt="Mã thẻ game Garena 100K"
-                          srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
-                    "
-                        />
-                      </picture>
-                      <div className={cx("product-badge-ship")}>
-                        <img
-                          src="https://salt.tikicdn.com/ts/tka/69/cf/22/1be823299ae34c7ddcd922e73abd4909.png"
-                          alt="badge icon"
-                        />
-                      </div>
-                    </div>
-                    <div className={cx("product-info")}>
-                      <div className={cx("product-name")}>
-                        <h3>Mã thẻ game Garena 100K</h3>
-                      </div>
-                      <div className={cx("product-container-rating")}>
-                        <div className={cx("product-container-text-rating")}>
-                          4.8
-                        </div>
-                        <img
-                          src="https://salt.tikicdn.com/ts/tmp/76/32/ae/3b087e1ae6fa94a7cade963cc2e1311c.png"
-                          alt=""
-                          className={cx("wrapper-follow")}
-                        />
-                        <div className={cx("line-wrap")}></div>
-                        <span className={cx("percent")}>Đã bán 5k+</span>
-                      </div>
-                      <div className={cx("product-price-discount")}>
-                        <div className={cx("price-discount-value")}>
-                          <span>97.000</span>
-                        </div>
-                        <div className={cx("discount-currency")}>₫</div>
-                        <div className={cx("price-discount-percent")}>-3%</div>
-                      </div>
-
-                      <div className={cx("product-benefit-wrapper")}></div>
-                      <div className={cx("badge-wrapper")}>
-                        <div className={cx("line-badge-row")}></div>
-                        <div className={cx("badge-wrapper-text")}>
-                          <div className={cx("ship-text")}>
-                            Thanh toán qua thẻ &amp; ví
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-                <a
-                  href="/san-pham-so/the-cao-game?spid=192048498"
-                  className={cx("styled-wrapper")}
-                >
-                  <div className={cx("product-container")}>
-                    <div className={cx("product-thumbnail")}>
-                      <picture className={cx("image-container")}>
-                        <source
-                          type="image/webp"
-                          srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
-                    "
-                        />
-                        <img
-                          src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
-                          className={cx("styled-image")}
-                          alt="Mã thẻ game Garena 100K"
-                          srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
-                    "
-                        />
-                      </picture>
-                      <div className={cx("product-badge-ship")}>
-                        <img
-                          src="https://salt.tikicdn.com/ts/tka/69/cf/22/1be823299ae34c7ddcd922e73abd4909.png"
-                          alt="badge icon"
-                        />
-                      </div>
-                    </div>
-                    <div className={cx("product-info")}>
-                      <div className={cx("product-name")}>
-                        <h3>Mã thẻ game Garena 100K</h3>
-                      </div>
-                      <div className={cx("product-container-rating")}>
-                        <div className={cx("product-container-text-rating")}>
-                          4.8
-                        </div>
-                        <img
-                          src="https://salt.tikicdn.com/ts/tmp/76/32/ae/3b087e1ae6fa94a7cade963cc2e1311c.png"
-                          alt=""
-                          className={cx("wrapper-follow")}
-                        />
-                        <div className={cx("line-wrap")}></div>
-                        <span className={cx("percent")}>Đã bán 5k+</span>
-                      </div>
-                      <div className={cx("product-price-discount")}>
-                        <div className={cx("price-discount-value")}>
-                          <span>97.000</span>
-                        </div>
-                        <div className={cx("discount-currency")}>₫</div>
-                        <div className={cx("price-discount-percent")}>-3%</div>
-                      </div>
-
-                      <div className={cx("product-benefit-wrapper")}></div>
-                      <div className={cx("badge-wrapper")}>
-                        <div className={cx("line-badge-row")}></div>
-                        <div className={cx("badge-wrapper-text")}>
-                          <div className={cx("ship-text")}>
-                            Thanh toán qua thẻ &amp; ví
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-                <a
-                  href="/san-pham-so/the-cao-game?spid=192048498"
-                  className={cx("styled-wrapper")}
-                >
-                  <div className={cx("product-container")}>
-                    <div className={cx("product-thumbnail")}>
-                      <picture className={cx("image-container")}>
-                        <source
-                          type="image/webp"
-                          srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
-                    "
-                        />
-                        <img
-                          src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
-                          className={cx("styled-image")}
-                          alt="Mã thẻ game Garena 100K"
-                          srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
-                    "
-                        />
-                      </picture>
-                      <div className={cx("product-badge-ship")}>
-                        <img
-                          src="https://salt.tikicdn.com/ts/tka/69/cf/22/1be823299ae34c7ddcd922e73abd4909.png"
-                          alt="badge icon"
-                        />
-                      </div>
-                    </div>
-                    <div className={cx("product-info")}>
-                      <div className={cx("product-name")}>
-                        <h3>Mã thẻ game Garena 100K</h3>
-                      </div>
-                      <div className={cx("product-container-rating")}>
-                        <div className={cx("product-container-text-rating")}>
-                          4.8
-                        </div>
-                        <img
-                          src="https://salt.tikicdn.com/ts/tmp/76/32/ae/3b087e1ae6fa94a7cade963cc2e1311c.png"
-                          alt=""
-                          className={cx("wrapper-follow")}
-                        />
-                        <div className={cx("line-wrap")}></div>
-                        <span className={cx("percent")}>Đã bán 5k+</span>
-                      </div>
-                      <div className={cx("product-price-discount")}>
-                        <div className={cx("price-discount-value")}>
-                          <span>97.000</span>
-                        </div>
-                        <div className={cx("discount-currency")}>₫</div>
-                        <div className={cx("price-discount-percent")}>-3%</div>
-                      </div>
-
-                      <div className={cx("product-benefit-wrapper")}></div>
-                      <div className={cx("badge-wrapper")}>
-                        <div className={cx("line-badge-row")}></div>
-                        <div className={cx("badge-wrapper-text")}>
-                          <div className={cx("ship-text")}>
-                            Thanh toán qua thẻ &amp; ví
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-                <a
-                  href="/san-pham-so/the-cao-game?spid=192048498"
-                  className={cx("styled-wrapper")}
-                >
-                  <div className={cx("product-container")}>
-                    <div className={cx("product-thumbnail")}>
-                      <picture className={cx("image-container")}>
-                        <source
-                          type="image/webp"
-                          srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
-                    "
-                        />
-                        <img
-                          src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
-                          className={cx("styled-image")}
-                          alt="Mã thẻ game Garena 100K"
-                          srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
-                    "
-                        />
-                      </picture>
-                      <div className={cx("product-badge-ship")}>
-                        <img
-                          src="https://salt.tikicdn.com/ts/tka/69/cf/22/1be823299ae34c7ddcd922e73abd4909.png"
-                          alt="badge icon"
-                        />
-                      </div>
-                    </div>
-                    <div className={cx("product-info")}>
-                      <div className={cx("product-name")}>
-                        <h3>Mã thẻ game Garena 100K</h3>
-                      </div>
-                      <div className={cx("product-container-rating")}>
-                        <div className={cx("product-container-text-rating")}>
-                          4.8
-                        </div>
-                        <img
-                          src="https://salt.tikicdn.com/ts/tmp/76/32/ae/3b087e1ae6fa94a7cade963cc2e1311c.png"
-                          alt=""
-                          className={cx("wrapper-follow")}
-                        />
-                        <div className={cx("line-wrap")}></div>
-                        <span className={cx("percent")}>Đã bán 5k+</span>
-                      </div>
-                      <div className={cx("product-price-discount")}>
-                        <div className={cx("price-discount-value")}>
-                          <span>97.000</span>
-                        </div>
-                        <div className={cx("discount-currency")}>₫</div>
-                        <div className={cx("price-discount-percent")}>-3%</div>
-                      </div>
-
-                      <div className={cx("product-benefit-wrapper")}></div>
-                      <div className={cx("badge-wrapper")}>
-                        <div className={cx("line-badge-row")}></div>
-                        <div className={cx("badge-wrapper-text")}>
-                          <div className={cx("ship-text")}>
-                            Thanh toán qua thẻ &amp; ví
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-                <a
-                  href="/san-pham-so/the-cao-game?spid=192048498"
-                  className={cx("styled-wrapper")}
-                >
-                  <div className={cx("product-container")}>
-                    <div className={cx("product-thumbnail")}>
-                      <picture className={cx("image-container")}>
-                        <source
-                          type="image/webp"
-                          srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
-                    "
-                        />
-                        <img
-                          src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
-                          className={cx("styled-image")}
-                          alt="Mã thẻ game Garena 100K"
-                          srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
-                    "
-                        />
-                      </picture>
-                      <div className={cx("product-badge-ship")}>
-                        <img
-                          src="https://salt.tikicdn.com/ts/tka/69/cf/22/1be823299ae34c7ddcd922e73abd4909.png"
-                          alt="badge icon"
-                        />
-                      </div>
-                    </div>
-                    <div className={cx("product-info")}>
-                      <div className={cx("product-name")}>
-                        <h3>Mã thẻ game Garena 100K</h3>
-                      </div>
-                      <div className={cx("product-container-rating")}>
-                        <div className={cx("product-container-text-rating")}>
-                          4.8
-                        </div>
-                        <img
-                          src="https://salt.tikicdn.com/ts/tmp/76/32/ae/3b087e1ae6fa94a7cade963cc2e1311c.png"
-                          alt=""
-                          className={cx("wrapper-follow")}
-                        />
-                        <div className={cx("line-wrap")}></div>
-                        <span className={cx("percent")}>Đã bán 5k+</span>
-                      </div>
-                      <div className={cx("product-price-discount")}>
-                        <div className={cx("price-discount-value")}>
-                          <span>97.000</span>
-                        </div>
-                        <div className={cx("discount-currency")}>₫</div>
-                        <div className={cx("price-discount-percent")}>-3%</div>
-                      </div>
-
-                      <div className={cx("product-benefit-wrapper")}></div>
-                      <div className={cx("badge-wrapper")}>
-                        <div className={cx("line-badge-row")}></div>
-                        <div className={cx("badge-wrapper-text")}>
-                          <div className={cx("ship-text")}>
-                            Thanh toán qua thẻ &amp; ví
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-                <a
-                  href="/san-pham-so/the-cao-game?spid=192048498"
-                  className={cx("styled-wrapper")}
-                >
-                  <div className={cx("product-container")}>
-                    <div className={cx("product-thumbnail")}>
-                      <picture className={cx("image-container")}>
-                        <source
-                          type="image/webp"
-                          srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
-                    "
-                        />
-                        <img
-                          src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
-                          className={cx("styled-image")}
-                          alt="Mã thẻ game Garena 100K"
-                          srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
-                    "
-                        />
-                      </picture>
-                      <div className={cx("product-badge-ship")}>
-                        <img
-                          src="https://salt.tikicdn.com/ts/tka/69/cf/22/1be823299ae34c7ddcd922e73abd4909.png"
-                          alt="badge icon"
-                        />
-                      </div>
-                    </div>
-                    <div className={cx("product-info")}>
-                      <div className={cx("product-name")}>
-                        <h3>Mã thẻ game Garena 100K</h3>
-                      </div>
-                      <div className={cx("product-container-rating")}>
-                        <div className={cx("product-container-text-rating")}>
-                          4.8
-                        </div>
-                        <img
-                          src="https://salt.tikicdn.com/ts/tmp/76/32/ae/3b087e1ae6fa94a7cade963cc2e1311c.png"
-                          alt=""
-                          className={cx("wrapper-follow")}
-                        />
-                        <div className={cx("line-wrap")}></div>
-                        <span className={cx("percent")}>Đã bán 5k+</span>
-                      </div>
-                      <div className={cx("product-price-discount")}>
-                        <div className={cx("price-discount-value")}>
-                          <span>97.000</span>
-                        </div>
-                        <div className={cx("discount-currency")}>₫</div>
-                        <div className={cx("price-discount-percent")}>-3%</div>
-                      </div>
-
-                      <div className={cx("product-benefit-wrapper")}></div>
-                      <div className={cx("badge-wrapper")}>
-                        <div className={cx("line-badge-row")}></div>
-                        <div className={cx("badge-wrapper-text")}>
-                          <div className={cx("ship-text")}>
-                            Thanh toán qua thẻ &amp; ví
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-                <a
-                  href="/san-pham-so/the-cao-game?spid=192048498"
-                  className={cx("styled-wrapper")}
-                >
-                  <div className={cx("product-container")}>
-                    <div className={cx("product-thumbnail")}>
-                      <picture className={cx("image-container")}>
-                        <source
-                          type="image/webp"
-                          srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
-                    "
-                        />
-                        <img
-                          src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
-                          className={cx("styled-image")}
-                          alt="Mã thẻ game Garena 100K"
-                          srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
-                    "
-                        />
-                      </picture>
-                      <div className={cx("product-badge-ship")}>
-                        <img
-                          src="https://salt.tikicdn.com/ts/tka/69/cf/22/1be823299ae34c7ddcd922e73abd4909.png"
-                          alt="badge icon"
-                        />
-                      </div>
-                    </div>
-                    <div className={cx("product-info")}>
-                      <div className={cx("product-name")}>
-                        <h3>Mã thẻ game Garena 100K</h3>
-                      </div>
-                      <div className={cx("product-container-rating")}>
-                        <div className={cx("product-container-text-rating")}>
-                          4.8
-                        </div>
-                        <img
-                          src="https://salt.tikicdn.com/ts/tmp/76/32/ae/3b087e1ae6fa94a7cade963cc2e1311c.png"
-                          alt=""
-                          className={cx("wrapper-follow")}
-                        />
-                        <div className={cx("line-wrap")}></div>
-                        <span className={cx("percent")}>Đã bán 5k+</span>
-                      </div>
-                      <div className={cx("product-price-discount")}>
-                        <div className={cx("price-discount-value")}>
-                          <span>97.000</span>
-                        </div>
-                        <div className={cx("discount-currency")}>₫</div>
-                        <div className={cx("price-discount-percent")}>-3%</div>
-                      </div>
-
-                      <div className={cx("product-benefit-wrapper")}></div>
-                      <div className={cx("badge-wrapper")}>
-                        <div className={cx("line-badge-row")}></div>
-                        <div className={cx("badge-wrapper-text")}>
-                          <div className={cx("ship-text")}>
-                            Thanh toán qua thẻ &amp; ví
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-                <a
-                  href="/san-pham-so/the-cao-game?spid=192048498"
-                  className={cx("styled-wrapper")}
-                >
-                  <div className={cx("product-container")}>
-                    <div className={cx("product-thumbnail")}>
-                      <picture className={cx("image-container")}>
-                        <source
-                          type="image/webp"
-                          srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
-                    "
-                        />
-                        <img
-                          src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
-                          className={cx("styled-image")}
-                          alt="Mã thẻ game Garena 100K"
-                          srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
-                    "
-                        />
-                      </picture>
-                      <div className={cx("product-badge-ship")}>
-                        <img
-                          src="https://salt.tikicdn.com/ts/tka/69/cf/22/1be823299ae34c7ddcd922e73abd4909.png"
-                          alt="badge icon"
-                        />
-                      </div>
-                    </div>
-                    <div className={cx("product-info")}>
-                      <div className={cx("product-name")}>
-                        <h3>Mã thẻ game Garena 100K</h3>
-                      </div>
-                      <div className={cx("product-container-rating")}>
-                        <div className={cx("product-container-text-rating")}>
-                          4.8
-                        </div>
-                        <img
-                          src="https://salt.tikicdn.com/ts/tmp/76/32/ae/3b087e1ae6fa94a7cade963cc2e1311c.png"
-                          alt=""
-                          className={cx("wrapper-follow")}
-                        />
-                        <div className={cx("line-wrap")}></div>
-                        <span className={cx("percent")}>Đã bán 5k+</span>
-                      </div>
-                      <div className={cx("product-price-discount")}>
-                        <div className={cx("price-discount-value")}>
-                          <span>97.000</span>
-                        </div>
-                        <div className={cx("discount-currency")}>₫</div>
-                        <div className={cx("price-discount-percent")}>-3%</div>
-                      </div>
-
-                      <div className={cx("product-benefit-wrapper")}></div>
-                      <div className={cx("badge-wrapper")}>
-                        <div className={cx("line-badge-row")}></div>
-                        <div className={cx("badge-wrapper-text")}>
-                          <div className={cx("ship-text")}>
-                            Thanh toán qua thẻ &amp; ví
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-                <a
-                  href="/san-pham-so/the-cao-game?spid=192048498"
-                  className={cx("styled-wrapper")}
-                >
-                  <div className={cx("product-container")}>
-                    <div className={cx("product-thumbnail")}>
-                      <picture className={cx("image-container")}>
-                        <source
-                          type="image/webp"
-                          srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
-                    "
-                        />
-                        <img
-                          src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
-                          className={cx("styled-image")}
-                          alt="Mã thẻ game Garena 100K"
-                          srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
-                    "
-                        />
-                      </picture>
-                      <div className={cx("product-badge-ship")}>
-                        <img
-                          src="https://salt.tikicdn.com/ts/tka/69/cf/22/1be823299ae34c7ddcd922e73abd4909.png"
-                          alt="badge icon"
-                        />
-                      </div>
-                    </div>
-                    <div className={cx("product-info")}>
-                      <div className={cx("product-name")}>
-                        <h3>Mã thẻ game Garena 100K</h3>
-                      </div>
-                      <div className={cx("product-container-rating")}>
-                        <div className={cx("product-container-text-rating")}>
-                          4.8
-                        </div>
-                        <img
-                          src="https://salt.tikicdn.com/ts/tmp/76/32/ae/3b087e1ae6fa94a7cade963cc2e1311c.png"
-                          alt=""
-                          className={cx("wrapper-follow")}
-                        />
-                        <div className={cx("line-wrap")}></div>
-                        <span className={cx("percent")}>Đã bán 5k+</span>
-                      </div>
-                      <div className={cx("product-price-discount")}>
-                        <div className={cx("price-discount-value")}>
-                          <span>97.000</span>
-                        </div>
-                        <div className={cx("discount-currency")}>₫</div>
-                        <div className={cx("price-discount-percent")}>-3%</div>
-                      </div>
-
-                      <div className={cx("product-benefit-wrapper")}></div>
-                      <div className={cx("badge-wrapper")}>
-                        <div className={cx("line-badge-row")}></div>
-                        <div className={cx("badge-wrapper-text")}>
-                          <div className={cx("ship-text")}>
-                            Thanh toán qua thẻ &amp; ví
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-                <a
-                  href="/san-pham-so/the-cao-game?spid=192048498"
-                  className={cx("styled-wrapper")}
-                >
-                  <div className={cx("product-container")}>
-                    <div className={cx("product-thumbnail")}>
-                      <picture className={cx("image-container")}>
-                        <source
-                          type="image/webp"
-                          srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
-                    "
-                        />
-                        <img
-                          src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
-                          className={cx("styled-image")}
-                          alt="Mã thẻ game Garena 100K"
-                          srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
-                    "
-                        />
-                      </picture>
-                      <div className={cx("product-badge-ship")}>
-                        <img
-                          src="https://salt.tikicdn.com/ts/tka/69/cf/22/1be823299ae34c7ddcd922e73abd4909.png"
-                          alt="badge icon"
-                        />
-                      </div>
-                    </div>
-                    <div className={cx("product-info")}>
-                      <div className={cx("product-name")}>
-                        <h3>Mã thẻ game Garena 100K</h3>
-                      </div>
-                      <div className={cx("product-container-rating")}>
-                        <div className={cx("product-container-text-rating")}>
-                          4.8
-                        </div>
-                        <img
-                          src="https://salt.tikicdn.com/ts/tmp/76/32/ae/3b087e1ae6fa94a7cade963cc2e1311c.png"
-                          alt=""
-                          className={cx("wrapper-follow")}
-                        />
-                        <div className={cx("line-wrap")}></div>
-                        <span className={cx("percent")}>Đã bán 5k+</span>
-                      </div>
-                      <div className={cx("product-price-discount")}>
-                        <div className={cx("price-discount-value")}>
-                          <span>97.000</span>
-                        </div>
-                        <div className={cx("discount-currency")}>₫</div>
-                        <div className={cx("price-discount-percent")}>-3%</div>
-                      </div>
-
-                      <div className={cx("product-benefit-wrapper")}></div>
-                      <div className={cx("badge-wrapper")}>
-                        <div className={cx("line-badge-row")}></div>
-                        <div className={cx("badge-wrapper-text")}>
-                          <div className={cx("ship-text")}>
-                            Thanh toán qua thẻ &amp; ví
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-                <a
-                  href="/san-pham-so/the-cao-game?spid=192048498"
-                  className={cx("styled-wrapper")}
-                >
-                  <div className={cx("product-container")}>
-                    <div className={cx("product-thumbnail")}>
-                      <picture className={cx("image-container")}>
-                        <source
-                          type="image/webp"
-                          srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
-                    "
-                        />
-                        <img
-                          src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
-                          className={cx("styled-image")}
-                          alt="Mã thẻ game Garena 100K"
-                          srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
-                    "
-                        />
-                      </picture>
-                      <div className={cx("product-badge-ship")}>
-                        <img
-                          src="https://salt.tikicdn.com/ts/tka/69/cf/22/1be823299ae34c7ddcd922e73abd4909.png"
-                          alt="badge icon"
-                        />
-                      </div>
-                    </div>
-                    <div className={cx("product-info")}>
-                      <div className={cx("product-name")}>
-                        <h3>Mã thẻ game Garena 100K</h3>
-                      </div>
-                      <div className={cx("product-container-rating")}>
-                        <div className={cx("product-container-text-rating")}>
-                          4.8
-                        </div>
-                        <img
-                          src="https://salt.tikicdn.com/ts/tmp/76/32/ae/3b087e1ae6fa94a7cade963cc2e1311c.png"
-                          alt=""
-                          className={cx("wrapper-follow")}
-                        />
-                        <div className={cx("line-wrap")}></div>
-                        <span className={cx("percent")}>Đã bán 5k+</span>
-                      </div>
-                      <div className={cx("product-price-discount")}>
-                        <div className={cx("price-discount-value")}>
-                          <span>97.000</span>
-                        </div>
-                        <div className={cx("discount-currency")}>₫</div>
-                        <div className={cx("price-discount-percent")}>-3%</div>
-                      </div>
-
-                      <div className={cx("product-benefit-wrapper")}></div>
-                      <div className={cx("badge-wrapper")}>
-                        <div className={cx("line-badge-row")}></div>
-                        <div className={cx("badge-wrapper-text")}>
-                          <div className={cx("ship-text")}>
-                            Thanh toán qua thẻ &amp; ví
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-                <a
-                  href="/san-pham-so/the-cao-game?spid=192048498"
-                  className={cx("styled-wrapper")}
-                >
-                  <div className={cx("product-container")}>
-                    <div className={cx("product-thumbnail")}>
-                      <picture className={cx("image-container")}>
-                        <source
-                          type="image/webp"
-                          srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
-                    "
-                        />
-                        <img
-                          src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
-                          className={cx("styled-image")}
-                          alt="Mã thẻ game Garena 100K"
-                          srcset="
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
-                      https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
-                    "
-                        />
-                      </picture>
-                      <div className={cx("product-badge-ship")}>
-                        <img
-                          src="https://salt.tikicdn.com/ts/tka/69/cf/22/1be823299ae34c7ddcd922e73abd4909.png"
-                          alt="badge icon"
-                        />
-                      </div>
-                    </div>
-                    <div className={cx("product-info")}>
-                      <div className={cx("product-name")}>
-                        <h3>Mã thẻ game Garena 100K</h3>
-                      </div>
-                      <div className={cx("product-container-rating")}>
-                        <div className={cx("product-container-text-rating")}>
-                          4.8
-                        </div>
-                        <img
-                          src="https://salt.tikicdn.com/ts/tmp/76/32/ae/3b087e1ae6fa94a7cade963cc2e1311c.png"
-                          alt=""
-                          className={cx("wrapper-follow")}
-                        />
-                        <div className={cx("line-wrap")}></div>
-                        <span className={cx("percent")}>Đã bán 5k+</span>
-                      </div>
-                      <div className={cx("product-price-discount")}>
-                        <div className={cx("price-discount-value")}>
-                          <span>97.000</span>
-                        </div>
-                        <div className={cx("discount-currency")}>₫</div>
-                        <div className={cx("price-discount-percent")}>-3%</div>
-                      </div>
-
-                      <div className={cx("product-benefit-wrapper")}></div>
-                      <div className={cx("badge-wrapper")}>
-                        <div className={cx("line-badge-row")}></div>
-                        <div className={cx("badge-wrapper-text")}>
-                          <div className={cx("ship-text")}>
-                            Thanh toán qua thẻ &amp; ví
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
+                      </a>
+                    );
+                  })}
               </div>
             </div>
             <div>

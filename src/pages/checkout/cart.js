@@ -1,13 +1,17 @@
 import React, { useRef, useEffect, useState } from "react";
 import classNames from "classnames/bind";
+import Modal from "react-modal";
 import styles from "./cart.module.scss";
 import CartDelivery from "@/container/Cart/CartDelivery";
 import Promotion from "@/container/Cart/Promotion";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
-import { renderCartProducts } from "@/redux/slice/cartReducer";
-import { renderShopInfor } from "@/redux/slice/sellerReducer";
-
+import {
+  renderCartProducts,
+  increaseProduct,
+  decreaseProduct,
+  deleteCartItem,
+} from "@/redux/slice/cartReducer";
 const cx = classNames.bind(styles);
 function Cart() {
   const router = useRouter();
@@ -63,7 +67,7 @@ function Cart() {
   }, [mapStateToProps.cartProductsArr]);
 
   // Increase quantity
-  const handleIncrease = (productId) => {
+  const handleIncrease = (productId, cartItemId) => {
     setCart(
       cart.map((shopItem) => {
         return {
@@ -103,10 +107,11 @@ function Cart() {
       })
     );
     calFinalPrice();
+    dispatch(increaseProduct(cartItemId));
   };
 
   // Decrease quantity
-  const handleDecrease = (productId) => {
+  const handleDecrease = (productId, cartItemId) => {
     // truyền cart, và sửa cart
     setCart(
       cart.map((shopItem) => {
@@ -148,6 +153,7 @@ function Cart() {
       })
     );
     calFinalPrice();
+    dispatch(decreaseProduct(cartItemId));
   };
 
   // Call price and count numbers of product checked
@@ -229,6 +235,7 @@ function Cart() {
 
   const serializedArray = JSON.stringify(getArrChecked());
 
+  //Handle order
   const handleOrder = () => {
     if (totalChecked === 0) {
       alert("Vui lòng chọn sản phẩm");
@@ -243,8 +250,65 @@ function Cart() {
     }
   };
 
+  //Hanlde delete product
+  const handleDeleteProduct = (cartItemId) => {
+    dispatch(deleteCartItem(cartItemId));
+  };
+
+  const customStyles = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+    },
+
+    overlay: {
+      backgroundColor: "#00000087",
+    },
+  };
+
+  let subtitle;
+  const [modalIsOpen, setIsOpen] = useState(false);
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function afterOpenModal() {
+    // references are now sync'd and can be accessed.
+    subtitle.style.color = "#f00";
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
   return (
     <div className={cx("checkout-wrapper")}>
+      <div>
+        <button onClick={openModal}>Open Modal</button>
+        <Modal
+          isOpen={modalIsOpen}
+          onAfterOpen={afterOpenModal}
+          onRequestClose={closeModal}
+          style={customStyles}
+          contentLabel="Example Modal"
+        >
+          <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Hello</h2>
+          <button onClick={closeModal}>close</button>
+          <div>I am a modal</div>
+          <form>
+            <input />
+            <button>tab navigation</button>
+            <button>stays</button>
+            <button>inside</button>
+            <button>the modal</button>
+          </form>
+        </Modal>
+      </div>
       <div className={cx("checkout-container")}>
         <div className={cx("checkout-heading")}>
           <h4>Giỏ Hàng</h4>
@@ -315,7 +379,7 @@ function Cart() {
                         </span>
                       </label>
                       <img
-                        // src="https://salt.tikicdn.com/ts/upload/30/24/79/8317b36e87e7c0920e33de0ab5c21b62.png"
+                        src="https://salt.tikicdn.com/ts/upload/30/24/79/8317b36e87e7c0920e33de0ab5c21b62.png"
                         alt="seller-link"
                         className="sellers__icon-home"
                       />
@@ -382,7 +446,10 @@ function Cart() {
                                 id={cx("quantity-decrease")}
                                 className={cx("qty-decrease")}
                                 onClick={() =>
-                                  handleDecrease(productItem.product_id)
+                                  handleDecrease(
+                                    productItem.product_id,
+                                    productItem.cartItem_id
+                                  )
                                 }
                               >
                                 <img
@@ -400,7 +467,10 @@ function Cart() {
                                 id={cx("quantity-increase")}
                                 className={cx("qty-increase")}
                                 onClick={() =>
-                                  handleIncrease(productItem.product_id)
+                                  handleIncrease(
+                                    productItem.product_id,
+                                    productItem.cartItem_id
+                                  )
                                 }
                               >
                                 <img
@@ -416,6 +486,9 @@ function Cart() {
                               src="https://frontend.tikicdn.com/_desktop-next/static/img/icons/trash.svg"
                               alt="deleted"
                               className={cx("deleteBtn")}
+                              onClick={() =>
+                                handleDeleteProduct(productItem.cartItem_id)
+                              }
                             />
                           </div>
                         );

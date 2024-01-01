@@ -12,8 +12,8 @@ function Success() {
   const array = router.query.array;
   const listItems = JSON.parse(array);
   const finalPrice = parseInt(router.query.finalPrice);
-  console.log(finalPrice);
-  console.log(listItems);
+  // console.log(finalPrice);
+  // console.log(listItems);
 
   return (
     <div className={cx("success-wrapper")}>

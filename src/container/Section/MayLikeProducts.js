@@ -53,7 +53,6 @@ function MayLikeProducts() {
   const componentDidMount = async () => {
     try {
       const id = generateRandomId();
-      console.log(id);
       if (!prosList1.length) {
         dispatch(renderMayLikePros(id));
       } else if (prosList2.length) {
@@ -105,7 +104,6 @@ function MayLikeProducts() {
   };
   const router = useRouter();
   const handleClickPros = (productId) => {
-    console.log(productId);
     router.push({
       pathname: "/product",
       query: {

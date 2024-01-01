@@ -857,7 +857,7 @@ export default function CategoryLayout() {
                       <picture className={cx('image-container')}>
                         <source
                           type="image/webp"
-                          srcset="
+                          srcSet="
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
                     "
@@ -866,7 +866,7 @@ export default function CategoryLayout() {
                           src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
                           className={cx('styled-image')}
                           alt="Mã thẻ game Garena 100K"
-                          srcset="
+                          srcSet="
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
                     "
@@ -924,7 +924,7 @@ export default function CategoryLayout() {
                       <picture className={cx('image-container')}>
                         <source
                           type="image/webp"
-                          srcset="
+                          srcSet="
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
                     "
@@ -933,7 +933,7 @@ export default function CategoryLayout() {
                           src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
                           className={cx('styled-image')}
                           alt="Mã thẻ game Garena 100K"
-                          srcset="
+                          srcSet="
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
                     "
@@ -991,7 +991,7 @@ export default function CategoryLayout() {
                       <picture className={cx('image-container')}>
                         <source
                           type="image/webp"
-                          srcset="
+                          srcSet="
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
                     "
@@ -1000,7 +1000,7 @@ export default function CategoryLayout() {
                           src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
                           className={cx('styled-image')}
                           alt="Mã thẻ game Garena 100K"
-                          srcset="
+                          srcSet="
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
                     "
@@ -1058,7 +1058,7 @@ export default function CategoryLayout() {
                       <picture className={cx('image-container')}>
                         <source
                           type="image/webp"
-                          srcset="
+                          srcSet="
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
                     "
@@ -1067,7 +1067,7 @@ export default function CategoryLayout() {
                           src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
                           className={cx('styled-image')}
                           alt="Mã thẻ game Garena 100K"
-                          srcset="
+                          srcSet="
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
                     "
@@ -1125,7 +1125,7 @@ export default function CategoryLayout() {
                       <picture className={cx('image-container')}>
                         <source
                           type="image/webp"
-                          srcset="
+                          srcSet="
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
                     "
@@ -1134,7 +1134,7 @@ export default function CategoryLayout() {
                           src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
                           className={cx('styled-image')}
                           alt="Mã thẻ game Garena 100K"
-                          srcset="
+                          srcSet="
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
                     "
@@ -1192,7 +1192,7 @@ export default function CategoryLayout() {
                       <picture className={cx('image-container')}>
                         <source
                           type="image/webp"
-                          srcset="
+                          srcSet="
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
                     "
@@ -1201,7 +1201,7 @@ export default function CategoryLayout() {
                           src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
                           className={cx('styled-image')}
                           alt="Mã thẻ game Garena 100K"
-                          srcset="
+                          srcSet="
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
                     "
@@ -1259,7 +1259,7 @@ export default function CategoryLayout() {
                       <picture className={cx('image-container')}>
                         <source
                           type="image/webp"
-                          srcset="
+                          srcSet="
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
                     "
@@ -1268,7 +1268,7 @@ export default function CategoryLayout() {
                           src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
                           className={cx('styled-image')}
                           alt="Mã thẻ game Garena 100K"
-                          srcset="
+                          srcSet="
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
                     "
@@ -1326,7 +1326,7 @@ export default function CategoryLayout() {
                       <picture className={cx('image-container')}>
                         <source
                           type="image/webp"
-                          srcset="
+                          srcSet="
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
                     "
@@ -1335,7 +1335,7 @@ export default function CategoryLayout() {
                           src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
                           className={cx('styled-image')}
                           alt="Mã thẻ game Garena 100K"
-                          srcset="
+                          srcSet="
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
                     "
@@ -1393,7 +1393,7 @@ export default function CategoryLayout() {
                       <picture className={cx('image-container')}>
                         <source
                           type="image/webp"
-                          srcset="
+                          srcSet="
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
                     "
@@ -1402,7 +1402,7 @@ export default function CategoryLayout() {
                           src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
                           className={cx('styled-image')}
                           alt="Mã thẻ game Garena 100K"
-                          srcset="
+                          srcSet="
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
                     "
@@ -1460,7 +1460,7 @@ export default function CategoryLayout() {
                       <picture className={cx('image-container')}>
                         <source
                           type="image/webp"
-                          srcset="
+                          srcSet="
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
                     "
@@ -1469,7 +1469,7 @@ export default function CategoryLayout() {
                           src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
                           className={cx('styled-image')}
                           alt="Mã thẻ game Garena 100K"
-                          srcset="
+                          srcSet="
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
                     "
@@ -1527,7 +1527,7 @@ export default function CategoryLayout() {
                       <picture className={cx('image-container')}>
                         <source
                           type="image/webp"
-                          srcset="
+                          srcSet="
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
                     "
@@ -1536,7 +1536,7 @@ export default function CategoryLayout() {
                           src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
                           className={cx('styled-image')}
                           alt="Mã thẻ game Garena 100K"
-                          srcset="
+                          srcSet="
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
                     "
@@ -1594,7 +1594,7 @@ export default function CategoryLayout() {
                       <picture className={cx('image-container')}>
                         <source
                           type="image/webp"
-                          srcset="
+                          srcSet="
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
                     "
@@ -1603,7 +1603,7 @@ export default function CategoryLayout() {
                           src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
                           className={cx('styled-image')}
                           alt="Mã thẻ game Garena 100K"
-                          srcset="
+                          srcSet="
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
                     "
@@ -1661,7 +1661,7 @@ export default function CategoryLayout() {
                       <picture className={cx('image-container')}>
                         <source
                           type="image/webp"
-                          srcset="
+                          srcSet="
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
                     "
@@ -1670,7 +1670,7 @@ export default function CategoryLayout() {
                           src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
                           className={cx('styled-image')}
                           alt="Mã thẻ game Garena 100K"
-                          srcset="
+                          srcSet="
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
                     "
@@ -1728,7 +1728,7 @@ export default function CategoryLayout() {
                       <picture className={cx('image-container')}>
                         <source
                           type="image/webp"
-                          srcset="
+                          srcSet="
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
                     "
@@ -1737,7 +1737,7 @@ export default function CategoryLayout() {
                           src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
                           className={cx('styled-image')}
                           alt="Mã thẻ game Garena 100K"
-                          srcset="
+                          srcSet="
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
                     "
@@ -1795,7 +1795,7 @@ export default function CategoryLayout() {
                       <picture className={cx('image-container')}>
                         <source
                           type="image/webp"
-                          srcset="
+                          srcSet="
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 1x,
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x
                     "
@@ -1804,7 +1804,7 @@ export default function CategoryLayout() {
                           src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
                           className={cx('styled-image')}
                           alt="Mã thẻ game Garena 100K"
-                          srcset="
+                          srcSet="
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 1x,
                       https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x
                     "

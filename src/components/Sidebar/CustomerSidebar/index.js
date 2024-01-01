@@ -108,17 +108,6 @@ function AccountManageSidebar({ selectedNav }) {
             </span>
             {listItem.map((item, index) => {
               return (
-                // <li key={index}>
-                //   <a
-                //     className={
-                //       activeNav === item.navName ? cx("is-active") : ""
-                //     }
-                //     href={item.href}
-                //   >
-                //     <IconSidebar />
-                //     <span>{item.title}</span>
-                //   </a>
-                // </li>
                 <a
                   key={index}
                   href={item.pathName}

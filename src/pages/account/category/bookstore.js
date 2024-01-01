@@ -590,13 +590,13 @@ export default function CategoryLayout() {
                       <picture className={cx("image-container")}>
                         <source
                           type="image/webp"
-                          srcset="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x"
+                          srcSet="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x"
                         />
                         <img
                           src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
                           className={cx("styled-image")}
                           alt="Mã thẻ game Garena 100K"
-                          srcset="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x"
+                          srcSet="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x"
                         />
                       </picture>
                       <div className={cx("product-badge-ship")}>
@@ -651,13 +651,13 @@ export default function CategoryLayout() {
                       <picture className={cx("image-container")}>
                         <source
                           type="image/webp"
-                          srcset="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x"
+                          srcSet="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x"
                         />
                         <img
                           src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
                           className={cx("styled-image")}
                           alt="Mã thẻ game Garena 100K"
-                          srcset="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x"
+                          srcSet="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x"
                         />
                       </picture>
                       <div className={cx("product-badge-ship")}>
@@ -712,13 +712,13 @@ export default function CategoryLayout() {
                       <picture className={cx("image-container")}>
                         <source
                           type="image/webp"
-                          srcset="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x"
+                          srcSet="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x"
                         />
                         <img
                           src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
                           className={cx("styled-image")}
                           alt="Mã thẻ game Garena 100K"
-                          srcset="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x"
+                          srcSet="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x"
                         />
                       </picture>
                       <div className={cx("product-badge-ship")}>
@@ -773,13 +773,13 @@ export default function CategoryLayout() {
                       <picture className={cx("image-container")}>
                         <source
                           type="image/webp"
-                          srcset="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x"
+                          srcSet="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x"
                         />
                         <img
                           src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
                           className={cx("styled-image")}
                           alt="Mã thẻ game Garena 100K"
-                          srcset="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x"
+                          srcSet="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x"
                         />
                       </picture>
                       <div className={cx("product-badge-ship")}>
@@ -834,13 +834,13 @@ export default function CategoryLayout() {
                       <picture className={cx("image-container")}>
                         <source
                           type="image/webp"
-                          srcset="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x"
+                          srcSet="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x"
                         />
                         <img
                           src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
                           className={cx("styled-image")}
                           alt="Mã thẻ game Garena 100K"
-                          srcset="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x"
+                          srcSet="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x"
                         />
                       </picture>
                       <div className={cx("product-badge-ship")}>
@@ -895,13 +895,13 @@ export default function CategoryLayout() {
                       <picture className={cx("image-container")}>
                         <source
                           type="image/webp"
-                          srcset="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x"
+                          srcSet="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x"
                         />
                         <img
                           src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
                           className={cx("styled-image")}
                           alt="Mã thẻ game Garena 100K"
-                          srcset="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x"
+                          srcSet="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x"
                         />
                       </picture>
                       <div className={cx("product-badge-ship")}>
@@ -956,13 +956,13 @@ export default function CategoryLayout() {
                       <picture className={cx("image-container")}>
                         <source
                           type="image/webp"
-                          srcset="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x"
+                          srcSet="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x"
                         />
                         <img
                           src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
                           className={cx("styled-image")}
                           alt="Mã thẻ game Garena 100K"
-                          srcset="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x"
+                          srcSet="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x"
                         />
                       </picture>
                       <div className={cx("product-badge-ship")}>
@@ -1017,13 +1017,13 @@ export default function CategoryLayout() {
                       <picture className={cx("image-container")}>
                         <source
                           type="image/webp"
-                          srcset="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x"
+                          srcSet="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x"
                         />
                         <img
                           src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
                           className={cx("styled-image")}
                           alt="Mã thẻ game Garena 100K"
-                          srcset="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x"
+                          srcSet="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x"
                         />
                       </picture>
                       <div className={cx("product-badge-ship")}>
@@ -1078,13 +1078,13 @@ export default function CategoryLayout() {
                       <picture className={cx("image-container")}>
                         <source
                           type="image/webp"
-                          srcset="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x"
+                          srcSet="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x"
                         />
                         <img
                           src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
                           className={cx("styled-image")}
                           alt="Mã thẻ game Garena 100K"
-                          srcset="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x"
+                          srcSet="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x"
                         />
                       </picture>
                       <div className={cx("product-badge-ship")}>
@@ -1139,13 +1139,13 @@ export default function CategoryLayout() {
                       <picture className={cx("image-container")}>
                         <source
                           type="image/webp"
-                          srcset="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x"
+                          srcSet="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x"
                         />
                         <img
                           src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
                           className={cx("styled-image")}
                           alt="Mã thẻ game Garena 100K"
-                          srcset="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x"
+                          srcSet="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x"
                         />
                       </picture>
                       <div className={cx("product-badge-ship")}>
@@ -1200,13 +1200,13 @@ export default function CategoryLayout() {
                       <picture className={cx("image-container")}>
                         <source
                           type="image/webp"
-                          srcset="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x"
+                          srcSet="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x"
                         />
                         <img
                           src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
                           className={cx("styled-image")}
                           alt="Mã thẻ game Garena 100K"
-                          srcset="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x"
+                          srcSet="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x"
                         />
                       </picture>
                       <div className={cx("product-badge-ship")}>
@@ -1261,13 +1261,13 @@ export default function CategoryLayout() {
                       <picture className={cx("image-container")}>
                         <source
                           type="image/webp"
-                          srcset="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x"
+                          srcSet="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x"
                         />
                         <img
                           src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
                           className={cx("styled-image")}
                           alt="Mã thẻ game Garena 100K"
-                          srcset="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x"
+                          srcSet="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x"
                         />
                       </picture>
                       <div className={cx("product-badge-ship")}>
@@ -1322,13 +1322,13 @@ export default function CategoryLayout() {
                       <picture className={cx("image-container")}>
                         <source
                           type="image/webp"
-                          srcset="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x"
+                          srcSet="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x"
                         />
                         <img
                           src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
                           className={cx("styled-image")}
                           alt="Mã thẻ game Garena 100K"
-                          srcset="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x"
+                          srcSet="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x"
                         />
                       </picture>
                       <div className={cx("product-badge-ship")}>
@@ -1383,13 +1383,13 @@ export default function CategoryLayout() {
                       <picture className={cx("image-container")}>
                         <source
                           type="image/webp"
-                          srcset="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x"
+                          srcSet="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x"
                         />
                         <img
                           src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
                           className={cx("styled-image")}
                           alt="Mã thẻ game Garena 100K"
-                          srcset="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x"
+                          srcSet="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x"
                         />
                       </picture>
                       <div className={cx("product-badge-ship")}>
@@ -1444,13 +1444,13 @@ export default function CategoryLayout() {
                       <picture className={cx("image-container")}>
                         <source
                           type="image/webp"
-                          srcset="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x"
+                          srcSet="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png.webp 2x"
                         />
                         <img
                           src="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png"
                           className={cx("styled-image")}
                           alt="Mã thẻ game Garena 100K"
-                          srcset="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x"
+                          srcSet="https://salt.tikicdn.com/cache/w300/ts/product/9c/f1/8c/85744097b3d2e2c9fec78c9f20f4a444.png 2x"
                         />
                       </picture>
                       <div className={cx("product-badge-ship")}>

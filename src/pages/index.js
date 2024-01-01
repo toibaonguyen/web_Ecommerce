@@ -6,34 +6,13 @@ import Banner from "@/container/Section/Banner";
 import SellingProducts from "@/container/Section/SellingProducts";
 import MayLikeProducts from "@/container/Section/MayLikeProducts";
 import HomePageLayout from "@/components/Layouts/HomePageLayout.js";
-import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
-import { renderProducts } from "@/redux/slice/productReducer";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 
 const cx = classNames.bind(styles);
 
 export default function HomePage() {
-  const dispatch = useDispatch();
-
-  const mapStateToProps = useSelector((state) => {
-    return {
-      productsArr: state.product.productsArr,
-    };
-  });
-
-  const componentDidMount = async () => {
-    try {
-      dispatch(renderProducts(10));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    componentDidMount();
-    return () => componentDidMount();
-  }, []);
+  const { data: session } = useSession();
 
   //Handle Iframe
   const [iframe1Closed, setIframe1Closed] = useState(true);
@@ -48,6 +27,7 @@ export default function HomePage() {
 
   useEffect(() => {
     window.addEventListener("message", handleIframeMessage);
+
     return () => {
       window.removeEventListener("message", handleIframeMessage);
     };
@@ -64,11 +44,9 @@ export default function HomePage() {
     }
   };
 
-  // console.log(mapStateToProps.productsArr);
-
   return (
     <div className={cx("homepage-wrapper")}>
-      {/* <SingupModal></SingupModal> */}
+      {session ? console.log(session) : <p>You are not signed in.</p>}
       <div className={cx("chat-wrapper")}>
         <div
           className={cx("chatbot-container")}

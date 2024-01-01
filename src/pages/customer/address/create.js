@@ -1,9 +1,43 @@
-import React, { Component } from "react";
+import React from "react";
 import classNames from "classnames/bind";
 import styles from "./create.module.scss";
 import CustomerLayout from "@/components/Layouts/CustomerLayout";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { renderAddress } from "@/redux/slice/userReducer";
 const cx = classNames.bind(styles);
 function CreateAddress() {
+  const mapStateToProps = useSelector((state) => {
+    return {
+      addressArr: state.user.addressArr,
+    };
+  });
+
+  const dispatch = useDispatch();
+
+  const componentDidMount = async () => {
+    try {
+      dispatch(renderAddress(1));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    componentDidMount();
+  }, []);
+
+  const [arrAddress, setArrAddress] = useState();
+  useEffect(() => {
+    try {
+      setArrAddress(mapStateToProps.addressArr);
+      setFullName(mapStateToProps.addressArr[0].ho_va_ten);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [mapStateToProps.addressArr]);
+  console.log(arrAddress);
+  const [fullName, setFullName] = useState();
   return (
     <div className={cx("create-address-wrapper")}>
       <div className={cx("heading")}>Tạo sổ địa chỉ</div>
@@ -21,7 +55,10 @@ function CreateAddress() {
                 placeholder="Nhập họ và tên"
                 maxlength="50"
                 className={cx("type-input")}
-                value="Quân Phan Hoàng Minh"
+                value={fullName}
+                onChange={(e) => {
+                  setFullName(e.target.value);
+                }}
               />
             </div>
           </div>

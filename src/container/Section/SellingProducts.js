@@ -33,7 +33,7 @@ function SellingProducts() {
     setNumArr([...numArr, id]);
   };
 
-  const generateRandomId = () => {
+  const GenerateRandomId = () => {
     do {
       let check = 0;
       const categoryId = Math.floor(Math.random() * (12 - 0) + 0);
@@ -52,7 +52,7 @@ function SellingProducts() {
 
   const componentDidMount = async () => {
     try {
-      const id = generateRandomId();
+      const id = GenerateRandomId();
       if (!prosList1.length) {
         dispatch(renderSellingPros(id));
       } else if (prosList2.length) {

@@ -24,12 +24,12 @@ function NewSeller() {
             <ul
               className={cx("menu")}
               role="menu"
-              tabindex="0"
+              tabIndex="0"
               data-menu-list="true"
             >
               <li
                 role="menuitem"
-                tabindex="-1"
+                tabIndex="-1"
                 data-menu-id="rc-menu-uuid-73842-1-/"
               >
                 <span className={cx("ant-menu-title-content")}>

@@ -89,7 +89,7 @@ body {
 
 button,
 input,
-[tabindex] {
+[tabIndex] {
   outline: none;
   border: none;
 }
@@ -206,3 +206,18 @@ h3 {
   margin-right: auto;
   margin-left: auto;
 }
+
+.selected-option {
+  width: 100%;
+  height: 100%;
+  border: 2px solid rgb(10, 104, 255);
+  border-radius: 8px;
+}
+
+// .selected-option {
+//   width: 100%;
+//   height: 100%;
+//   position: absolute;
+//   left: 0;
+//   border-radius: 8px;
+// }

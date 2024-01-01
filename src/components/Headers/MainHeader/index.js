@@ -1,20 +1,67 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./Header.module.scss";
 import classNames from "classnames/bind";
 import Link from "next/link";
-import SingupModal from "@/components/Modal/SingupModal";
+import AuthModal from "@/components/Modal/AuthModal";
+import Modal from "react-modal";
 import { useState } from "react";
+// import { useSession } from "next-auth/react";
 const cx = classNames.bind(styles);
 export default function Header() {
+  // const session = useSession();
+  // useEffect(() => {
+  //   console.log(session);
+
+  // },[])
   const [singupModal, showSignupModal] = useState(false);
   const handleSignupModal = () => {
     showSignupModal(!singupModal);
   };
+  const customStyles = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+      padding: "0",
+      overflow: "hidden",
+    },
+
+    overlay: {
+      backgroundColor: "#00000087",
+    },
+  };
+
+  const [modalIsOpen, setIsOpen] = useState(false);
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  const [close, setClose] = useState(false);
+  function setCloseModal(value) {
+    console.log(value);
+    setClose(value);
+  }
+  function closeModal() {
+    setIsOpen(close);
+  }
   return (
     <header className={cx("header-wrapper")}>
       <div className={cx("container")}>
-        {/* {singupModal && <SingupModal isModalOpen={singupModal} />} */}
-        <SingupModal></SingupModal>
+        <div>
+          <button onClick={openModal}>Open Modal</button>
+          <Modal
+            isOpen={modalIsOpen}
+            onRequestClose={closeModal}
+            style={customStyles}
+            contentLabel="Example Modal"
+          >
+            <AuthModal setCloseModal={setCloseModal} />
+          </Modal>
+        </div>
         <div className={cx("header-content")}>
           <div className={cx("left-content")}>
             <div className={cx("submenu")}>

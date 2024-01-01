@@ -5,16 +5,25 @@ import CartDelivery from "@/container/Cart/CartDelivery";
 import Promotion from "@/container/Cart/Promotion";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { createOrder } from "@/redux/slice/orderReducer";
+import { useDispatch } from "react-redux";
 
 const cx = classNames.bind(styles);
 function Payment() {
   const router = useRouter();
+  const dispatch = useDispatch();
   const array = router.query.array;
   const finalPrice = parseInt(router.query.finalPrice);
   const arrItems = JSON.parse(array);
 
   const [checkedItems, setCheckedItems] = useState([]);
+  const [checkedIdArr, setCheckedIdArr] = useState([]);
   useEffect(() => {
+    var checkedArr = [];
+    arrItems.map((item) => {
+      checkedArr = [...checkedArr, item.cartItem_id];
+    });
+    setCheckedIdArr(checkedArr);
     setCheckedItems(arrItems);
   }, []);
 
@@ -22,6 +31,8 @@ function Payment() {
     return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + " ₫";
   };
   const handlePlaceOrder = () => {
+    console.log(checkedIdArr);
+    dispatch(createOrder(checkedIdArr, 1));
     router.push({
       pathname: "/checkout/payment/success",
       query: {

@@ -17,3 +17,9 @@ export const getProductsById = (productId) => {
     `http://localhost:5000/getProductDetail?product_id=${productId}`
   );
 };
+
+export const getProductsByShopId = (shopId, limit) => {
+  return axios.get(
+    `http://localhost:5000/getListByShopId?shopId=${shopId}&limit=${limit}`
+  );
+};
