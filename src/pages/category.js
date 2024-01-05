@@ -6,6 +6,9 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 
+
+
+
 const cx = classNames.bind(styles);
 export default function CategoryLayout() {
   const router = useRouter();
